@@ -1,0 +1,1 @@
+https://strategoavans.herokuapp.com/api/games?api_key=FbXVJ1PZ598N4iycZ1XLaqPwOvaC01Ex
