@@ -1,4 +1,5 @@
 class Database {
+  
   constructor(ip, api_key) {
     this.ip = ip;
     this.api_key = api_key;
@@ -11,7 +12,7 @@ class Database {
       this.socket = io.connect(this.webapi, {query: 'api_key=' + this.api_key});
     }
   }
-  userInfo()
+  userinfo()
   {
     return post('api/users/me',{});
   }
@@ -30,12 +31,21 @@ class Database {
     }
     return post('api/games',{});
   }
-  this.socket.on('connect', function() {
-    console.log('Connected')
+  start(){
+    socket.on('connect', function() {
+      console.log('Connected')
+    });
+    socket.on('statechange', function(game) {
+        console.log('Game changed:', game);
+    });
+    this.socket.on('move', function(move) {
+        console.log('Move:', move);
+    });
+    this.socket.on('error', function(error) {
+        console.error(error);
+    });
+    this.privatefunction = function(name) {  };
   }
-  this.socket.on('statechange', function(game) {
-      console.log('Game changed:', game);
-  });
 
   this.socket.on('move', function(move) {
       console.log('Move:', move);
