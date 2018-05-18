@@ -44,36 +44,26 @@ class Database {
     this.socket.on('error', function(error) {
         console.error(error);
     });
-    this.privatefunction = function(name) {  };
+    this.post = function(url,data) {
+      this.url=webapi+this.url+'?api_key='+api_key;
+      this.xhttp.open("POST", this.url, true);
+      this.xhttp.setRequestHeader("Accept", "application/json");
+      array.send(JSON.stringify(this.data));
+      return xhttp.responseText;
+    };
+    this.get = function(url,data) {
+      this.url=this.webapi+this.url+'?api_key='+api_key;
+      this.xhttp.open("GET", this.url, true);
+      this.xhttp.setRequestHeader("Accept", "application/json");
+      array.send(JSON.stringify(this.data));
+      return xhttp.responseText;
+    };
+    this.delete = function(url,data) {
+      this.url=webapi+this.url+'?api_key='+api_key;
+      this.xhttp.open("DELETE", this.url, true);
+      this.xhttp.setRequestHeader("Accept", "application/json");
+      array.send(JSON.stringify(this.data));
+      return xhttp.responseText;
+    };
   }
-
-  this.socket.on('move', function(move) {
-      console.log('Move:', move);
-  })
-
-  this.socket.on('error', function(error) {
-      console.error(error);
-  });
-  this.post = function(url,data) {
-    this.url=webapi+this.url+'?api_key='+api_key;
-    this.xhttp.open("POST", this.url, true);
-    this.xhttp.setRequestHeader("Accept", "application/json");
-    array.send(JSON.stringify(this.data));
-    return xhttp.responseText;
-  };
-  this.get = function(url,data) {
-    this.url=this.webapi+this.url+'?api_key='+api_key;
-    this.xhttp.open("GET", this.url, true);
-    this.xhttp.setRequestHeader("Accept", "application/json");
-    array.send(JSON.stringify(this.data));
-    return xhttp.responseText;
-  };
-  this.delete = function(url,data) {
-    this.url=webapi+this.url+'?api_key='+api_key;
-    this.xhttp.open("DELETE", this.url, true);
-    this.xhttp.setRequestHeader("Accept", "application/json");
-    array.send(JSON.stringify(this.data));
-    return xhttp.responseText;
-  };
-
 }
