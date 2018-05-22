@@ -1,5 +1,5 @@
 .hide{
-	display:none;
+	display:none !important;
 }
 .popupBackground{
 	position:absolute;
@@ -12,11 +12,13 @@
   	align-items: center;
   	justify-content: center;
 }
+#login .popup{
+	border-radius: 20px;
+}
 .popup{
   	display: flex;
   	align-items: center;
   	justify-content: center;
-	border-radius: 20px;
 	background:rgba(191, 190, 190, 0.8);
 }
 .content{
@@ -38,6 +40,10 @@
 #login, #lobby, #game{
 	z-index:2;
 }
+/* lobby */
+#lobby .popup{
+	border-radius:20px 20px 0 0;
+}
 #lobbyhall{
 	height:500px;
 }
@@ -45,7 +51,7 @@
 	float:left;
 	width:500px;
 	border: 1px solid black;
-    border-radius: 20px 0 0 20px;
+    border-radius: 20px 0 0 0;
     height: 400px;
 }
 #lobbybuttons{
@@ -54,9 +60,37 @@
 	height:400px;
 	border: 1px solid black;
 	border-left-width: 0;
-    border-radius: 0 20px 20px 0;
+    border-radius: 0 20px 0 0;
+    display: flex;
+  	align-items: center;
+  	justify-content: center;
+}
+#lobbybuttons button{
+	display:block;
 }
 #userinfo{
 	padding:10px 0;
 	border-bottom:1px solid black;
+}
+#gamelist{
+	height: 329px;
+	overflow-y:scroll;
+   	display:block;
+   	border-collapse: collapse;
+    background: #b9b9b9e3;
+}
+#gamelist tr:nth-child(even){
+	background-color: #dddddd;
+}
+#gamelist tbody, #gamelist tr, #gamelist td, #gamelist th{
+	width:100%;
+	display: table;
+}
+#gamelist td{
+	font-size: 25px;
+    text-align: center;
+    border: 1px solid black;
+}
+#gamelist th{
+	font-size:20px;
 }
