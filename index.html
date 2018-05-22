@@ -1,0 +1,135 @@
+<html>
+  <head>
+    <meta charset="UTF-8"/>
+    <title>Stratego</title>
+    <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
+    <link href='css/main.css' media='screen' rel='stylesheet' type='text/css'/>
+  </head>
+  <body>
+    <div id="backgroundback"><div id="background"></div></div>
+	<div id="login" class="hide">
+        <div class="popupBackground">
+    		<div class="form popup">
+                <div class="content">
+        			<div>
+        				<p>Vul je ApiKey in</p>
+        				<input type="text" id="loginInput" name="FirstName">
+        			</div>
+        			<div>
+        				<input type="button" id="loginClick" value="Inloggen">
+        			</div>
+                </div>
+    		</div>
+        </div>
+	</div>
+    <div id="lobby">
+        <div class="popupBackground">
+            <div class="form popup">
+                <div id="lobbylist">
+                    <div id="userinfo">
+                        <p><span>naam:</span> ofzo</p>
+                    </div>
+                    <table id="gamelist">
+						<tr>
+							<th>Speler</th>
+						</tr>
+						<tr>
+							<td id="joingamejan">jan</td>
+						</tr>
+						<tr>
+							<td id="joingamejan">jan</td>
+						</tr>
+						<tr>
+							<td id="joingamejan">jan</td>
+						</tr>
+						<tr>
+							<td id="joingamejan">jan</td>
+						</tr>
+						<tr>
+							<td id="joingamejan">jan</td>
+						</tr>
+						<tr>
+							<td id="joingamejan">jan</td>
+						</tr>
+						<tr>
+							<td id="joingamejan">jan</td>
+						</tr>
+						<tr>
+							<td id="joingamejan">jan</td>
+						</tr>
+						<tr>
+							<td id="joingamejan">jan</td>
+						</tr>
+						<tr>
+							<td id="joingamejan">jan</td>
+						</tr>
+						<tr>
+							<td id="joingamejan">jan</td>
+						</tr>
+						<tr>
+							<td id="joingamejan">jan</td>
+						</tr>
+						<tr>
+							<td id="joingamejan">jan</td>
+						</tr>
+						<tr>
+							<td id="joingamejan">jan</td>
+						</tr>
+						
+                    </table>
+                </div>
+                <div id="lobbybuttons">
+					<div class="buttonslist">
+						<button id="buttoncreate" type="button">Nieuwe aanmaken</button>
+						<button id="buttonjoin" disabled="disabled" type="button">meedoen</button>
+						<button id="buttonverwijderen" disabled="disabled" type="button">Verwijderen</button>
+					</div>
+                </div>
+            </div>
+            <div id="popupremovegame" class="popupBackground hide">
+                <div class="form popup">
+                    <div class="content">
+                        <p>Weet je het zekker dat je hem wilt verwijderen?</p>
+                        <button type="button">Ja</button>
+                        <button type="button">nee</button>
+                    </div>
+                </div>
+            </div>
+			<div id="popupnewgame" class="popupBackground hide">
+                <div class="form popup">
+                    <div class="content">
+                        <p>Wilt u een match met een computer of een echte speler?</p>
+                        <button type="button">Computer</button>
+                        <button type="button">Echte speler</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div id="game">
+		<div class="popupBackground">
+            <div class="form popup">
+				<div class="status">
+				</div>
+				<div class="gamefield">
+					
+				</div>
+				<div class="gamepawns">
+					
+				</div>
+			</div>
+		</div>
+    </div>
+
+    <script src='js/socket.io.min.js' type='text/javascript' defer></script>
+    <script src='js/database.js' type='text/javascript' defer></script>
+    <script src='js/piece.js' type='text/javascript' defer></script>
+    <script src='js/square.js' type='text/javascript' defer></script>
+    <script src='js/player.js' type='text/javascript' defer></script>
+    <script src='js/board.js' type='text/javascript' defer></script>
+    <script src='js/game.js' type='text/javascript' defer></script>
+    <script src='js/lobby.js' type='text/javascript' defer></script>
+    <script src='js/main.js' type='text/javascript' defer></script>
+  </body>
+</html>
