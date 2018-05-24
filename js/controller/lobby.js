@@ -1,10 +1,13 @@
 var LobbyController = function() {
 	//variables
-	  var lobby;
+  var lobbyView;
+	var lobbyModel;
 	//constructor
 	function constructor(){
-		lobby = new LobbyView();
+		lobbyView = new LobbyView();
+		lobbyModel = new lobbyModel();
 		lobby.show();
+		lobby.setGames(main)
 	}
 
 
