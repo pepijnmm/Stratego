@@ -1,3 +1,9 @@
-class game{
-  
-}
+var Game = function() {
+
+	function constructor(){
+	}
+
+
+
+  constructor();
+};

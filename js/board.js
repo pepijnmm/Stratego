@@ -1,3 +1,9 @@
-class Board{
-	
-}
+var Board = function() {
+
+	function constructor(){
+	}
+
+
+
+  constructor();
+};

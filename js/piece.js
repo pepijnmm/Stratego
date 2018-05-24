@@ -1,3 +1,9 @@
-class Piece{
-	
-}
+var Piece = function() {
+
+	function constructor(){
+	}
+
+
+
+  constructor();
+};

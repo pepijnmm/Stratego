@@ -1,69 +1,95 @@
-class Database {
+var Database = function(_apiKey) {
+  var apiKey;
+  var webapi;
+  var socket;
+  var socketfunction;
   
-  constructor(ip, api_key) {
-    this.ip = ip;
-    this.api_key = api_key;
-    this.xhttp = new XMLHttpRequest();
-    this.webapi="http://strategoavans.herokuapp.com/";
+  function constructor(_apiKey) {
+    apiKey = _apiKey;
+    webapi="http://strategoavans.herokuapp.com/";
+    connect();
   }
-  connect()
-  {
-    if(!(this.socket)){
-      this.socket = io.connect(this.webapi, {query: 'api_key=' + this.api_key});
+  function connect(){
+    if(!(socket)){
+      socket = io.connect(webapi, {query: 'api_key=' + apiKey});
     }
   }
-  userinfo()
-  {
-    return post('api/users/me',{});
-  }
-  deleteGames()
-  {
-    return delete('api/games',{});
-  }
-  gameList()
-  {
-    return get('api/games',{});
-  }
-  newGame(ai = false)
-  {
-    if(this.ai){
 
-    }
-    return post('api/games',{});
+  Database.prototype.userinfo = function(async = true){
+    return get(async, 'api/users/me');
   }
-  start(){
+  Database.prototype.getGameList = function(async = true){
+    return get(async, 'api/games');
+  }
+  Database.prototype.createGame = function(ai, async = true){
+    return post(async, 'api/games',{"ai":ai});
+  }
+  Database.prototype.deleteGames = function(id = "", async = true){
+    return deleteUrl(async, 'api/games'+((id.lenght > 0)?'/':'')+id);
+  }
+  Database.prototype.getGameList = function(id = "", async = true){
+    return get(async, 'api/games'+((id.lenght == 0)?'/':'')+id);
+  }
+    Database.prototype.pawnPosition = function(id, positions, async = true){
+    return post(async, 'api/games/'+id+'/start_board',positions);
+  }
+  Database.prototype.getPawnMoves = function(id){
+    return get(async, 'api/games/'+id+'/moves');
+  }
+  Database.prototype.movesPawns = function(id,positionfrom, positionto, async = true){
+    return post(async, 'api/games/'+id+'/moves',{"square":positionfrom,"sqiare_to":positionto});
+  }
+  Database.prototype.socketfunction = function(_socketfunction){
+      socketfunction = _socketfunction;
+  }
+  function post(async, url,data = {}) {
+    let xhttp = new XMLHttpRequest();
+    url=webapi+url+'?api_key='+apiKey;
+    xhttp.open("POST", url, async);
+    xhttp.setRequestHeader("Accept", "application/json");
+    try {
+      xhttp.send(JSON.stringify(data));
+      if (xhttp.readyState === 4){
+        return JSON.parse(xhttp.responseText);
+      }
+    }
+    catch(err){
+      return JSON.stringify({"error":"er ging iets fout"})
+    }
+  };
+  function get(async, url,data = {}) {
+    let xhttp = new XMLHttpRequest();
+    url=webapi+url+'?api_key='+apiKey;
+    xhttp.open("GET", url, async);
+    xhttp.setRequestHeader("Accept", "application/json");
+    xhttp.send(JSON.stringify(data));
+    if (xhttp.readyState === 4){
+      return JSON.parse(xhttp.responseText);
+    }
+  };
+  function deleteUrl(async, url,data = {}) {
+    let xhttp = new XMLHttpRequest();
+    url=webapi+url+'?api_key='+apiKey;
+    xhttp.open("DELETE", url, async);
+    xhttp.setRequestHeader("Accept", "application/json");
+    xhttp.send(JSON.stringify(data));
+    if (xhttp.readyState === 4){
+      return JSON.parse(xhttp.responseText);
+    }
+  };
+  Database.prototype.start = function(){
     socket.on('connect', function() {
       console.log('Connected')
     });
-    socket.on('statechange', function(game) {
-        console.log('Game changed:', game);
+    socket.on('statechange', function(data) {
+        socketfunction('statechange',data);                                        //data moet nog eerst uitgelezen worden en netjes in een array worden gezet
     });
-    this.socket.on('move', function(move) {
-        console.log('Move:', move);
+    socket.on('move', function(move) {
+        socketfunction('move',data);                                        //data moet nog eerst uitgelezen worden en netjes in een array worden gezet
     });
-    this.socket.on('error', function(error) {
-        console.error(error);
+    socket.on('error', function(error) {
+        socketfunction('error',data);                                        //data moet nog eerst uitgelezen worden en netjes in een array worden gezet
     });
-    this.post = function(url,data) {
-      this.url=webapi+this.url+'?api_key='+api_key;
-      this.xhttp.open("POST", this.url, true);
-      this.xhttp.setRequestHeader("Accept", "application/json");
-      array.send(JSON.stringify(this.data));
-      return xhttp.responseText;
-    };
-    this.get = function(url,data) {
-      this.url=this.webapi+this.url+'?api_key='+api_key;
-      this.xhttp.open("GET", this.url, true);
-      this.xhttp.setRequestHeader("Accept", "application/json");
-      array.send(JSON.stringify(this.data));
-      return xhttp.responseText;
-    };
-    this.delete = function(url,data) {
-      this.url=webapi+this.url+'?api_key='+api_key;
-      this.xhttp.open("DELETE", this.url, true);
-      this.xhttp.setRequestHeader("Accept", "application/json");
-      array.send(JSON.stringify(this.data));
-      return xhttp.responseText;
-    };
   }
+  constructor(_apiKey);
 }
