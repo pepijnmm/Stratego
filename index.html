@@ -5,10 +5,11 @@
     <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
     <link href='css/main.css' media='screen' rel='stylesheet' type='text/css'/>
+    <link href='css/game.css' media='screen' rel='stylesheet' type='text/css'/>
   </head>
   <body>
     <div id="backgroundback"><div id="background"></div></div>
-	<div id="login">
+	<div id="login" class="hide">
         <div class="popupBackground">
     		<div class="form popup">
                 <div class="content">
@@ -108,13 +109,30 @@
             </div>
         </div>
     </div>
-	<div id="game" class="hide">
+	<div id="game">
 		<div class="popupBackground">
             <div class="form popup">
-				<div class="status">
+				<div class="gamestatus">
+					<p id="gamestatus">test0</p>
 				</div>
-				<div class="gamefield">
-
+				<div class="gameboard">
+					<table id="gameboard">
+						<tr>
+							<td>test1</td>
+							<td>test2</td>
+							<td>test3</td>
+						</tr>
+						<tr>
+							<td>test1</td>
+							<td>test2</td>
+							<td>test3</td>
+						</tr>
+						<tr>
+							<td>test1</td>
+							<td>test2</td>
+							<td>test3</td>
+						</tr>
+					</table>
 				</div>
 				<div class="gamepawns">
 
