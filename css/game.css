@@ -1,0 +1,21 @@
+#game {
+	align-content: horizontal;
+}
+
+.gameboard table, tr, td{
+	border: 1px solid black;
+	border-spacing: 5px;
+}
+
+.gameboard table{
+	border-collapse: collapse;
+	text-align: center;
+}
+
+.gameboard tr {
+	height: 50px;
+}
+
+.gameboard td {
+	width: 50px;
+}
