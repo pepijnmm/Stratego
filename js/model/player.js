@@ -1,4 +1,4 @@
-var Game = function() {
+var PlayerModel = function() {
 
 	function constructor(){
 	}

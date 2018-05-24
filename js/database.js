@@ -1,23 +1,16 @@
 var Database = function(_apiKey) {
-  var apiKey;
+  var account;
   var webapi;
   var socket;
   var socketfunction;
-  
+  var apiKey;
+
   function constructor(_apiKey) {
     apiKey = _apiKey;
     webapi="http://strategoavans.herokuapp.com/";
-    connect();
-  }
-  function connect(){
-    if(!(socket)){
-      socket = io.connect(webapi, {query: 'api_key=' + apiKey});
-    }
+    socket = io.connect(webapi, {query: 'api_key=' + apiKey});
   }
 
-  Database.prototype.userinfo = function(async = true){
-    return get(async, 'api/users/me');
-  }
   Database.prototype.getGameList = function(async = true){
     return get(async, 'api/games');
   }
@@ -42,7 +35,7 @@ var Database = function(_apiKey) {
   Database.prototype.socketfunction = function(_socketfunction){
       socketfunction = _socketfunction;
   }
-  function post(async, url,data = {}) {
+  Database.prototype.post = function(async, url,data = {}) {
     let xhttp = new XMLHttpRequest();
     url=webapi+url+'?api_key='+apiKey;
     xhttp.open("POST", url, async);
@@ -57,7 +50,7 @@ var Database = function(_apiKey) {
       return JSON.stringify({"error":"er ging iets fout"})
     }
   };
-  function get(async, url,data = {}) {
+  Database.prototype.get = function(async, url,data = {}) {
     let xhttp = new XMLHttpRequest();
     url=webapi+url+'?api_key='+apiKey;
     xhttp.open("GET", url, async);
@@ -67,7 +60,7 @@ var Database = function(_apiKey) {
       return JSON.parse(xhttp.responseText);
     }
   };
-  function deleteUrl(async, url,data = {}) {
+  Database.prototype.delete = function(async, url,data = {}) {
     let xhttp = new XMLHttpRequest();
     url=webapi+url+'?api_key='+apiKey;
     xhttp.open("DELETE", url, async);
@@ -77,9 +70,14 @@ var Database = function(_apiKey) {
       return JSON.parse(xhttp.responseText);
     }
   };
+    Database.prototype.on = function(name,functionname){
+      socket.on(name, function() {
+        functionname(name,true);
+      });
+    }
   Database.prototype.start = function(){
     socket.on('connect', function() {
-      console.log('Connected')
+      socketfunction('connect',true);
     });
     socket.on('statechange', function(data) {
         socketfunction('statechange',data);                                        //data moet nog eerst uitgelezen worden en netjes in een array worden gezet
