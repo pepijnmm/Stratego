@@ -1,29 +1,29 @@
-.popup {
+#game .popup {
 	display: inline-flex;
 	flex-direction: column;
 	align-content: horizontal;
 }
 
-.gameboard {
+#game .gameboard {
     background-image: url("../images/board.jpg");
     background-size: cover;
     background-position: center;
 }
 
-.gameboard table, tr, td{
+#game .gameboard table, tr, td{
 	border: 1px solid black;
 	border-spacing: 5px;
 }
 
-.gameboard table{
+#game .gameboard table{
 	border-collapse: collapse;
 	text-align: center;
 }
 
-.gameboard tr {
+#game .gameboard tr {
 	height: 50px;
 }
 
-.gameboard td {
+#game .gameboard td {
 	width: 50px;
 }

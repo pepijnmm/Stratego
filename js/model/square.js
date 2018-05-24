@@ -1,9 +1,9 @@
-var SquareModel = function() {
+var SquareModel = function(bool) {
+	var available;
 
-	function constructor(){
+	function constructor(bool){
+		available = bool;
 	}
 
-
-
-  constructor();
+  constructor(bool);
 };

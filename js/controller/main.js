@@ -6,8 +6,11 @@ var Main = function() {
 	Main.prototype.database;
   var userName;
   var userId;
+
+
     function constructor(){
       login = new LoginView(login);
+      var gameDELETE = new GameController();
     }
 
 	var login = function(_apiKey){
