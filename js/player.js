@@ -1,3 +1,9 @@
-class Player{
-	
-}
+var Player = function() {
+
+	function constructor(){
+	}
+
+
+
+  constructor();
+};

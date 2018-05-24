@@ -12,18 +12,11 @@
   	align-items: center;
   	justify-content: center;
 }
-#login .popup{
-	border-radius: 20px;
-}
 .popup{
   	display: flex;
   	align-items: center;
   	justify-content: center;
 	background:rgba(191, 190, 190, 0.8);
-}
-.content{
-	display:inline-block;
-    padding: 20px 50px;
 }
 #backgroundback{
 	position:static;
@@ -39,6 +32,17 @@
 }
 #login, #lobby, #game{
 	z-index:2;
+}
+/* login */
+#login .popup{
+	border-radius: 20px;
+}
+#errorLogin{
+	color:red;
+}
+.content{
+	display:inline-block;
+    padding: 20px 50px;
 }
 /* lobby */
 #lobby .popup{
@@ -97,3 +101,4 @@
 #gamelist th{
 	font-size:20px;
 }
+/* game */
