@@ -1,18 +1,40 @@
 var BoardModel = function() {
-	var squares = [];
+	this.height = 10;
+	this.width = 10;
+
+	var firstSqr;
+	var lastSqr;
 
 	function constructor(){
-		for (var i = 0; i < 100; i++) {
-			switch(i){
-			 	case 42: case 43: case 46: case 47: case 52: case 53: case 56: case 57:
-			 		squares[i] = new SquareModel(false);
-			 		break;
-			 	default:
-			 		squares[i] = new SquareModel(true);
-			 		break;
-			}
-		}
+		
 	}
 
-  constructor();
+	this.getSquare = function(x, y){
+		x = Math.round((x / 75), 0) - 1;
+		y = Math.round((y / 75), 0) - 1;
+
+
+		var xFound = false;
+		var yFound = false;
+		var currentSqr = this.firstSqr;
+		while(!xFound || !yFound){
+			if(!xFound && currentSqr.xPos != x) {
+				currentSqr = currentSqr.rightSqr;
+			}
+			else{
+				xFound = true;
+			}
+
+			if(!yFound && currentSqr.yPos != y) {
+				currentSqr = currentSqr.bottomSqr;
+			}
+			else{
+				yFound = true;
+			}
+		}
+
+		return currentSqr;
+	}
+
+	constructor();
 };
