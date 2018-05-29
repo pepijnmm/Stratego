@@ -16,10 +16,5 @@ var BoardView = function() {
 		gameboard.appendChild(canvas);
 	}
 
-	this.drawSquare = function(x, y){
-		ctx.rect(x, y, sqrWidth, sqrHeight);
-		ctx.stroke();
-	}
-
   constructor();
 };
