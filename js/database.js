@@ -17,12 +17,6 @@ var Database = function(_apiKey) {
   Database.prototype.connected = function(){
     return connected;
   }
-  Database.prototype.createGame = function(ai, async = true){
-    return post(async, 'api/games',{"ai":ai});
-  }
-  Database.prototype.deleteGames = function(id = "", async = true){
-    return deleteUrl(async, 'api/games'+((id.lenght > 0)?'/':'')+id);
-  }
     Database.prototype.pawnPosition = function(id, positions, async = true){
     return post(async, 'api/games/'+id+'/start_board',positions);
   }

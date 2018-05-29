@@ -16,7 +16,7 @@ var GameController = function() {
 		gameModel.newGame(ai);
 	}
 	GameController.prototype.removeAll = function(){
-		gameModel.removeAllGame();
+		gameModel.removeGame();
 	}
 
   	constructor();

@@ -1,5 +1,6 @@
 var LobbyModel = function() {
 	var selected;
+	var gamelist;
 	function constructor(){
 	}
 	LobbyModel.prototype.setSelect = function(_selected){
