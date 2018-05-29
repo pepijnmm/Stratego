@@ -1,12 +1,22 @@
 var GameController = function() {
 	var gameView;
-	var game;
+	var gameModel;
 
 	function constructor(){
 		gameView = new GameView();
+		gameModel = new GameModel();
 	}
-
-	GameController.prototype.initiateTurn = function(){
+	GameController.prototype.start = function(id){
+		gameModel.setGame(id);
+	}
+	GameController.prototype.remove = function(id){
+		gameModel.removeGame(id);
+	}
+	GameController.prototype.new = function(ai){
+		gameModel.newGame(ai);
+	}
+	GameController.prototype.removeAll = function(){
+		gameModel.removeAllGame();
 	}
 
   	constructor();

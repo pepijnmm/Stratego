@@ -2,26 +2,26 @@ var Database = function(_apiKey) {
   var account;
   var webapi;
   var socket;
-  var socketfunction;
   var apiKey;
+  var connected;
 
   function constructor(_apiKey) {
+    connected = false;
     apiKey = _apiKey;
     webapi="http://strategoavans.herokuapp.com/";
     socket = io.connect(webapi, {query: 'api_key=' + apiKey});
+    socket.on('connect', function() {
+      connected = true;
+    });
   }
-
-  Database.prototype.getGameList = function(async = true){
-    return get(async, 'api/games');
+  Database.prototype.connected = function(){
+    return connected;
   }
   Database.prototype.createGame = function(ai, async = true){
     return post(async, 'api/games',{"ai":ai});
   }
   Database.prototype.deleteGames = function(id = "", async = true){
     return deleteUrl(async, 'api/games'+((id.lenght > 0)?'/':'')+id);
-  }
-  Database.prototype.getGameList = function(id = "", async = true){
-    return get(async, 'api/games'+((id.lenght == 0)?'/':'')+id);
   }
     Database.prototype.pawnPosition = function(id, positions, async = true){
     return post(async, 'api/games/'+id+'/start_board',positions);
@@ -31,9 +31,6 @@ var Database = function(_apiKey) {
   }
   Database.prototype.movesPawns = function(id,positionfrom, positionto, async = true){
     return post(async, 'api/games/'+id+'/moves',{"square":positionfrom,"sqiare_to":positionto});
-  }
-  Database.prototype.socketfunction = function(_socketfunction){
-      socketfunction = _socketfunction;
   }
   Database.prototype.post = function(async, url,data = {}) {
     let xhttp = new XMLHttpRequest();
@@ -71,14 +68,12 @@ var Database = function(_apiKey) {
     }
   };
     Database.prototype.on = function(name,functionname){
-      socket.on(name, function() {
-        functionname(name,true);
+      socket.on(name, function(data) {
+        functionname(name,data);
       });
     }
-  Database.prototype.start = function(){
-    socket.on('connect', function() {
-      socketfunction('connect',true);
-    });
+
+  function start(){
     socket.on('statechange', function(data) {
         socketfunction('statechange',data);                                        //data moet nog eerst uitgelezen worden en netjes in een array worden gezet
     });

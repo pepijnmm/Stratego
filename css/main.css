@@ -31,6 +31,15 @@
     margin: -10px;
     background-image: url("../images/map.svg");
 }
+#connected{
+	position:absolute;
+	z-index:3;
+	top:0;
+	right:0;
+}
+#connected p{
+	color: green;
+}
 #login, #lobby, #game{
 	z-index:2;
 }
@@ -88,18 +97,34 @@
     background: #b9b9b9e3;
 }
 #gamelist tr:nth-child(even){
-	background-color: #dddddd;
+	background-color: #b2b2b2;
 }
-#gamelist tbody, #gamelist tr, #gamelist td, #gamelist th{
+#gamelist tbody, #gamelist thead, #gamelist tr{
 	width:100%;
 	display: table;
 }
+#gamelist td, #gamelist th{
+	width:50%;
+}
 #gamelist td{
-	font-size: 25px;
+	font-size: 15px;
     text-align: center;
     border: 1px solid black;
 }
+#gamelist tr td{
+	border-left-width: 0;
+	cursor: pointer;
+}
+#gamelist tr td:nth-child(2){
+	border-right-width: 0;
+}
 #gamelist th{
 	font-size:20px;
+}
+#gamelist tr.selected{
+	background: lightblue;
+}
+.selected td{
+	font-weight: 900;
 }
 /* game */

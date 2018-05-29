@@ -9,6 +9,8 @@
   </head>
   <body>
     <div id="backgroundback"><div id="background"></div></div>
+    <div id="connected" class="hide"><p>verbonden met server</p></div>
+    <div id="notconnected" class="hide"><p>nog niet verbonden met server</p></div>
 	<div id="login">
         <div class="popupBackground">
     		<div class="form popup">
@@ -19,97 +21,60 @@
         				<input type="text" id="loginInput" name="FirstName">
         			</div>
         			<div>
+                <input type="checkbox" checked="checked" name="remember" disabled="disabled" style="display:none;">
         				<input type="button" id="loginClick" value="Inloggen">
         			</div>
                 </div>
     		</div>
         </div>
 	</div>
-    <div id="lobby" class="hide">
-        <div class="popupBackground">
-            <div class="form popup">
-                <div id="lobbylist">
-                    <div id="userinfo">
-                        <p><span>naam:</span> ofzo</p>
-                    </div>
-                    <table id="gamelist">
-						<tr>
-							<th>Speler</th>
-						</tr>
-						<tr>
-							<td id="joingamejan">jan</td>
-						</tr>
-						<tr>
-							<td id="joingamejan">jan</td>
-						</tr>
-						<tr>
-							<td id="joingamejan">jan</td>
-						</tr>
-						<tr>
-							<td id="joingamejan">jan</td>
-						</tr>
-						<tr>
-							<td id="joingamejan">jan</td>
-						</tr>
-						<tr>
-							<td id="joingamejan">jan</td>
-						</tr>
-						<tr>
-							<td id="joingamejan">jan</td>
-						</tr>
-						<tr>
-							<td id="joingamejan">jan</td>
-						</tr>
-						<tr>
-							<td id="joingamejan">jan</td>
-						</tr>
-						<tr>
-							<td id="joingamejan">jan</td>
-						</tr>
-						<tr>
-							<td id="joingamejan">jan</td>
-						</tr>
-						<tr>
-							<td id="joingamejan">jan</td>
-						</tr>
-						<tr>
-							<td id="joingamejan">jan</td>
-						</tr>
-						<tr>
-							<td id="joingamejan">jan</td>
-						</tr>
-
-                    </table>
-                </div>
-                <div id="lobbybuttons">
-					<div class="buttonslist">
-						<button id="buttoncreate" type="button">Nieuwe aanmaken</button>
-            <button id="buttonverwijderalles" type="button">Verwijder Alle games</button>
-						<button id="buttonjoin" disabled="disabled" type="button">meedoen</button>
-						<button id="buttonverwijderen" disabled="disabled" type="button">Verwijder game</button>
-					</div>
-                </div>
-            </div>
-            <div id="popupremovegame" class="popupBackground hide">
-                <div class="form popup">
-                    <div class="content">
-                        <p>Weet je het zekker dat je hem wilt verwijderen?</p>
-                        <button type="button">Ja</button>
-                        <button type="button">nee</button>
-                    </div>
-                </div>
-            </div>
-			<div id="popupnewgame" class="popupBackground hide">
-                <div class="form popup">
-                    <div class="content">
-                        <p>Wilt u een match met een computer of een echte speler?</p>
-                        <button type="button">Computer</button>
-                        <button type="button">Echte speler</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+  <div id="lobby" class="hide">
+      <div class="popupBackground">
+          <div class="form popup">
+              <div id="lobbylist">
+                  <div id="userinfo">
+                      <p><span>naam:</span> ofzo</p>
+                  </div>
+                  <table id="gamelist">
+                    <thead>
+          						<tr>
+          							<th>Tegen</th>
+                        <th>Status</th>
+          						</tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+              </div>
+              <div id="lobbybuttons">
+				<div class="buttonslist">
+					<button id="buttoncreate" type="button">Nieuwe aanmaken</button>
+          <button id="buttonverwijderalles" type="button">Verwijder Alle games</button>
+					<button id="buttonjoin" disabled="disabled" type="button">meedoen</button>
+					<button id="buttonverwijderen" disabled="disabled" type="button">Verwijder game</button>
+				</div>
+              </div>
+          </div>
+          <div id="popupremovegame" class="popupBackground hide">
+              <div class="form popup">
+                  <div class="content">
+                      <p>Weet je het zekker dat je hem wilt verwijderen?</p>
+                      <button type="button">Ja</button>
+                      <button type="button">nee</button>
+                  </div>
+              </div>
+          </div>
+		<div id="popupnewgame" class="popupBackground hide">
+              <div class="form popup">
+                  <div class="content">
+                      <p>Wilt u een match met een computer of een echte speler?</p>
+                      <button type="button">Computer</button>
+                      <button type="button">Echte speler</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
 	<div id="game" class="hide">
 		<div class="popupBackground">
             <div class="form popup">
@@ -132,13 +97,14 @@
     <script src='js/model/player.js' type='text/javascript' defer></script>
     <script src='js/model/board.js' type='text/javascript' defer></script>
     <script src='js/model/game.js' type='text/javascript' defer></script>
+    <script src='js/model/lobby.js' type='text/javascript' defer></script>
     <script src='js/model/account.js' type='text/javascript' defer></script>
-	<script src='js/view/board.js' type='text/javascript' defer></script>
-	<script src='js/view/game.js' type='text/javascript' defer></script>
+  	<script src='js/view/board.js' type='text/javascript' defer></script>
+  	<script src='js/view/game.js' type='text/javascript' defer></script>
     <script src='js/view/lobby.js' type='text/javascript' defer></script>
     <script src='js/view/login.js' type='text/javascript' defer></script>
-	<script src='js/controller/board.js' type='text/javascript' defer></script>
-	<script src='js/controller/game.js' type='text/javascript' defer></script>
+  	<script src='js/controller/board.js' type='text/javascript' defer></script>
+  	<script src='js/controller/game.js' type='text/javascript' defer></script>
     <script src='js/controller/lobby.js' type='text/javascript' defer></script>
     <script src='js/controller/main.js' type='text/javascript' defer></script>
   </body>

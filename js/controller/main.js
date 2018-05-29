@@ -9,22 +9,19 @@ var Main = function() {
 
 
     function constructor(){
-      login = new LoginView(login);
+      login = new LoginView(logindone);
       var gameDELETE = new GameController();
       var boardDELETE = new BoardController();
       //var pieceDELETE = new PieceController();
-      
+
       GameController.prototype.initiateTurn();
     }
 
-	var login = function(_apiKey){
+	var logindone = function(_apiKey){
      Main.prototype.database = new Database(_apiKey);
+     Main.prototype.database.on("connect", function(name,data){login.connected();});
      account = new AccountModel(_apiKey);
-     setTimeout(start(account.login(start)), 0);
-	}
-
-	Main.prototype.main = function() {
-      login.returnfunctionclick(login);
+     setTimeout(account.login(start), 0);
 	}
 
   var start = function(correct){
