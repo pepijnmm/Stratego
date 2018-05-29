@@ -1,0 +1,11 @@
+#game .popup {
+	display: inline-flex;
+	flex-direction: column;
+	align-content: horizontal;
+}
+
+#game .gameboard {
+    background-image: url("../images/board.jpg");
+    background-size: cover;
+    background-position: center;
+}
