@@ -21,7 +21,6 @@
         				<input type="text" id="loginInput" name="FirstName">
         			</div>
         			<div>
-                <input type="checkbox" checked="checked" name="remember" disabled="disabled" style="display:none;">
         				<input type="button" id="loginClick" value="Inloggen">
         			</div>
                 </div>
@@ -33,7 +32,7 @@
           <div class="form popup">
               <div id="lobbylist">
                   <div id="userinfo">
-                      <p><span>naam:</span> ofzo</p>
+                      <p>naam: <span id="username">ofzo</span></p>
                   </div>
                   <table id="gamelist">
                     <thead>
@@ -48,19 +47,30 @@
               </div>
               <div id="lobbybuttons">
 				<div class="buttonslist">
-					<button id="buttoncreate" type="button">Nieuwe aanmaken</button>
-          <button id="buttonverwijderalles" type="button">Verwijder Alle games</button>
-					<button id="buttonjoin" disabled="disabled" type="button">meedoen</button>
-					<button id="buttonverwijderen" disabled="disabled" type="button">Verwijder game</button>
+					<button id="buttoncreate">Nieuwe aanmaken</button>
+          <button id="buttonverwijderalles">Verwijder Alle games</button>
+					<button id="buttonjoin" disabled="disabled">meedoen</button>
+					<button id="buttonverwijderen" disabled="disabled">Verwijder game</button>
 				</div>
               </div>
           </div>
           <div id="popupremovegame" class="popupBackground hide">
               <div class="form popup">
                   <div class="content">
-                      <p>Weet je het zekker dat je hem wilt verwijderen?</p>
-                      <button type="button">Ja</button>
-                      <button type="button">nee</button>
+                      <p>Weet je zekker dat je deze wilt verwijderen?</p>
+                      <button id="buttonyesdeleteone">Ja</button>
+                      <button id="buttonnodeleteone">Nee</button>
+                      <button class="buttonexitpopup">x</button>
+                  </div>
+              </div>
+          </div>
+          <div id="popupremovegames" class="popupBackground hide">
+              <div class="form popup">
+                  <div class="content">
+                      <p>Weet je zekker dat je alle games wilt verwijderen?</p>
+                      <button id="buttonyesdeleteall">Ja</button>
+                      <button id="buttonnodeleteall">Nee</button>
+                      <button class="buttonexitpopup">x</button>
                   </div>
               </div>
           </div>
@@ -68,8 +78,9 @@
               <div class="form popup">
                   <div class="content">
                       <p>Wilt u een match met een computer of een echte speler?</p>
-                      <button type="button">Computer</button>
-                      <button type="button">Echte speler</button>
+                      <button id="buttoncreateai">Computer</button>
+                      <button id="buttoncreatereal">Echte speler</button>
+                      <button class="buttonexitpopup">x</button>
                   </div>
               </div>
           </div>

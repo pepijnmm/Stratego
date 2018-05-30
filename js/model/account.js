@@ -9,7 +9,7 @@ var AccountModel = function() {
     return apiKey;
   }
   function userinfo(){
-      let data = main.database.get(false, 'api/users/me');
+      let data = main.database.get(true, 'api/users/me');
       if(data.hasOwnProperty("id")){
         userId = data.id;
         userName = data.name;

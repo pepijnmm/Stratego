@@ -52,7 +52,8 @@
 }
 .content{
 	display:inline-block;
-    padding: 20px 50px;
+	padding: 20px 50px;
+	position: relative;
 }
 /* lobby */
 #lobby .popup{
@@ -126,5 +127,10 @@
 }
 .selected td{
 	font-weight: 900;
+}
+.buttonexitpopup{
+	position:absolute;
+	top:0;
+	right:0;
 }
 /* game */

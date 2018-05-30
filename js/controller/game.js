@@ -8,6 +8,7 @@ var GameController = function() {
 	}
 	GameController.prototype.start = function(id){
 		gameModel.setGame(id);
+		gameView.show();
 	}
 	GameController.prototype.remove = function(id){
 		gameModel.removeGame(id);

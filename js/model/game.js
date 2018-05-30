@@ -3,18 +3,19 @@ var GameModel = function() {
 	function constructor(){
 	}
 	GameModel.prototype.setGame = function(id){
-		if(gameId.length > 0)gameId = id;
+		if(gameId == null)gameId = id;
 	}
 	GameModel.prototype.removeGame = function(id=""){
-		main.database.get(true, 'api/games'+((id.lenght > 0)?'/':'')+id);
+		main.database.get(true, 'api/games'+((id.length > 0)?'/':'')+id);
 	}
 	GameModel.prototype.newGame = function(ai){
 		main.database.post(true, 'api/games',{"ai":ai});
 		}
 
-	}
-	GameModel.prototype.getGameInfo = function(id = "", async = true){
-		return get(async, 'api/games'+((id.lenght == 0)?'/':'')+id);
+	GameModel.prototype.getGameInfo = function(id = ""){
+		let data = 	main.database.get(true, 'api/games'+((id.length == 0)?'/':'')+id);
+		if(data.length > 0){
+		}
 	}
 
   constructor();

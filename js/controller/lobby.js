@@ -5,28 +5,35 @@ var LobbyController = function() {
   var game;
 	//constructor
 	function constructor(){
-		lobbyView = new LobbyView(onButtonClick);
-		lobbyModel = new LobbyModel();
-		lobbyView.show();
-		lobbyView.setGameList(lobbyModel.getGameList(), onGameSelectClick);
     game = new GameController();
+    lobbyModel = new LobbyModel();
+    lobbyView = new LobbyView();
+    lobbyView.show();
+    lobbyView.setReturnButtonClick(onButtonClick);
+    lobbyModel.setReturnGameList(lobbyView.setGameList);
+    lobbyModel.reloadGameList();
 	}
-  var onGameSelectClick = function(id){
-    lobbyModel.setSelect(id);
-  }
-  var onButtonClick = function (button){
+  var onButtonClick = function (button, data=""){
     switch(button){
       case "start":
-        game.start(lobbyModel.getSelect()););
+        lobbyView.hide();
+        game.start(lobbyModel.getSelect());
       break;
       case "remove":
         game.remove(lobbyModel.getSelect());
+        lobbyModel.setSelect(null);
+        lobbyModel.reloadGameList();
       break;
       case "new":
-        game.new(lobbyModel.getSelect());
+        game.new(data);
+        lobbyModel.reloadGameList();
       break;
       case "removeAll":
         game.removeAll();
+        lobbyModel.reloadGameList();
+      break;
+      case "select":
+        lobbyModel.setSelect(data);
       break;
     }
   }

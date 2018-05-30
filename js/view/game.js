@@ -1,4 +1,5 @@
 var GameView = function() {
+	var game;
 	var gameboard;
 	var canvas;
 	var ctx;
@@ -10,6 +11,7 @@ var GameView = function() {
 	var dragEnabled;
 
 	function constructor(){
+		game = document.querySelector("#game");
 		gameboard = document.querySelector(".gameboard");
 
 		canvas = document.createElement("canvas");
@@ -23,7 +25,12 @@ var GameView = function() {
 
 		gameboard.appendChild(canvas);
 	}
-
+	GameView.prototype.show = function(){
+		game.classList.remove("hide");
+	};
+	GameView.prototype.hide = function(){
+		game.classList.add("hide");
+	}
 	GameView.prototype.drawBoard = function(board){
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 		drawSquares(board.squares);

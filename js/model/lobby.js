@@ -1,7 +1,9 @@
 var LobbyModel = function() {
 	var selected;
 	var gamelist;
+	var returnGameList;
 	function constructor(){
+		gamelist = [];
 	}
 	LobbyModel.prototype.setSelect = function(_selected){
 		selected=_selected;
@@ -9,16 +11,22 @@ var LobbyModel = function() {
 	LobbyModel.prototype.getSelect = function(){
 		return selected;
 	}
-	LobbyModel.prototype.getGameList = function(){
-		let data = main.database.get(false, 'api/games');
-		returnarray = [];
-		if(data.length>0){
-			for(i = 0; i < data.length; i++){
-				if(data[i].state !== "game_over")
-				returnarray.push({'id':data[i].id, 'opponent':data[i].opponent, 'state':stateConvert(data[i].state) });
+	LobbyModel.prototype.reloadGameList = function(){
+		gamelist = [];
+		setTimeout(function(){
+			let data = main.database.get(false, 'api/games');
+			if(data.length>0){
+				for(i = 0; i < data.length; i++){
+					if(data[i].state !== "game_over"){
+					gamelist.push({'id':data[i].id, 'opponent':data[i].opponent, 'state':stateConvert(data[i].state)})
+					}
+				}
+				returnGameList(gamelist);
 			}
-			return returnarray;
-		}
+		},0);
+	}
+	LobbyModel.prototype.setReturnGameList = function(_returnGameList){
+		if(returnGameList == null)returnGameList = _returnGameList;
 	}
 	function stateConvert(state){
 		switch(state){
