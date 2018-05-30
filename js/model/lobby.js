@@ -13,17 +13,17 @@ var LobbyModel = function() {
 	}
 	LobbyModel.prototype.reloadGameList = function(){
 		gamelist = [];
-		setTimeout(function(){
-			let data = main.database.get(false, 'api/games');
-			if(data.length>0){
-				for(i = 0; i < data.length; i++){
-					if(data[i].state !== "game_over"){
-					gamelist.push({'id':data[i].id, 'opponent':data[i].opponent, 'state':stateConvert(data[i].state)})
-					}
+			main.database.get(true, 'api/games',null,loedGameList);
+	}
+	var loedGameList = function(data){
+		if(data.length>0){
+			for(i = 0; i < data.length; i++){
+				if(data[i].state !== "game_over"){
+				gamelist.push({'id':data[i].id, 'opponent':data[i].opponent, 'state':stateConvert(data[i].state)})
 				}
-				returnGameList(gamelist);
 			}
-		},0);
+			returnGameList(gamelist);
+		}
 	}
 	LobbyModel.prototype.setReturnGameList = function(_returnGameList){
 		if(returnGameList == null)returnGameList = _returnGameList;

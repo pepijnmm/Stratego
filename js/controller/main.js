@@ -16,11 +16,11 @@ var Main = function() {
      Main.prototype.database = new Database(_apiKey);
      Main.prototype.database.on("connect", function(name,data){login.connected();});
      account = new AccountModel(_apiKey);
-     setTimeout(account.login(start), 0);
+     account.login(start);
 	}
 
   var start = function(correct){
-    if(correct){
+    if(correct && lobby == null){
       login.hide();
       lobby = new LobbyController();
     }

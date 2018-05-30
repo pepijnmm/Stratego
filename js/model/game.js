@@ -6,7 +6,7 @@ var GameModel = function() {
 		if(gameId == null)gameId = id;
 	}
 	GameModel.prototype.removeGame = function(id=""){
-		main.database.get(true, 'api/games'+((id.length > 0)?'/':'')+id);
+		main.database.delete(true, 'api/games'+((id.length > 0)?'/':'')+id);
 	}
 	GameModel.prototype.newGame = function(ai){
 		main.database.post(true, 'api/games',{"ai":ai});

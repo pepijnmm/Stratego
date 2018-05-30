@@ -26,39 +26,79 @@ var Database = function(_apiKey) {
   Database.prototype.movesPawns = function(id,positionfrom, positionto, async = true){
     return post(async, 'api/games/'+id+'/moves',{"square":positionfrom,"sqiare_to":positionto});
   }
-  Database.prototype.post = function(async, url,data = {}) {
+  Database.prototype.post = function(async, url,data = null, returnfunction = null) {
     let xhttp = new XMLHttpRequest();
     url=webapi+url+'?api_key='+apiKey;
     xhttp.open("POST", url, async);
     xhttp.setRequestHeader("Accept", "application/json");
     try {
-      xhttp.send(JSON.stringify(data));
-      if (xhttp.readyState === 4){
-        return JSON.parse(xhttp.responseText);
+      if(data == null){xhttp.send();}
+      else{xhttp.send(JSON.stringify(data));}
+      if(returnfunction == null){
+        if (xhttp.readyState === 4){
+            return JSON.parse(xhttp.responseText);
+        }
+      }
+      else{
+        xhttp.onreadystatechange = function () {
+          if(xhttp.readyState === 4 && xhttp.status === 200) {
+            returnfunction(JSON.parse(xhttp.responseText));
+          }
+        };
       }
     }
     catch(err){
       return JSON.stringify({"error":"er ging iets fout"})
     }
   };
-  Database.prototype.get = function(async, url,data = {}) {
+  Database.prototype.get = function(async, url,data = null, returnfunction = null) {
     let xhttp = new XMLHttpRequest();
     url=webapi+url+'?api_key='+apiKey;
     xhttp.open("GET", url, async);
     xhttp.setRequestHeader("Accept", "application/json");
-    xhttp.send(JSON.stringify(data));
-    if (xhttp.readyState === 4){
-      return JSON.parse(xhttp.responseText);
+    try {
+      if(data == null){xhttp.send();}
+      else{xhttp.send(JSON.stringify(data));}
+      if(returnfunction == null){
+        if (xhttp.readyState === 4){
+            return JSON.parse(xhttp.responseText);
+        }
+      }
+      else{
+        xhttp.onreadystatechange = function () {
+          if(xhttp.readyState === 4 && xhttp.status === 200) {
+            returnfunction(JSON.parse(xhttp.responseText));
+          }
+        };
+      }
+    }
+    catch(err){
+      return JSON.stringify({"error":"er ging iets fout"})
     }
   };
-  Database.prototype.delete = function(async, url,data = {}) {
+  Database.prototype.delete = function(async, url,data = null, returnfunction = null) {
     let xhttp = new XMLHttpRequest();
     url=webapi+url+'?api_key='+apiKey;
     xhttp.open("DELETE", url, async);
     xhttp.setRequestHeader("Accept", "application/json");
-    xhttp.send(JSON.stringify(data));
-    if (xhttp.readyState === 4){
-      return JSON.parse(xhttp.responseText);
+    try{
+      if(data == null){xhttp.send();}
+      else{xhttp.send(JSON.stringify(data));}
+      if(returnfunction == null){
+        if (xhttp.readyState === 4){
+            return JSON.parse(xhttp.responseText);
+        }
+      }
+      else{
+        xhttp.onreadystatechange = function () {
+          if(xhttp.readyState === 4 && xhttp.status === 200) {
+            returnfunction(JSON.parse(xhttp.responseText));
+          }
+        };
+      }
+    }
+    catch(err){
+      return JSON.stringify({"error":"er ging iets fout"})
     }
   };
     Database.prototype.on = function(name,functionname){
