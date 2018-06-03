@@ -1,23 +1,34 @@
-var Database = function(_apiKey) {
-  var account;
+var Database = function() {
   var webapi;
   var socket;
   var apiKey;
   var connected;
 
-  function constructor(_apiKey) {
+  function constructor() {
     connected = false;
-    apiKey = _apiKey;
     webapi="http://strategoavans.herokuapp.com/";
+  }
+  Database.prototype.connect = function(_apiKey){
+    apiKey = _apiKey;
+    data = Database.prototype.get(false, 'api/users/me',{});
+    if(data.hasOwnProperty("id")){
+      apiKeyCorrect();
+      return true;
+    }
+	else{
+		return false;
+	}
+  }
+  function apiKeyCorrect(){
     socket = io.connect(webapi, {query: 'api_key=' + apiKey});
     socket.on('connect', function() {
       connected = true;
     });
   }
-  Database.prototype.connected = function(){
+  Database.prototype.getConnected = function(){
     return connected;
   }
-    Database.prototype.pawnPosition = function(id, positions, async = true){
+  Database.prototype.pawnPosition = function(id, positions, async = true){
     return post(async, 'api/games/'+id+'/start_board',positions);
   }
   Database.prototype.getPawnMoves = function(id){
@@ -50,7 +61,7 @@ var Database = function(_apiKey) {
     catch(err){
       return JSON.stringify({"error":"er ging iets fout"})
     }
-  };
+  }
   Database.prototype.get = function(async, url,data = null, returnfunction = null) {
     let xhttp = new XMLHttpRequest();
     url=webapi+url+'?api_key='+apiKey;
@@ -75,7 +86,7 @@ var Database = function(_apiKey) {
     catch(err){
       return JSON.stringify({"error":"er ging iets fout"})
     }
-  };
+  }
   Database.prototype.delete = function(async, url,data = null, returnfunction = null) {
     let xhttp = new XMLHttpRequest();
     url=webapi+url+'?api_key='+apiKey;
@@ -100,12 +111,12 @@ var Database = function(_apiKey) {
     catch(err){
       return JSON.stringify({"error":"er ging iets fout"})
     }
-  };
-    Database.prototype.on = function(name,functionname){
-      socket.on(name, function(data) {
-        functionname(name,data);
-      });
-    }
+  }
+  Database.prototype.on = function(name,functionname){
+    socket.on(name, function(data) {
+      functionname(name,data);
+    });
+  }
 
   function start(){
     socket.on('statechange', function(data) {
@@ -118,5 +129,5 @@ var Database = function(_apiKey) {
         socketfunction('error',data);                                        //data moet nog eerst uitgelezen worden en netjes in een array worden gezet
     });
   }
-  constructor(_apiKey);
+  constructor();
 }

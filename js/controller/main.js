@@ -3,29 +3,31 @@ var Main = function() {
   var lobby;
   var account;
   var login;
-	Main.prototype.database;
-  var userName;
-  var userId;
+  Main.prototype.database;
 
 
     function constructor(){
       login = new LoginView(logindone);
+	  Main.prototype.database = new Database();
     }
 
 	var logindone = function(_apiKey){
-     Main.prototype.database = new Database(_apiKey);
-     Main.prototype.database.on("connect", function(name,data){login.connected();});
-     account = new AccountModel(_apiKey);
-     account.login(start);
+	 if(correct = Main.prototype.database.connect(_apiKey)==true){
+		 start(correct);
+	 }
+	 else{
+		login.error();
+	 }
 	}
 
-  var start = function(correct){
+  function start(correct){
     if(correct && lobby == null){
+		Main.prototype.database.on("connect", function(name,data){login.connected();});
       login.hide();
       lobby = new LobbyController();
     }
     else{
-      login.error();
+      
     }
   }
   constructor();
