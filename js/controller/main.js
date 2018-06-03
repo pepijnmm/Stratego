@@ -1,7 +1,6 @@
 var Main = function() {
 	//variables
   var lobby;
-  var account;
   var login;
   Main.prototype.database;
 
@@ -12,22 +11,17 @@ var Main = function() {
     }
 
 	var logindone = function(_apiKey){
-	 if(correct = Main.prototype.database.connect(_apiKey)==true){
-		 start(correct);
-	 }
-	 else{
-		login.error();
-	 }
+	 Main.prototype.database.connect(_apiKey, start);
 	}
 
-  function start(correct){
+  var start = function(correct){
     if(correct && lobby == null){
 		Main.prototype.database.on("connect", function(name,data){login.connected();});
       login.hide();
       lobby = new LobbyController();
     }
     else{
-      
+      login.error();
     }
   }
   constructor();

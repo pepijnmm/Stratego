@@ -13,7 +13,7 @@ var LobbyModel = function() {
 	}
 	LobbyModel.prototype.reloadGameList = function(){
 		gamelist = [];
-		main.database.get(true, 'api/games',null,loedGameList);
+		main.database.get(true, 'api/games',null,loadGameList);
 	}
 	var loadGameList = function(data){
 		if(data.length>0){

@@ -3,27 +3,30 @@ var Database = function() {
   var socket;
   var apiKey;
   var connected;
+  var tempreturnfunction;
 
   function constructor() {
     connected = false;
     webapi="//strategoavans.herokuapp.com/";
   }
-  Database.prototype.connect = function(_apiKey){
+  Database.prototype.connect = function(_apiKey, returnfunction){
     apiKey = _apiKey;
-    data = Database.prototype.get(false, 'api/users/me');
-    if(data.hasOwnProperty("id")){
-      apiKeyCorrect();
-      return true;
-    }
-	else{
-		return false;
-	}
+	tempreturnfunction = returnfunction;
+    Database.prototype.get(true, 'api/users/me',null,apiKeyCorrect);
   }
-  function apiKeyCorrect(){
-    socket = io.connect(webapi, {query: 'api_key=' + apiKey});
-    socket.on('connect', function() {
-      connected = true;
-    });
+  function apiKeyCorrect(data){
+	if(data.hasOwnProperty("id")){
+		socket = io.connect(webapi, {query: 'api_key=' + apiKey});
+		socket.on('connect', function() {
+		  connected = true;
+		});
+		tempreturnfunction(true);
+		tempreturnfunction = null;
+	}
+	else{
+		tempreturnfunction(false);
+		tempreturnfunction = null;
+	}
   }
   Database.prototype.getConnected = function(){
     return connected;
