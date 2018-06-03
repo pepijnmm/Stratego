@@ -15,7 +15,7 @@ var LobbyModel = function() {
 		gamelist = [];
 		main.database.get(true, 'api/games',null,loedGameList);
 	}
-	var loedGameList = function(data){
+	var loadGameList = function(data){
 		if(data.length>0){
 			for(i = 0; i < data.length; i++){
 				if(data[i].state !== "game_over"){
