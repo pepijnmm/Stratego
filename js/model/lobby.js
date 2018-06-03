@@ -13,9 +13,9 @@ var LobbyModel = function() {
 	}
 	LobbyModel.prototype.reloadGameList = function(){
 		gamelist = [];
-			main.database.get(true, 'api/games',null,loedGameList);
+			main.database.get(true, 'api/games',null,loadGameList);
 	}
-	var loedGameList = function(data){
+	var loadGameList = function(data){
 		if(data.length>0){
 			for(i = 0; i < data.length; i++){
 				if(data[i].state !== "game_over"){
