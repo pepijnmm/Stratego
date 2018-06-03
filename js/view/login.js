@@ -9,12 +9,12 @@ var LoginView = function(_returnfunction) {
 
 	function constructor(_returnfunction){
 		returnfunctionclick = _returnfunction;
-		input = document.querySelector("#loginInput");
-    click = document.querySelector("#loginClick");
-    error = document.querySelector("#errorLogin");
+		login = document.querySelector("#login");
+		input = login.querySelector("#loginInput");
+		click = login.querySelector("#loginClick");
+		error = login.querySelector("#errorLogin");
 		connect = document.querySelector("#connected");
 		notconnect = document.querySelector("#notconnected");
-		login = document.querySelector("#login");
 		input.addEventListener("keyup", function(event) {
 			//on enter start login
 			if (event.keyCode === 13) {

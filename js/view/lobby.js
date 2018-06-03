@@ -14,27 +14,32 @@ var LobbyView = function() {
 	var yesdeleteone;
 	var yesdeleteall;
 	var exitpopup;
+	var playername;
 	function constructor(){
 		lobby = document.querySelector("#lobby");
-		gamelist = document.querySelector("#gamelist > tbody");
-		createNewgame = document.querySelector("#buttoncreate");
-		startGame = document.querySelector("#buttonjoin");
-		deleteGame = document.querySelector("#buttonverwijderen");
-		deleteAllGames = document.querySelector("#buttonverwijderalles");
-		removePopup = document.querySelector("#popupremovegame");
-		removeAllPopup = document.querySelector("#popupremovegames");
-		newGamePopup = document.querySelector("#popupnewgame");
-		newgameai = document.querySelector("#buttoncreateai");
-		newgamerealperson = document.querySelector("#buttoncreatereal");
-		yesdeleteone = document.querySelector("#buttonyesdeleteone");
-		yesdeleteall = document.querySelector("#buttonyesdeleteall");
-		exitpopup = document.querySelector(".buttonexitpopup");
-		for (var item of document.querySelectorAll(".buttonexitpopup")) {
+		gamelist = lobby.querySelector("#gamelist > tbody");
+		createNewgame = lobby.querySelector("#buttoncreate");
+		startGame = lobby.querySelector("#buttonjoin");
+		deleteGame = lobby.querySelector("#buttonverwijderen");
+		deleteAllGames = lobby.querySelector("#buttonverwijderalles");
+		removePopup = lobby.querySelector("#popupremovegame");
+		removeAllPopup = lobby.querySelector("#popupremovegames");
+		newGamePopup = lobby.querySelector("#popupnewgame");
+		newgameai = lobby.querySelector("#buttoncreateai");
+		newgamerealperson = lobby.querySelector("#buttoncreatereal");
+		yesdeleteone = lobby.querySelector("#buttonyesdeleteone");
+		yesdeleteall = lobby.querySelector("#buttonyesdeleteall");
+		exitpopup = lobby.querySelector(".buttonexitpopup");
+		playername = lobby.querySelector("#usernamelobby");
+		for (var item of lobby.querySelectorAll(".buttonexitpopup")) {
 		 item.addEventListener("click", function(){removePopup.classList.add("hide"); newGamePopup.classList.add("hide"); removeAllPopup.classList.add("hide");});
 		}
-		document.querySelector("#buttonnodeleteone").addEventListener("click", function(){exitpopup.click();});
-		document.querySelector("#buttonnodeleteall").addEventListener("click", function(){exitpopup.click();});
+		lobby.querySelector("#buttonnodeleteone").addEventListener("click", function(){exitpopup.click();});
+		lobby.querySelector("#buttonnodeleteall").addEventListener("click", function(){exitpopup.click();});
 	}
+	LobbyView.prototype.setPlayerName = function(returnname){
+		playername.innerHTML = returnname;
+	};
 	LobbyView.prototype.show = function(){
 		lobby.classList.remove("hide");
 	};
@@ -44,17 +49,22 @@ var LobbyView = function() {
 	LobbyView.prototype.setReturnButtonClick = function(_returnclickfunction){
 		if(returnclickfunction == null){
 			returnclickfunction = _returnclickfunction;
-			startGame.addEventListener("click", function(){returnclickfunction("start");});
-			newgameai.addEventListener("click", function(){returnclickfunction("newgame","true");exitpopup.click();});
-			newgamerealperson.addEventListener("click", function(){returnclickfunction("newgame","false");exitpopup.click();});
-			yesdeleteone.addEventListener("click", function(){returnclickfunction("remove");exitpopup.click();});
-			yesdeleteall.addEventListener("click", function(){returnclickfunction("removeAll");exitpopup.click();});
+			startGame.addEventListener("click", function(){returnclickfunction("start");runalways();});
+			newgameai.addEventListener("click", function(){returnclickfunction("newgame",true);runalways();});
+			newgamerealperson.addEventListener("click", function(){returnclickfunction("newgame",false);runalways();});
+			yesdeleteone.addEventListener("click", function(){returnclickfunction("remove");runalways();});
+			yesdeleteall.addEventListener("click", function(){returnclickfunction("removeAll");runalways();});
 
 
-			deleteGame.addEventListener("click", function(){removePopup.classList.remove("hide");});
+			deleteGame.addEventListener("click", function(){removePopup.classList.remove("hide");runalways();});
 			createNewgame.addEventListener("click", function(){newGamePopup.classList.remove("hide");});
 			deleteAllGames.addEventListener("click", function(){removeAllPopup.classList.remove("hide");});
 		}
+	}
+	function runalways(){
+		startGame.disabled = true;
+		deleteGame.disabled = true;
+		exitpopup.click();
 	}
 	LobbyView.prototype.setGameList = function(games){
 		gamelist.innerHTML = "";
@@ -74,22 +84,6 @@ var LobbyView = function() {
 	function enablebuttons(){
 		startGame.disabled = false;
 		deleteGame.disabled = false;
-	}
-	function toggleRemovepopup(){
-		if(removePopup.classList.contains("hide")){
-			removePopup.classList.remove("hide");
-		}
-		else{
-			removePopup.classList.add("hide");
-		}
-	}
-	function toggleNewGamepopup(){
-		if(newGamePopup.classList.contains("hide")){
-			newGamePopup.classList.remove("hide");
-		}
-		else{
-			newGamePopup.classList.add("hide");
-		}
 	}
 
 

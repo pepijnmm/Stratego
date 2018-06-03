@@ -32,7 +32,7 @@
           <div class="form popup">
               <div id="lobbylist">
                   <div id="userinfo">
-                      <p>naam: <span id="username">ofzo</span></p>
+                      <p>naam: <span id="usernamelobby"></span></p>
                   </div>
                   <table id="gamelist">
                     <thead>
@@ -78,6 +78,7 @@
               <div class="form popup">
                   <div class="content">
                       <p>Wilt u een match met een computer of een echte speler?</p>
+					  <h5>Er kan maar een game wachten op een nieuwe tegenstander tegelijk.</h5>
                       <button id="buttoncreateai">Computer</button>
                       <button id="buttoncreatereal">Echte speler</button>
                       <button class="buttonexitpopup">x</button>
@@ -99,6 +100,7 @@
 				</div>
 			</div>
 		</div>
+		<div id="lobbybackbutton"><p>Naar lobby</p></div>
     </div>
 
     <script src='js/socket.io.min.js' type='text/javascript' defer></script>

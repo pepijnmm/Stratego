@@ -13,20 +13,30 @@ var LobbyModel = function() {
 	}
 	LobbyModel.prototype.reloadGameList = function(){
 		gamelist = [];
-			main.database.get(true, 'api/games',null,loedGameList);
+		main.database.get(true, 'api/games',null,loedGameList);
 	}
 	var loedGameList = function(data){
 		if(data.length>0){
 			for(i = 0; i < data.length; i++){
 				if(data[i].state !== "game_over"){
-				gamelist.push({'id':data[i].id, 'opponent':data[i].opponent, 'state':stateConvert(data[i].state)})
+				gamelist.push({'id':data[i].id, 'opponent':nameConvert(data[i].opponent), 'state':stateConvert(data[i].state)})
 				}
 			}
-			returnGameList(gamelist);
 		}
+		returnGameList(gamelist);
 	}
 	LobbyModel.prototype.setReturnGameList = function(_returnGameList){
 		if(returnGameList == null)returnGameList = _returnGameList;
+	}
+	function nameConvert(name){
+		switch(name){
+			case undefined:
+				return "nog onbekend";
+			break;
+			case "ai":
+				return "Computer";
+			break;
+		}
 	}
 	function stateConvert(state){
 		switch(state){

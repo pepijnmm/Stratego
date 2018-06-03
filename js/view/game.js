@@ -147,6 +147,9 @@ var GameView = function() {
 		y = y.toFixed(4);
 		return y;
 	}
+	GameView.prototype.setReturnButton = function(returnfunction){
+		document.querySelector("#game #lobbybackbutton").addEventListener("click", function(){GameView.prototype.hide(); returnfunction();});
+	};
 
   constructor();
 };

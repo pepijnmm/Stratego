@@ -43,6 +43,8 @@
 #login, #lobby, #game{
 	z-index:2;
 }
+
+
 /* login */
 #login .popup{
 	border-radius: 20px;
@@ -55,21 +57,23 @@
 	padding: 20px 50px;
 	position: relative;
 }
+
+
 /* lobby */
 #lobby .popup{
 	border-radius:20px 20px 0 0;
 }
-#lobbyhall{
+#lobby #lobbyhall{
 	height:500px;
 }
-#lobbylist{
+#lobby #lobbylist{
 	float:left;
 	width:500px;
 	border: 1px solid black;
     border-radius: 20px 0 0 0;
     height: 400px;
 }
-#lobbybuttons{
+#lobby #lobbybuttons{
 	float:right;
 	width:200px;
 	height:400px;
@@ -80,57 +84,74 @@
   	align-items: center;
   	justify-content: center;
 }
-#lobbybuttons button{
+#lobby #lobbybuttons button{
 	display:block;
 	width: 150px;
     height: 40px;
     margin-bottom: 10px;
 }
-#userinfo{
+#lobby #userinfo{
 	padding:10px 0;
 	border-bottom:1px solid black;
 }
-#gamelist{
+#lobby #gamelist{
 	height: 329px;
 	overflow-y:scroll;
    	display:block;
    	border-collapse: collapse;
     background: #b9b9b9e3;
 }
-#gamelist tr:nth-child(even){
+#lobby #gamelist tr:nth-child(even){
 	background-color: #b2b2b2;
 }
-#gamelist tbody, #gamelist thead, #gamelist tr{
+#lobby #gamelist tbody, #gamelist thead, #gamelist tr{
 	width:100%;
 	display: table;
 }
-#gamelist td, #gamelist th{
+#lobby #gamelist td, #gamelist th{
 	width:50%;
 }
-#gamelist td{
+#lobby #gamelist td{
 	font-size: 15px;
     text-align: center;
     border: 1px solid black;
 }
-#gamelist tr td{
+#lobby #gamelist tr td{
 	border-left-width: 0;
 	cursor: pointer;
 }
-#gamelist tr td:nth-child(2){
+#lobby #gamelist tr td:nth-child(2){
 	border-right-width: 0;
 }
-#gamelist th{
+#lobby #gamelist th{
 	font-size:20px;
 }
-#gamelist tr.selected{
+#lobby #gamelist tr.selected{
 	background: lightblue;
 }
-.selected td{
+#lobby .selected td{
 	font-weight: 900;
 }
-.buttonexitpopup{
+#lobby .buttonexitpopup{
 	position:absolute;
 	top:0;
 	right:0;
 }
+#lobby h5{
+	margin:0 0 5px 0;
+}
 /* game */
+#game #lobbybackbutton{
+	position: absolute;
+    left: 20px;
+    top: 20px;
+    border: 2px solid gray;
+    padding: 0 0 0 10px;
+    border-radius: 40px 0 0 40px;
+    background: lightgray;
+	cursor: pointer;
+}
+#game #lobbybackbutton:hover{
+	border: 2px solid #644e4e;
+	background: #9a9a9a;
+}

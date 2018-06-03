@@ -10,14 +10,17 @@ var GameController = function() {
 		gameModel.setGame(id);
 		gameView.show();
 	}
-	GameController.prototype.remove = function(id){
-		gameModel.removeGame(id);
+	GameController.prototype.remove = function(id, ifdone){
+		gameModel.removeGame(id, ifdone);
 	}
-	GameController.prototype.new = function(ai){
-		gameModel.newGame(ai);
+	GameController.prototype.newGame = function(ai, ifdone){
+		gameModel.newGame(ai, ifdone);
 	}
-	GameController.prototype.removeAll = function(){
-		gameModel.removeGame();
+	GameController.prototype.removeAll = function(ifdone){
+		gameModel.removeGame("", ifdone);
+	}
+	GameController.prototype.setReturnbutton = function(returnfunction){
+		gameView.setReturnButton(returnfunction);
 	}
 
   	constructor();

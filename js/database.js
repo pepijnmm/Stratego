@@ -6,11 +6,11 @@ var Database = function() {
 
   function constructor() {
     connected = false;
-    webapi="http://strategoavans.herokuapp.com/";
+    webapi="//strategoavans.herokuapp.com/";
   }
   Database.prototype.connect = function(_apiKey){
     apiKey = _apiKey;
-    data = Database.prototype.get(false, 'api/users/me',{});
+    data = Database.prototype.get(false, 'api/users/me');
     if(data.hasOwnProperty("id")){
       apiKeyCorrect();
       return true;
@@ -37,75 +37,49 @@ var Database = function() {
   Database.prototype.movesPawns = function(id,positionfrom, positionto, async = true){
     return post(async, 'api/games/'+id+'/moves',{"square":positionfrom,"sqiare_to":positionto});
   }
-  Database.prototype.post = function(async, url,data = null, returnfunction = null) {
-    let xhttp = new XMLHttpRequest();
-    url=webapi+url+'?api_key='+apiKey;
-    xhttp.open("POST", url, async);
-    xhttp.setRequestHeader("Accept", "application/json");
-    try {
-      if(data == null){xhttp.send();}
-      else{xhttp.send(JSON.stringify(data));}
-      if(returnfunction == null){
-        if (xhttp.readyState === 4){
-            return JSON.parse(xhttp.responseText);
-        }
-      }
-      else{
-        xhttp.onreadystatechange = function () {
-          if(xhttp.readyState === 4 && xhttp.status === 200) {
-            returnfunction(JSON.parse(xhttp.responseText));
-          }
-        };
-      }
-    }
-    catch(err){
-      return JSON.stringify({"error":"er ging iets fout"})
-    }
+  Database.prototype.get = function(async, url,data = null, returnfunction = null){
+	  return crud("GET", async, url,data, returnfunction)
   }
-  Database.prototype.get = function(async, url,data = null, returnfunction = null) {
-    let xhttp = new XMLHttpRequest();
-    url=webapi+url+'?api_key='+apiKey;
-    xhttp.open("GET", url, async);
-    xhttp.setRequestHeader("Accept", "application/json");
-    try {
-      if(data == null){xhttp.send();}
-      else{xhttp.send(JSON.stringify(data));}
-      if(returnfunction == null){
-        if (xhttp.readyState === 4){
-            return JSON.parse(xhttp.responseText);
-        }
-      }
-      else{
-        xhttp.onreadystatechange = function () {
-          if(xhttp.readyState === 4 && xhttp.status === 200) {
-            returnfunction(JSON.parse(xhttp.responseText));
-          }
-        };
-      }
-    }
-    catch(err){
-      return JSON.stringify({"error":"er ging iets fout"})
-    }
+  Database.prototype.post = function(async, url,data = null, returnfunction = null){
+	  return crud("POST", async, url,data, returnfunction)
   }
-  Database.prototype.delete = function(async, url,data = null, returnfunction = null) {
+  Database.prototype.delete = function(async, url,data = null, returnfunction = null){
+	  return crud("DELETE", async, url,data, returnfunction)
+  }
+  function crud(protocol, async, url,data, returnfunction) {
     let xhttp = new XMLHttpRequest();
     url=webapi+url+'?api_key='+apiKey;
-    xhttp.open("DELETE", url, async);
+    xhttp.open(protocol, url, async);
     xhttp.setRequestHeader("Accept", "application/json");
     try{
-      if(data == null){xhttp.send();}
-      else{xhttp.send(JSON.stringify(data));}
-      if(returnfunction == null){
-        if (xhttp.readyState === 4){
-            return JSON.parse(xhttp.responseText);
-        }
-      }
-      else{
+      if(returnfunction !== null){
         xhttp.onreadystatechange = function () {
-          if(xhttp.readyState === 4 && xhttp.status === 200) {
-            returnfunction(JSON.parse(xhttp.responseText));
+          if(xhttp.readyState === 4) {
+			  if(xhttp.responseText == null || xhttp.responseText == ""){
+				returnfunction();
+			  }
+			  else{
+				returnfunction(JSON.parse(xhttp.responseText));
+			  }
           }
         };
+      }
+      if(data == null){
+		  xhttp.send();
+	  }
+      else{
+		  xhttp.setRequestHeader("Content-Type", "application/json");
+		  xhttp.send(JSON.stringify(data));
+	  }
+      if(returnfunction == null){
+			if (xhttp.readyState === 4){
+				if(xhttp.responseText == null || xhttp.responseText == ""){
+					return true;
+				}
+				else{
+				return JSON.parse(xhttp.responseText);
+				}
+			}
       }
     }
     catch(err){
