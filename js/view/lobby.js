@@ -56,7 +56,7 @@ var LobbyView = function() {
 			yesdeleteall.addEventListener("click", function(){returnclickfunction("removeAll");runalways();});
 
 
-			deleteGame.addEventListener("click", function(){removePopup.classList.remove("hide");runalways();});
+			deleteGame.addEventListener("click", function(){removePopup.classList.remove("hide");});
 			createNewgame.addEventListener("click", function(){newGamePopup.classList.remove("hide");});
 			deleteAllGames.addEventListener("click", function(){removeAllPopup.classList.remove("hide");});
 		}
