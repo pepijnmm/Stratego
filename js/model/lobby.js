@@ -9,6 +9,7 @@ var LobbyModel = function() {
 		selected=_selected;
 	}
 	LobbyModel.prototype.getSelect = function(){
+		console.log(selected);
 		return selected;
 	}
 	LobbyModel.prototype.reloadGameList = function(){

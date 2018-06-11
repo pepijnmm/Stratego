@@ -17,7 +17,6 @@ var LobbyController = function() {
 	account.getusername(lobbyView.setPlayerName);
 	}
 	var backToLobby = function(){
-		game = new GameController();
 		lobbyView.show();
 		lobbyModel.setSelect(null);
 		lobbyModel.reloadGameList();
@@ -25,27 +24,36 @@ var LobbyController = function() {
   var onButtonClick = function (button, data=""){
     switch(button){
       case "start":
-        lobbyView.hide();
-        game.start(lobbyModel.getSelect());
+        game = new GameController();
+        game.start(lobbyModel.getSelect(), (function(){donecorrect(true);}));
       break;
       case "remove":
-        game.remove(lobbyModel.getSelect(), lobbyModel.reloadGameList);
-		lobbyModel.setSelect(null);
+        game = new GameController();
+        game.remove(lobbyModel.getSelect(), donecorrect);
+
       break;
       case "newgame":
-        game.newGame(data, lobbyModel.reloadGameList);
-		lobbyModel.setSelect(null);
+        game = new GameController();
+        game.newGame(data, donecorrect);
+		    lobbyModel.setSelect(null);
       break;
       case "removeAll":
-        game.removeAll(lobbyModel.reloadGameList);
-		lobbyModel.setSelect(null);
+        game = new GameController();
+        game.removeAll(donecorrect);
+
       break;
       case "select":
         lobbyModel.setSelect(data);
       break;
     }
   }
-
+  var donecorrect = function(hidelobby=false){
+    if(hidelobby == true){
+      lobbyView.hide();
+    }
+    lobbyModel.reloadGameList();
+    lobbyModel.setSelect(null);
+  }
 
   constructor();
 };
