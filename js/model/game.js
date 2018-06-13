@@ -39,7 +39,7 @@ var GameModel = function() {
 				connected=true;
 				gameId=data.id
 				state=data.state;
-				opponent=data.opponent
+				opponent=data.opponent;
 				if(tempreturnfunction !== null){
 					tempreturnfunction();
 					tempreturnfunction = null;

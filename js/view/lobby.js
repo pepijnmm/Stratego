@@ -67,13 +67,22 @@ var LobbyView = function() {
 		exitpopup.click();
 	}
 	LobbyView.prototype.setGameList = function(games){
-		gamelist.innerHTML = "";
-		for(i = 0; i < games.length; i++){
+		//gamelist.innerHTML = "";
+		for(i = 0; i < Object.keys(games).length; i++){
+			key = Object.keys(games)[i];
 			let div = document.createElement('tr');
-			div.setAttribute("id", "joingame"+games[i].id);
-			div.innerHTML  = ("<tr id='joingame"+games[i].id+"'><td>"+games[i].opponent+"</td><td>"+games[i].state+"</td></tr>").trim();
+			div.setAttribute("id", "joingame"+games[key].id);
+			div.innerHTML  = ("<tr id='joingame"+games[key].id+"'><td>"+games[key].opponent+"</td><td>"+games[key].state+"</td></tr>").trim();
 			gamelist.appendChild(div);
-			document.querySelector('#joingame'+games[i].id).addEventListener("click", function(e){enablebuttons();removeSelectedFromAllGames();if(e.target.id.length<1){e.target.id = e.target.parentNode.id;}document.querySelector("#"+e.target.id).classList.add("selected");returnclickfunction('select', e.target.id.replace("joingame", ""));});
+			document.querySelector('#joingame'+games[key].id).addEventListener("click", function(e){if(e.target.id.length<1){e.target.id = e.target.parentNode.id;}returnclickfunction('select', e.target.id.replace("joingame", ""));});
+		}
+	};
+	LobbyView.prototype.selectGame = function(game){
+		runalways();
+		removeSelectedFromAllGames();
+		if(game !== null){
+			enablebuttons();
+			document.querySelector("#joingame"+game).classList.add("selected");
 		}
 	};
 	function removeSelectedFromAllGames(){

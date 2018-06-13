@@ -3,24 +3,33 @@ var LobbyModel = function() {
 	var gamelist;
 	var returnGameList;
 	function constructor(){
-		gamelist = [];
+		gamelist = {};
 	}
 	LobbyModel.prototype.setSelect = function(_selected){
-		selected=_selected;
+		if(gamelist[_selected]){
+			if(gamelist[_selected].state=="Wachten op tegenstander"){
+				return false;
+			}
+			else{
+				selected=_selected;
+				return true;
+			}
+		}
+		if(_selected==null)selected=null;
+		return false;
 	}
 	LobbyModel.prototype.getSelect = function(){
-		console.log(selected);
 		return selected;
 	}
 	LobbyModel.prototype.reloadGameList = function(){
-		gamelist = [];
+		gamelist = {};
 		main.database.get(true, 'api/games',null,loadGameList);
 	}
 	var loadGameList = function(data){
 		if(data.length>0){
 			for(i = 0; i < data.length; i++){
 				if(data[i].state !== "game_over"){
-				gamelist.push({'id':data[i].id, 'opponent':nameConvert(data[i].opponent), 'state':stateConvert(data[i].state)})
+				gamelist[data[i].id]={'id':data[i].id, 'opponent':nameConvert(data[i].opponent), 'state':stateConvert(data[i].state)};
 				}
 			}
 		}
@@ -36,6 +45,9 @@ var LobbyModel = function() {
 			break;
 			case "ai":
 				return "Computer";
+			break;
+			default:
+				return name;
 			break;
 		}
 	}

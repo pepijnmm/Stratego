@@ -43,7 +43,12 @@ var LobbyController = function() {
 
       break;
       case "select":
-        lobbyModel.setSelect(data);
+        if(lobbyModel.setSelect(data)){
+          lobbyView.selectGame(data);
+        }
+        else{
+          lobbyView.selectGame(null);
+        }
       break;
     }
   }
