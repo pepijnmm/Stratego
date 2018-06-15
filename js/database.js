@@ -23,7 +23,7 @@ var Database = function(_apiKey) {
   Database.prototype.getGameList = function(id = "", async = true){
     return get(async, 'api/games'+((id.lenght == 0)?'/':'')+id);
   }
-    Database.prototype.pawnPosition = function(id, positions, async = true){
+  Database.prototype.pawnPosition = function(id, positions, async = true){
     return post(async, 'api/games/'+id+'/start_board',positions);
   }
   Database.prototype.getPawnMoves = function(id){

@@ -9,6 +9,10 @@ var GameView = function() {
 	var dragActive;
 	var dragEnabled;
 
+	var selectedPiece;
+	var selectedSquare;
+	var previousSquare;
+
 	function constructor(){
 		gameboard = document.querySelector(".gameboard");
 
@@ -17,6 +21,7 @@ var GameView = function() {
 		canvas.width = cWidth;
 		canvas.height = cHeight;
 		canvas.onmousedown = onMouseDown;
+		canvas.onmousemove = onMouseDrag;
 		canvas.onmouseup = onMouseUp;
 
 		ctx = canvas.getContext("2d");
@@ -32,24 +37,37 @@ var GameView = function() {
 
 	function drawSquares(squares){
 		for (var i = 0; i < squares.length; i++) {
-			if(squares[i].available){
-				height = squares[i].height;
-				width = squares[i].width;
-				y = squares[i].yPos * height;
-				x = squares[i].xPos * width;
-				drawSquare(x, y, width, height);
+			switch(i){
+			 	case 42: case 43: case 46: case 47: case 52: case 53: case 56: case 57:
+			 		break;
+			 	default:
+					height = squares[i].height;
+					width = squares[i].width;
+					y = squares[i].yPos * height;
+					x = squares[i].xPos * width;
+					drawSquare(x, y, width, height);
+					if(squares[i].highlighted){
+						drawHighlight(x + (width / 2), y + (height / 2));
+					}
+			 		break;
 			}
 		}
 	}
 
 	function drawPieces(pieces){
+		if(selectedPiece != undefined){
+			pieces.push(selectedPiece);
+		}
 		for (var i = 0; i < pieces.length; i++) {
 			height = pieces[i].height;
 			width = pieces[i].width;
 			y = pieces[i].yPos * height;
 			x = pieces[i].xPos * width;
-			img = "test"; //THIS NEES TO BE CHANGED
+			img = pieces[i].img;
 			drawPiece(img, x, y, width, height);
+		}
+		if(selectedPiece != undefined){
+			pieces.pop();
 		}
 	}
 
@@ -62,39 +80,40 @@ var GameView = function() {
 
 	function drawPiece(img, x, y, width, height){
 		ctx.beginPath();
-		ctx.rect(x, y, width, height); //THIS NEES TO BE CHANGED
-		// ctx.drawImage(img, x, y, width, height);
+		ctx.drawImage(img, x + 5, y + 5, width - 10, height - 10);
 		ctx.closePath();
+	}
+
+	function drawHighlight(x, y){
+		ctx.beginPath();
+		ctx.arc(x, y, 10, 0, 2 * Math.PI);
+		ctx.fillStyle = "yellow";
 		ctx.fill();
+		ctx.closePath();
+	}
+
+	function onMouseDown(e) {
+		if(!dragActive){
+			var xCanvas = pageToCanvasX(e.pageX);
+			var yCanvas = pageToCanvasY(e.pageY);
+			selectedSquare = BoardController.prototype.getSquareByCanvasXY(xCanvas, yCanvas);
+			selectedPiece = selectedSquare.piece;
+			if(selectedPiece != undefined && selectedPiece.available){
+			  	dragActive = true;
+
+				BoardController.prototype.setHighlights(selectedSquare);
+				BoardController.prototype.refreshBoard();
+			}
+		}
 	}
 
 	function onMouseDrag(e) {
 		if(dragActive){
-			var currentPiece = BoardController.prototype.currentPiece;
-			currentPiece.xPos = canvasToBoardX(pageToCanvasX(e.pageX));
-			currentPiece.yPos = canvasToBoardY(pageToCanvasY(e.pageY));
-			BoardController.prototype.refreshBoard();
-			console.log(currentPiece);
-		}
-	}
+			selectedPiece.xPos = canvasToBoardX(pageToCanvasX(e.pageX));
+			selectedPiece.yPos = canvasToBoardY(pageToCanvasY(e.pageY));
 
-	function onMouseDown(e) {
-		// if(dragActive){
-			var xCanvas = pageToCanvasX(e.pageX);
-			var yCanvas = pageToCanvasY(e.pageY);
-			BoardController.prototype.getPieceByCanvasXY(xCanvas, yCanvas);
-			var currentPiece = BoardController.prototype.currentPiece;
-			if(currentPiece != undefined){
-			  	dragActive = true;
-			  	canvas.onmousemove = onMouseDrag;
-			}
-			// var halfWidth = sqrWidth / 2;
-			// var halfHeight = sqrHeight / 2;
-			// if (e.pageX < x + halfWidth + canvas.offsetLeft && e.pageX > x - halfWidth +
-			// canvas.offsetLeft && e.pageY < y + halfHeight + canvas.offsetTop &&
-			// e.pageY > y - halfHeight + canvas.offsetTop){
-			// }
-		// }
+			BoardController.prototype.refreshBoard();
+		}
 	}
 
 	function onMouseUp(e) {
@@ -102,19 +121,11 @@ var GameView = function() {
 			dragActive = false;
 			var xCanvas = pageToCanvasX(e.pageX);
 			var yCanvas = pageToCanvasY(e.pageY);
-			BoardController.prototype.getSquareByCanvasXY(xCanvas, yCanvas);
-			var prevSquare = BoardController.prototype.prevSquare;
-			var currentSquare = BoardController.prototype.currentSquare;
-			var currentPiece = BoardController.prototype.currentPiece;
-			if(currentSquare.available){
-				currentPiece.xPos = currentSquare.xPos;
-				currentPiece.yPos = currentSquare.yPos;
-				currentSquare.piece = currentPiece;
-			}
-			else{
-				currentPiece.xPos = prevSquare.xPos;
-				currentPiece.yPos = prevSquare.yPos;
-			}
+			previousSquare = selectedSquare;
+			selectedSquare = BoardController.prototype.getSquareByCanvasXY(xCanvas, yCanvas);
+			previousSquare.tryMovePiece(selectedSquare.acceptPiece(selectedPiece));
+
+			BoardController.prototype.unsetHighlights();
 			BoardController.prototype.refreshBoard();
 		}
 	}

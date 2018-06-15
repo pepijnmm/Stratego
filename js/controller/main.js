@@ -11,10 +11,10 @@ var Main = function() {
     function constructor(){
       login = new LoginView(login);
       var gameDELETE = new GameController();
+      var pieceDELETE = new PieceController();
       var boardDELETE = new BoardController();
-      //var pieceDELETE = new PieceController();
       
-      GameController.prototype.initiateTurn();
+      GameController.prototype.initiateGame();
     }
 
 	var login = function(_apiKey){
