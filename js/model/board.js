@@ -1,19 +1,40 @@
-function BoardModel(){
+function BoardModel(_gameId, _waitOnReadyFunciton){
 
     var squares;
     var pieces;
     var selecting;
+    var gameId;
+    var state;
+    var opponent;
+    var tempreturnfunction;
 
-    function constructor() {
+    function constructor(_gameId, _waitOnReadyFunciton) {
         squares = [];
         pieces = [];
+        gameId = _gameId;
+        tempreturnfunction = _waitOnReadyFunciton;
+        getGameInfo();
+    }
+
+    function getGameInfo() {
+        database.get(true, 'api/games/' + gameId, null, getinfo);
+    }
+    var getinfo = function(data) {
+        if (Object.keys(data).length > 0) {
+            if (data.id) {
+                gameId = data.id
+                state = data.state;
+                opponent = data.opponent;
+                if (tempreturnfunction !== null) {
+                    tempreturnfunction();
+                    tempreturnfunction = null;
+                }
+            }
+        }
     }
 
     this.getSquares = function() {
         let returnvalue = [];
-        for (let i = 0; i < squares.length; i++) {
-            console.log(squares[i].getPosition());
-        }
         for (let i = 0; i < squares.length; i++) {
             returnvalue.push(squares[i].returntoBoard());
         }
@@ -71,5 +92,5 @@ function BoardModel(){
     //     selecting = null;
     // }
 
-    constructor();
+    constructor(_gameId, _waitOnReadyFunciton);
 };

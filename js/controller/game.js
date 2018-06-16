@@ -7,7 +7,6 @@ function GameController() {
     function constructor() {
         gameView = new GameView();
         gameModel = new GameModel();
-        board = new BoardController();
         players = [new PlayerModel("red"), new PlayerModel("blue")];
     }
 
@@ -15,7 +14,7 @@ function GameController() {
         gameModel = new GameModel();
         gameModel.setGame(id, donefunction);
         gameView.show();
-        board.loadGame();
+        board = new BoardController(id);
     }
 
     this.remove = function(id, donefunction) {

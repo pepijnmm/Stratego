@@ -21,12 +21,12 @@ function LobbyModel() {
     this.getSelect = function() {
         return selected;
     }
-    main.database.on('statechange', function(name, data) {
+    database.on('statechange', function(name, data) {
         this.reloadGameList();
     });
     this.reloadGameList = function() {
         gamelist = {};
-        main.database.get(true, 'api/games', null, loadGameList);
+        database.get(true, 'api/games', null, loadGameList);
     }
     var loadGameList = function(data) {
         if (data.length > 0) {

@@ -1,15 +1,15 @@
-function BoardController() {
+function BoardController(_gameId) {
     var boardView;
     var boardModel;
 
-    function constructor() {
+    function constructor(_gameId) {
         boardView = new BoardView(mouseclick);
-        boardModel = new BoardModel();
+        boardModel = new BoardModel(_gameId, functionready);
     }
 
-    this.loadGame = function() {
-        initiateBoard();
-        boardView.drawBoard(boardModel.getSquares());
+    var functionready = function(){
+      initiateBoard();
+      boardView.drawBoard(boardModel.getSquares());
     }
     var mouseclick = function(handle, x, y,offsets){
       x = x - offsets[0] + 75 / 2;
@@ -133,5 +133,5 @@ function BoardController() {
     // 	return newSquare;
     // }
 
-    constructor();
+    constructor(_gameId);
 };

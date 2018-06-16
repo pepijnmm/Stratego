@@ -31,15 +31,6 @@ function Database() {
   this.getConnected = function(){
     return connected;
   }
-  // this.pawnPosition = function(id, positions, async = true){
-  //   return post(async, 'api/games/'+id+'/start_board',positions);
-  // }
-  // this.getPawnMoves = function(id){
-  //   return get(async, 'api/games/'+id+'/moves');
-  // }
-  // this.movesPawns = function(id,positionfrom, positionto, async = true){
-  //   return post(async, 'api/games/'+id+'/moves',{"square":positionfrom,"sqiare_to":positionto});
-  // }
   this.get = function(async, url,data = null, returnfunction = null){
 	  return crud("GET", async, url,data, returnfunction)
   }
