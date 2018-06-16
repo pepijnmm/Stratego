@@ -43,104 +43,102 @@ var BoardView = function(_returnclicks) {
 	        }
         }
     }
-		function drawSquare(x, y, width, height){
-			ctx.beginPath();
-			ctx.rect(x, y, width, height);
-			ctx.closePath();
-			ctx.stroke();
-		}
-		function drawHighlight(x, y){
-			ctx.beginPath();
-			ctx.arc(x, y, 10, 0, 2 * Math.PI);
-			ctx.fillStyle = "yellow";
-			ctx.fill();
-			ctx.closePath();
-		}
-		function drawPieces(pieces){
-			if(selectedPiece != undefined){
-				pieces.push(selectedPiece);
-			}
-			for (let i = 0; i < pieces.length; i++) {
-				height = pieces[i].height;
-				width = pieces[i].width;
-				y = pieces[i].yPos * height;
-				x = pieces[i].xPos * width;
-				img = "../image/"+pieces[i].img+".png";
-				drawPiece(img, x, y, width, height);
-			}
-			if(selectedPiece != undefined){
-				pieces.pop();
-			}
-		}
-		function onMouseDown(e) {
-      returnclicks('down',e.pageX, e.pageY);
-			// if(!dragActive){
-			// 	let xCanvas = pageToCanvasX(e.pageX);
-			// 	let yCanvas = pageToCanvasY(e.pageY);
-			// 	selectedSquare = BoardController.prototype.getSquareByCanvasXY(xCanvas, yCanvas);
-			// 	selectedPiece = selectedSquare.piece;
-			// 	if(selectedPiece != undefined && selectedPiece.available){
-			// 	  	dragActive = true;
-      //
-			// 		BoardController.prototype.setHighlights(selectedSquare);
-			// 		BoardController.prototype.refreshBoard();
-			// 	}
-			// }
-		}
 
-		function onMouseDrag(e) {
-      returnclicks('move',e.pageX, e.pageY);
-			// if(dragActive){
-			// 	selectedPiece.xPos = canvasToBoardX(pageToCanvasX(e.pageX));
-			// 	selectedPiece.yPos = canvasToBoardY(pageToCanvasY(e.pageY));
-      //
-			// 	BoardController.prototype.refreshBoard();
-			// }
+	function drawSquare(x, y, width, height){
+		ctx.beginPath();
+		ctx.rect(x, y, width, height);
+		ctx.closePath();
+		ctx.stroke();
+	}
+
+    function drawPiece(img, x, y, width, height){
+        ctx.beginPath();
+        ctx.drawImage(img, x + 5, y + 5, width - 10, height - 10);
+        ctx.closePath();
+    }
+
+	function drawHighlight(x, y){
+		ctx.beginPath();
+		ctx.arc(x, y, 10, 0, 2 * Math.PI);
+		ctx.fillStyle = "yellow";
+		ctx.fill();
+		ctx.closePath();
+	}
+
+	function drawPieces(pieces){
+		if(selectedPiece != undefined){
+			pieces.push(selectedPiece);
 		}
-
-		function onMouseUp(e) {
-      returnclicks('up',e.pageX, e.pageY);
-			// if(dragActive){
-			// 	dragActive = false;
-			// 	let xCanvas = pageToCanvasX(e.pageX);
-			// 	let yCanvas = pageToCanvasY(e.pageY);
-			// 	previousSquare = selectedSquare;
-			// 	selectedSquare = BoardController.prototype.getSquareByCanvasXY(xCanvas, yCanvas);
-			// 	previousSquare.tryMovePiece(selectedSquare.acceptPiece(selectedPiece));
-      //
-			// 	BoardController.prototype.unsetHighlights();
-			// 	BoardController.prototype.refreshBoard();
-			// }
+		for (let i = 0; i < pieces.length; i++) {
+			height = pieces[i].height;
+			width = pieces[i].width;
+			y = pieces[i].yPos * height;
+			x = pieces[i].xPos * width;
+			img = "../image/"+pieces[i].img+".png";
+			drawPiece(img, x, y, width, height);
 		}
-    //
+		if(selectedPiece != undefined){
+			pieces.pop();
+		}
+	}
 
-    //
+	function onMouseDown(e) {
+    returnclicks('down', e.pageX, e.pageY);
+		// if(!dragActive){
+		// 	let xCanvas = pageToCanvasX(e.pageX);
+		// 	let yCanvas = pageToCanvasY(e.pageY);
+		// 	selectedSquare = BoardController.prototype.getSquareByCanvasXY(xCanvas, yCanvas);
+		// 	selectedPiece = selectedSquare.piece;
+		// 	if(selectedPiece != undefined && selectedPiece.available){
+		// 	  	dragActive = true;
+        //
+		// 		BoardController.prototype.setHighlights(selectedSquare);
+		// 		BoardController.prototype.refreshBoard();
+		// 	}
+		// }
+	}
 
-    //
-    // function drawPiece(img, x, y, width, height){
-    // 	ctx.beginPath();
-    // 	ctx.drawImage(img, x + 5, y + 5, width - 10, height - 10);
-    // 	ctx.closePath();
-    // }
-    //
-    //
-    //
+	function onMouseDrag(e) {
+    returnclicks('move', e.pageX, e.pageY);
+		// if(dragActive){
+		// 	selectedPiece.xPos = canvasToBoardX(pageToCanvasX(e.pageX));
+		// 	selectedPiece.yPos = canvasToBoardY(pageToCanvasY(e.pageY));
+        //
+		// 	BoardController.prototype.refreshBoard();
+		// }
+	}
+
+	function onMouseUp(e) {
+    returnclicks('up', e.pageX, e.pageY);
+		// if(dragActive){
+		// 	dragActive = false;
+		// 	let xCanvas = pageToCanvasX(e.pageX);
+		// 	let yCanvas = pageToCanvasY(e.pageY);
+		// 	previousSquare = selectedSquare;
+		// 	selectedSquare = BoardController.prototype.getSquareByCanvasXY(xCanvas, yCanvas);
+		// 	previousSquare.tryMovePiece(selectedSquare.acceptPiece(selectedPiece));
+        //
+		// 	BoardController.prototype.unsetHighlights();
+		// 	BoardController.prototype.refreshBoard();
+		// }
+	}
+
     // function pageToCanvasX(x){
     //   let x = x - canvas.offsetLeft + 75 / 2;
     //   return x
     // }
-    //
+
     // function pageToCanvasY(y){
     //   let y = y - canvas.offsetTop + 75 / 2;
     //   return y;
     // }
-    //
+
     // function canvasToBoardX(x){
     //   let x = (x / 75) - 1;
     //   x = x.toFixed(4);
     //   return x
     // }
-    //
+
     // function canvasToBoardY(y){
     //   let y = (y / 75) - 1;
     //   y = y.toFixed(4);

@@ -6,10 +6,12 @@ var BoardController = function() {
         boardView = new BoardView(mouseclick);
         boardModel = new BoardModel();
     }
+
     BoardController.prototype.loadGame = function() {
         initiateBoard();
         boardView.drawBoard(boardModel.getSquares());
     }
+
     var mouseclick = function(handle, x, y){
       x = x - canvas.offsetLeft + 75 / 2;
       y = y - canvas.offsetTop + 75 / 2;
@@ -34,6 +36,7 @@ var BoardController = function() {
         break;
       }
     }
+
     function initiateBoard() {
         for (let y = 0; y < 10; y++) {
             for (let x = 0; x < 10; x++) {
@@ -49,6 +52,7 @@ var BoardController = function() {
             }
         }
     }
+    
     // PieceController.prototype.loadImages = function(){
     // 	var index = 0;
     // 	var pieces = BoardController.prototype.pieces;
