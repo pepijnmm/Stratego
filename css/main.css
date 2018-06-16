@@ -31,20 +31,9 @@
     margin: -10px;
     background-image: url("../images/map.svg");
 }
-#connected{
-	position:absolute;
-	z-index:3;
-	top:0;
-	right:0;
-}
-#connected p{
-	color: green;
-}
 #login, #lobby, #game{
 	z-index:2;
 }
-
-
 /* login */
 #login .popup{
 	border-radius: 20px;
@@ -54,26 +43,23 @@
 }
 .content{
 	display:inline-block;
-	padding: 20px 50px;
-	position: relative;
+    padding: 20px 50px;
 }
-
-
 /* lobby */
 #lobby .popup{
 	border-radius:20px 20px 0 0;
 }
-#lobby #lobbyhall{
+#lobbyhall{
 	height:500px;
 }
-#lobby #lobbylist{
+#lobbylist{
 	float:left;
 	width:500px;
 	border: 1px solid black;
     border-radius: 20px 0 0 0;
     height: 400px;
 }
-#lobby #lobbybuttons{
+#lobbybuttons{
 	float:right;
 	width:200px;
 	height:400px;
@@ -84,74 +70,36 @@
   	align-items: center;
   	justify-content: center;
 }
-#lobby #lobbybuttons button{
+#lobbybuttons button{
 	display:block;
 	width: 150px;
     height: 40px;
     margin-bottom: 10px;
 }
-#lobby #userinfo{
+#userinfo{
 	padding:10px 0;
 	border-bottom:1px solid black;
 }
-#lobby #gamelist{
+#gamelist{
 	height: 329px;
 	overflow-y:scroll;
    	display:block;
    	border-collapse: collapse;
     background: #b9b9b9e3;
 }
-#lobby #gamelist tr:nth-child(even){
-	background-color: #b2b2b2;
+#gamelist tr:nth-child(even){
+	background-color: #dddddd;
 }
-#lobby #gamelist tbody, #gamelist thead, #gamelist tr{
+#gamelist tbody, #gamelist tr, #gamelist td, #gamelist th{
 	width:100%;
 	display: table;
 }
-#lobby #gamelist td, #gamelist th{
-	width:50%;
-}
-#lobby #gamelist td{
-	font-size: 15px;
+#gamelist td{
+	font-size: 25px;
     text-align: center;
     border: 1px solid black;
 }
-#lobby #gamelist tr td{
-	border-left-width: 0;
-	cursor: pointer;
-}
-#lobby #gamelist tr td:nth-child(2){
-	border-right-width: 0;
-}
-#lobby #gamelist th{
+#gamelist th{
 	font-size:20px;
 }
-#lobby #gamelist tr.selected{
-	background: lightblue;
-}
-#lobby .selected td{
-	font-weight: 900;
-}
-#lobby .buttonexitpopup{
-	position:absolute;
-	top:0;
-	right:0;
-}
-#lobby h5{
-	margin:0 0 5px 0;
-}
 /* game */
-#game #lobbybackbutton{
-	position: absolute;
-    left: 20px;
-    top: 20px;
-    border: 2px solid gray;
-    padding: 0 0 0 10px;
-    border-radius: 40px 0 0 40px;
-    background: lightgray;
-	cursor: pointer;
-}
-#game #lobbybackbutton:hover{
-	border: 2px solid #644e4e;
-	background: #9a9a9a;
-}

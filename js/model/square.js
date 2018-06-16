@@ -1,43 +1,45 @@
-var SquareModel = function(_x, _y) {
+var SquareModel = function(x, y, bool) {
 
-    var xPos;
-    var yPos;
-    // var highlighted;
-    // var topSqr;
-    // var bottomSqr;
-    // var leftSqr;
-    // var rightSqr;
+	this.xPos = x;
+	this.yPos = y;
+	this.width = 75;
+	this.height = 75;
+	this.available = bool;
+	this.highlighted = false;
 
-    function constructor(_x, _y) {
-        xPos = _x;
-        yPos = _y;
-        //			highlighted = false;
-    }
-    SquareModel.prototype.getPosition = function() {
-        return [xPos, yPos];
-    }
-    // function tryMovePiece(accepted){
-    // 	if(accepted){
-    // 		this.available = true;
-    // 		this.piece = undefined;
-    // 	}
-    // 	else{
-    // 		this.piece.xPos = this.xPos;
-    // 		this.piece.yPos = this.yPos;
-    // 	}
-    // 	return accepted;
-    // }
+	this.piece;
 
-    // this.acceptPiece = function(piece){
-    // 	if(this.available && this.highlighted){
-    // 		this.available = false;
-    // 		this.piece = piece;
-    // 		piece.xPos = this.xPos;
-    // 		piece.yPos = this.yPos;
-    // 		return true;
-    // 	}
-    // 	return false;
-    // }
+	this.topSqr;
+	this.bottomSqr;
+	this.leftSqr;
+	this.rightSqr;
 
-    constructor(_x, _y);
+	function constructor(){
+
+	}
+
+	this.tryMovePiece = function(accepted){
+		if(accepted){
+			this.available = true;
+			this.piece = undefined;
+		}
+		else{
+			this.piece.xPos = this.xPos;
+			this.piece.yPos = this.yPos;
+		}
+		return accepted;
+	}
+
+	this.acceptPiece = function(piece){
+		if(this.available && this.highlighted){
+			this.available = false;
+			this.piece = piece;
+			piece.xPos = this.xPos;
+			piece.yPos = this.yPos;
+			return true;
+		}
+		return false;
+	}
+
+	constructor();
 };

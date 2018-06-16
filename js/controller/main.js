@@ -1,32 +1,43 @@
 var Main = function() {
-    //variables
-    var lobby;
-    var login;
-    Main.prototype.database;
+	//variables
+  var lobby;
+  var account;
+  var login;
+	Main.prototype.database;
+  var userName;
+  var userId;
 
 
-    function constructor() {
-        login = new LoginView(logindone);
-        Main.prototype.database = new Database();
+    function constructor(){
+      login = new LoginView(login);
+      var gameDELETE = new GameController();
+      var pieceDELETE = new PieceController();
+      var boardDELETE = new BoardController();
+      
+      GameController.prototype.initiateGame();
     }
 
-    var logindone = function(_apiKey) {
-        Main.prototype.database.connect(_apiKey, start);
-    }
+	var login = function(_apiKey){
+     Main.prototype.database = new Database(_apiKey);
+     account = new AccountModel(_apiKey);
+     setTimeout(start(account.login(start)), 0);
+	}
 
-    var start = function(correct) {
-        if (correct && lobby == null) {
-            Main.prototype.database.on("connect", function(name, data) {
-                login.connected();
-            });
-            login.hide();
-            lobby = new LobbyController();
-        } else {
-            login.error();
-        }
+	Main.prototype.main = function() {
+      login.returnfunctionclick(login);
+	}
+
+  var start = function(correct){
+    if(correct){
+      login.hide();
+      lobby = new LobbyController();
     }
-    constructor();
+    else{
+      login.error();
+    }
+  }
+  constructor();
 }
 document.addEventListener("DOMContentLoaded", function() {
-    main = new Main();
+  main = new Main();
 });

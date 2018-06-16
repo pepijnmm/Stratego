@@ -1,14 +1,14 @@
 var PieceController = function() {
-	var pieceModel;
 
 	function constructor(){
-		pieceModel = new PieceModel();
+
 	}
 
 	PieceController.prototype.initiatePieces = function(){
 		var index = 0;
-		for(let team = 0; team<2; )
-		pieces.push(pieceModel(_rank, _team, _visable)
+		var pieces = BoardController.prototype.pieces;
+		var newPiece;
+
 		for(var i = 0; i < 6; i++){
 			//Bom
 			newPiece = new BombModel("../images/blue_B.png");
@@ -62,7 +62,7 @@ var PieceController = function() {
 			newPiece = new MinerModel("../images/blue_8.png");
 			pieces.push(newPiece);
 		}
-
+		
 		for(var i = 0; i < 8; i++){
 			//Verkenner
 			newPiece = new ScoutModel("../images/blue_9.png");

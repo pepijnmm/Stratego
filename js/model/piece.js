@@ -1,51 +1,62 @@
-var PieceModel = function(_rank, _team) {
+var PieceModel = function(_rank, _bool, _imgSrc) {
 
-    var rank;
-    var team;
-    var img;
-    var visable;
-    var square;
+	this.xPos;
+	this.yPos;
+	this.width = 75;
+	this.height = 75;
+	this.rank = _rank;
+	this.available = _bool;
+	this.img;
 
-    function constructor(_rank, _team) {
-        rank = _rank;
-        team = _team;
-        if (team == 0) {
-            img = "red" + "_" + team;
-        } else {
-            img = "blue" + "_" + team;
-        }
-        if (team == 0) {
-            visable = true
-        } else {
-            visable = false;
-        }
-    }
+	var visable = true;
+	var imgSrc = _imgSrc;
 
-    PieceModel.prototype.setSquare = function(_square) {
-        square = _square;
-    }
-    PieceModel.prototype.getImg = function() {
-        if (visable) {
-            return img;
-        } else {
-            return "blue";
-        }
-    }
+	function constructor(){
+	}
 
-    PieceModel.prototype.canMove = function() {
-        switch (rank) {
-            case "B":
-            case "F":
-                return 0;
-                break;
-            case "9":
-                return 2;
-                break;
-            default:
-                return 1;
-                break;
-        }
-    }
+	this.getImgSrc = function(){
+		if(visable){
+			return imgSrc;
+		}
+		return "../images/blue.png";
+	}
 
-    constructor(_rank, _team);
+	constructor();
+};
+
+var BombModel = function(_imgSrc) {
+	PieceModel.call(this, "B", false, _imgSrc);
+};
+var FlagModel = function(_imgSrc) {
+	PieceModel.call(this, "F", false, _imgSrc);
+};
+var SpyModel = function(_imgSrc) {
+	PieceModel.call(this, "S", true, _imgSrc);
+};
+var MarshallModel = function(_imgSrc) {
+	PieceModel.call(this, "1", true, _imgSrc);
+};
+var GeneralModel = function(_imgSrc) {
+	PieceModel.call(this, "2", true, _imgSrc);
+};
+var ColonelModel = function(_imgSrc) {
+	PieceModel.call(this, "3", true, _imgSrc);
+};
+var MajorModel = function(_imgSrc) {
+	PieceModel.call(this, "4", true, _imgSrc);
+};
+var CaptainModel = function(_imgSrc) {
+	PieceModel.call(this, "5", true, _imgSrc);
+};
+var LieutenantModel = function(_imgSrc) {
+	PieceModel.call(this, "6", true, _imgSrc);
+};
+var SergeantModel = function(_imgSrc) {
+	PieceModel.call(this, "7", true, _imgSrc);
+};
+var MinerModel = function(_imgSrc) {
+	PieceModel.call(this, "8", true, _imgSrc);
+};
+var ScoutModel = function(_imgSrc) {
+	PieceModel.call(this, "9", true, _imgSrc);
 };
