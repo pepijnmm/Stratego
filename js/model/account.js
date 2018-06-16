@@ -1,35 +1,22 @@
 var AccountModel = function() {
-  var userId;
-  var userName;
-  var error;
-	function constructor(){
-    userinfo();
-	}
-  AccountModel.prototype.getApiKey = function(){
-    return apiKey;
-  }
-  function userinfo(){
-      let data = main.database.get(false, 'api/users/me');
-      if(data.hasOwnProperty("id")){
-        userId = data.id;
-        userName = data.name;
-        return true;
-      }
-      error = "error";
-      return false;
-  }
-  AccountModel.prototype.login = function(returnfunction){
-    if(userId&&userId.length > 0){
-      returnfunction(true);
-    }
-    else if(error&&error.length > 0){
-      error = "";
-      returnfunction(false);
-    }
-    else{
-      returnfunction(userinfo());
-    }
-  }
+    var userId;
+    var userName;
+    var error;
+    var returnname;
 
-  constructor();
+    function constructor() {}
+    AccountModel.prototype.getApiKey = function() {
+        return apiKey;
+    }
+    var logindata = function(data) {
+        if (data.hasOwnProperty("id")) {
+            returnname(data.name);
+        }
+    }
+    AccountModel.prototype.getusername = function(returnfunction) {
+        returnname = returnfunction;
+        let data = main.database.get(true, 'api/users/me', null, logindata);
+    }
+
+    constructor();
 };

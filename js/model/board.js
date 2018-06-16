@@ -1,48 +1,33 @@
 var BoardModel = function() {
-	var height = 10;
-	var width = 10;
 
-	BoardModel.prototype.firstSqr;
-	var lastSqr;
-	var mainRowSqr;
-	var secondaryRowSqr;
+    var squares;
+    var highlights;
+    var pieces;
 
-	function constructor(){
-	}
+    function constructor() {
+        squares = [];
+        pieces = [];
+    }
+    BoardModel.prototype.getSquares = function() {
+        let returnvalue = [];
+        for (let i = 0; i < squares.length; i++) {
+            returnvalue.push(squares[i].getPosition());
+        }
+        return returnvalue;
+    }
+    BoardModel.prototype.getPieces = function() {
+        let returnvalue = [];
+        for (let i = 0; i < pieces.length; i++) {
+            returnvalue.push(pieces[i].getImg());
+        }
+        return returnvalue;
+    }
+    BoardModel.prototype.addSquare = function(x, y) {
+        squares.push(new SquareModel(x, y));
+    }
+    BoardModel.prototype.addPiece = function(rank, team) {
+        pieces.push(new PieceModel(rank, team));
+    }
 
-	BoardModel.prototype.addSquare = function(square){
-		if(BoardModel.prototype.firstSqr != null){
-			if (square.xPos > 0 && square.xPos < width - 1){
-				lastSqr.rightSqr = square;
-				square.leftSqr = lastSqr;
-			}
-			else if (square.xPos == 0){
-				this.mainRowSqr = square;
-			}
-			else if (square.yPos > 0){
-				lastSqr.rightSqr = square;
-				square.leftSqr = lastSqr;
-				var temp = this.mainRowSqr;
-				for (var i = 0; i < width; i++)
-				{
-					this.secondaryRowSqr.bottomSqr = this.mainRowSqr;
-					this.mainRowSqr.topSqr = this.secondaryRowSqr;
-					this.secondaryRowSqr = this.secondaryRowSqr.rightSqr;
-					this.mainRowSqr = this.mainRowSqr.rightSqr;
-				}
-				this.secondaryRowSqr = temp;
-			}
-			else{
-				lastSqr.rightSqr = square;
-				square.leftSqr = lastSqr;
-			}
-		}
-		else{
-			this.secondaryRowSqr = square;
-			BoardModel.prototype.firstSqr = square;
-		}
-		lastSqr = square;
-	}
-
-	constructor();
+    constructor();
 };
