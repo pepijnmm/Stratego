@@ -9,6 +9,7 @@ var GameView = function() {
 	var dragActive;
 	var dragEnabled;
 
+	var selectedPiece;
 	var nextSqr;
 	var prevSqr;
 
@@ -96,11 +97,11 @@ var GameView = function() {
 			var xCanvas = pageToCanvasX(e.pageX);
 			var yCanvas = pageToCanvasY(e.pageY);
 			nextSqr = BoardController.prototype.getSquareByCanvasXY(xCanvas, yCanvas);
-			var selectedPiece = nextSqr.piece;
+			selectedPiece = nextSqr.piece;
 			if(selectedPiece != undefined && selectedPiece.available){
 			  	dragActive = true;
 
-			  	GameController.prototype.tryMovePiece(selectedPiece);
+			  	// GameController.prototype.tryMovePiece(selectedPiece);
 				BoardController.prototype.setHighlights(nextSqr);
 
 				BoardController.prototype.refreshBoard();
