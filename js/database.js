@@ -94,17 +94,5 @@ var Database = function() {
       functionname(name,data);
     });
   }
-
-  function start(){
-    socket.on('statechange', function(data) {
-        socketfunction('statechange',data);                                        //data moet nog eerst uitgelezen worden en netjes in een array worden gezet
-    });
-    socket.on('move', function(move) {
-        socketfunction('move',data);                                        //data moet nog eerst uitgelezen worden en netjes in een array worden gezet
-    });
-    socket.on('error', function(error) {
-        socketfunction('error',data);                                        //data moet nog eerst uitgelezen worden en netjes in een array worden gezet
-    });
-  }
   constructor();
 }

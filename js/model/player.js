@@ -1,10 +1,10 @@
-var PlayerModel = function(color) {
+var PlayerModel = function(_team) {
 
-	this.color = color;
+    var team;
 
-	function constructor(){
+    function constructor(_team) {
+        team = _team;
+    }
 
-	}
-
-  constructor();
+    constructor(_team);
 };
