@@ -9,9 +9,8 @@ var GameView = function() {
 	var dragActive;
 	var dragEnabled;
 
-	var selectedPiece;
-	var selectedSquare;
-	var previousSquare;
+	var nextSqr;
+	var prevSqr;
 
 	function constructor(){
 		gameboard = document.querySelector(".gameboard");
@@ -96,12 +95,14 @@ var GameView = function() {
 		if(!dragActive){
 			var xCanvas = pageToCanvasX(e.pageX);
 			var yCanvas = pageToCanvasY(e.pageY);
-			selectedSquare = BoardController.prototype.getSquareByCanvasXY(xCanvas, yCanvas);
-			selectedPiece = selectedSquare.piece;
+			nextSqr = BoardController.prototype.getSquareByCanvasXY(xCanvas, yCanvas);
+			var selectedPiece = nextSqr.piece;
 			if(selectedPiece != undefined && selectedPiece.available){
 			  	dragActive = true;
 
-				// BoardController.prototype.setHighlights(selectedSquare);
+			  	GameController.prototype.tryMovePiece(selectedPiece);
+				BoardController.prototype.setHighlights(nextSqr);
+
 				BoardController.prototype.refreshBoard();
 			}
 		}
@@ -121,14 +122,11 @@ var GameView = function() {
 			dragActive = false;
 			var xCanvas = pageToCanvasX(e.pageX);
 			var yCanvas = pageToCanvasY(e.pageY);
-			previousSquare = selectedSquare;
-			selectedSquare = BoardController.prototype.getSquareByCanvasXY(xCanvas, yCanvas);
+			prevSqr = nextSqr;
+			nextSqr = BoardController.prototype.getSquareByCanvasXY(xCanvas, yCanvas);
 
-			GameController.prototype.movePiece(previousSquare, selectedSquare);
+			GameController.prototype.movePiece(prevSqr, nextSqr);
 
-		
-			previousSquare.trySwitchPiece(selectedSquare.acceptSwitch(selectedPiece));
-			//previousSquare.tryMovePiece(selectedSquare.acceptPiece(selectedPiece));
 			BoardController.prototype.unsetHighlights();
 			BoardController.prototype.refreshBoard();
 		}

@@ -34,11 +34,10 @@ var GameController = function() {
 	GameController.prototype.movePiece = function(prevSqr, nextSqr){
 		//check state
 		//waiting_for_pieces
-
+		prevSqr.trySwitchPiece(nextSqr.acceptSwitch(prevSqr.piece));
 		
 		//my_turn
-
-
+		// prevSqr.tryMovePiece(nextSqr.acceptMove(prevSqr.piece));
 	}
 
   	constructor();

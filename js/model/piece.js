@@ -4,15 +4,15 @@ var PieceModel = function(_imgSrc) {
 	this.yPos;
 	this.width = 75;
 	this.height = 75;
-	this.rank;
+	this.rank = (_imgSrc.charAt(_imgSrc.length - 5));
 	this.available = true;
 	this.img;
 
 	var visable = true;
 	var imgSrc = _imgSrc;
+	var rank;
 
 	function constructor(){
-		this.rank = imgSrc.charAt(imgSrc.length - 5);
 	}
 
 	this.getImgSrc = function(){

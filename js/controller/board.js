@@ -38,6 +38,7 @@ var BoardController = function() {
 	}
 
 	BoardController.prototype.setHighlights = function(selectedSqr){
+		console.log(selectedSqr.piece);
 		for (var i = 0; i < 4; i++) {
 			var bool = false;
 			var sqr = selectedSqr;
