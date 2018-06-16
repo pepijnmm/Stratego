@@ -77,19 +77,20 @@ var BoardView = function(_returnclicks) {
 		ctx.fill();
 		ctx.closePath();
 	}
-
-	function drawPieces(pieces){
-		if(selectedPiece != undefined){
-			pieces.push(selectedPiece);
-		}
-		for (let i = 0; i < pieces.length; i++) {
-			height = pieces[i].height;
-			width = pieces[i].width;
-			y = pieces[i].yPos * height;
-			x = pieces[i].xPos * width;
-			img = "../image/"+pieces[i].img+".png";
-			drawPiece(img, x, y, width, height);
-		}
+  //
+	// function drawPieces(pieces){
+	// 	if(selectedPiece != undefined){
+	// 		pieces.push(selectedPiece);
+	// 	}
+	// 	for (let i = 0; i < pieces.length; i++) {
+	// 		height = pieces[i].height;
+	// 		width = pieces[i].width;
+	// 		y = pieces[i].yPos * height;
+	// 		x = pieces[i].xPos * width;
+	// 		img = "../image/"+pieces[i].img+".png";
+	// 		drawPiece(img, x, y, width, height);
+  //   }
+	// 	}
 		function onMouseDown(e) {
       returnclicks('down',e.pageX, e.pageY,[canvas.offsetTop, canvas.offsetLeft]);
 			// if(!dragActive){

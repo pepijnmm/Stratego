@@ -51,7 +51,7 @@ var BoardController = function() {
             }
         }
     }
-    
+
     // PieceController.prototype.loadImages = function(){
     // 	var index = 0;
     // 	var pieces = BoardController.prototype.pieces;
