@@ -9,6 +9,8 @@ function BoardController(_gameId) {
 
     var functionready = function(){
       initiateBoard();
+    }
+    function refreshboard(){
       boardView.drawBoard(boardModel.getSquares());
     }
     var mouseclick = function(handle, x, y,offsets){
@@ -18,25 +20,27 @@ function BoardController(_gameId) {
         case "down":
           if(!boardModel.isSelecting){
               boardModel.setSelectPiece(x,y);
-              boardView.drawBoard(boardModel.getSquares());
+              refreshboard();
           }
         break;
         case "up":
         if(boardModel.isSelecting){
             boardModel.setSelectPiece(x,y);
-            boardView.drawBoard(boardModel.getSquares());
+            refreshboard();
         }
         break;
         case "move":
           x = (x / 75) - 1;
           x = x.toFixed(4);
           boardModel.setSelectPiece(x,y);
-          boardView.drawBoard(boardModel.getSquares());
+          refreshboard();
         break;
       }
     }
 
     function initiateBoard() {
+      let nogvisable = new Image();
+      nogvisable.src = "../images/blue.png";
         for (let y = 0; y < 10; y++) {
             for (let x = 0; x < 10; x++) {
                 boardModel.addSquare(x, y);
@@ -48,25 +52,19 @@ function BoardController(_gameId) {
             ];
             for (; i.length > 0;) {
                 boardModel.addPiece(i.shift(), team);
+                let newImage = new Image();
+                if(i.length == 1){
+                  newImage.onload = function(){
+              				refreshboard();
+              		}
+                }
+                newImage.src = "../images/"+boardModel.getImageLastPiece()+".png";
+                boardModel.setImageLastPiece(newImage);
+
             }
         }
+        boardModel.setPiecesForStart();
     }
-
-    // PieceController.prototype.loadImages = function(){
-    // 	var index = 0;
-    // 	var pieces = this.pieces;
-    // 	for (var i = 0; i <pieces.length; i++) {
-    // 		var newImage = new Image();
-    // 		newImage.onload = function(){
-    // 			index++;
-    // 			if(index == pieces.length) {
-    // 				this.refreshBoard();
-    // 			}
-    // 		}
-    // 		newImage.src = pieces[i].getImgSrc();
-    // 		pieces[i].img = newImage;
-    // 	}
-    // }
 
     // function setHighlights(selectedPiece){
     // 	for (let i = 0; i < 4; i++) {

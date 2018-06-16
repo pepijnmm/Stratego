@@ -33,6 +33,22 @@ function BoardModel(_gameId, _waitOnReadyFunciton){
         }
     }
 
+    this.setPiecesForStart  = function(){
+      let i=0;
+      for (let y = 6; y < 10; y++) {
+          for (let x = 0; x < 10; x++) {
+              this.setPieceOnSquare(x, y, pieces[i])
+          }
+          i++;
+      }
+    }
+    this.getImageLastPiece = function(){
+      return pieces[pieces.length-1].getImg();
+    }
+    this.setImageLastPiece = function(img,notvisable){
+      pieces[pieces.length-1].setImg(img, notvisable);
+    }
+
     this.getSquares = function() {
         let returnvalue = [];
         for (let i = 0; i < squares.length; i++) {
@@ -47,7 +63,6 @@ function BoardModel(_gameId, _waitOnReadyFunciton){
     this.addPiece = function(rank, team) {
         pieces.push(new PieceModel(rank, team));
     }
-
     this.isSelecting = function(){
       if(selecting != null){
         return true;
@@ -76,21 +91,21 @@ function BoardModel(_gameId, _waitOnReadyFunciton){
       selecting = piece;
     }
     //
-    // this.setTempPositionPiece = function(x, y, tempX, tempY) {
-    //     for(let i = 0;i< squares.length;i++){
-    //       if(squares[i].getPosition == [x,y]){
-    //         squares[i].setTempPiece(tempX, tempY);
-    //       }
-    //     }
-    // }
-    // this.setMovingPiece = function(x, y) {
-    //     for(let i = 0;i< squares.length;i++){
-    //       if(squares[i].getPosition == [x,y]){
-    //         squares[i].setPieceTemp(tempX, tempY);
-    //       }
-    //     }
-    //     selecting = null;
-    // }
+    this.setTempPositionPiece = function(x, y, tempX, tempY) {
+        for(let i = 0;i< squares.length;i++){
+          if(squares[i].getPosition == [x,y]){
+            squares[i].setTempPiece(tempX, tempY);
+          }
+        }
+    }
+    this.setPieceOnSquare = function(x, y,piece) {
+        for(let i = 0;i< squares.length;i++){
+          if(squares[i].getPosition()[0] == x && squares[i].getPosition()[1] == y){
+            squares[i].setPiece(piece);
+          }
+        }
+        selecting = null;
+    }
 
     constructor(_gameId, _waitOnReadyFunciton);
 };

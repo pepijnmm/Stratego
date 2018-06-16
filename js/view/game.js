@@ -15,7 +15,7 @@ function GameView() {
 
     this.setReturnButton = function(returnfunction) {
         document.querySelector("#game #lobbybackbutton").addEventListener("click", function() {
-            this.hide();
+            game.classList.add("hide");
             returnfunction();
         });
     };

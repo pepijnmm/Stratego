@@ -6,14 +6,15 @@ function PieceModel(_rank, _team) {
     var visable;
     var xTemp;
     var yTemp;
+    var notVisableimg;
 
     function constructor(_rank, _team) {
         rank = _rank;
         team = _team;
         if (team == 0) {
-            img = "red" + "_" + team;
+            img = "red" + "_" + rank;
         } else {
-            img = "blue" + "_" + team;
+            img = "blue" + "_" + rank;
         }
         if (team == 0) {
             visable = true
@@ -24,11 +25,15 @@ function PieceModel(_rank, _team) {
     this.hasTemp = function() {
       return (xTemp!= null && yTemp != null)
     }
+    this.setImg = function(_img, _notVisableimg){
+        img=_img;
+        notVisableimg=_notVisableimg;
+    }
     this.getImg = function() {
         if (visable) {
             return img;
         } else {
-            return "blue";
+            return notVisableimg;
         }
     }
     SquareModel.prototype.getTemp = function() {

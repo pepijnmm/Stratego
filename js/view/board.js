@@ -21,11 +21,11 @@ function BoardView(_returnclicks) {
         canvas.onmousemove = onMouseDrag;
         canvas.onmouseup = onMouseUp;
         ctx = canvas.getContext("2d");
-        board.appendChild(canvas);
         returnclicks = _returnclicks;
     }
 
     this.drawBoard = function(info) {
+      if(!(board.innerHTML.replace(/\s/g,"").length > 0)){board.appendChild(canvas);}
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         for (let i = 0; i < info.length; i++) {
 	        let height = 75;
@@ -39,7 +39,7 @@ function BoardView(_returnclicks) {
           if(info[i].length > 2){
     				height = 75;
     				width = 75;
-            if(info[i].length == 3){
+            if(info[i].length == 4){
       				y = info[i][3][1] * height;
       				x = info[i][3][1] * width;
             }
@@ -47,7 +47,7 @@ function BoardView(_returnclicks) {
               y = info[i][1] * height;
       				x = info[i][0] * width;
             }
-    				img = "../image/"+info[i][2]+".png";
+    				img = info[i][2];
     				drawPiece(img, x, y, width, height);
           }
         }
