@@ -42,38 +42,38 @@ var BoardController = function() {
     // 	}
     // }
 
-    // function setHighlights(selectedSqr){
-    // 	for (var i = 0; i < 4; i++) {
-    // 		var bool = false;
-    // 		var sqr = selectedSqr;
-    // 		while(!bool){
-    // 			switch(i){
-    // 			 	case 0:
-    // 			 		sqr = sqr.topSqr;
-    // 			 		break;
-    // 			 	case 1:
-    // 			 		sqr = sqr.bottomSqr;
-    // 			 		break;
-    // 			 	case 2:
-    // 			 		sqr = sqr.leftSqr;
-    // 			 		break;
-    // 			 	case 3:
-    // 			 		sqr = sqr.rightSqr;
-    // 			 		break;
-    // 			}
-    // 			if(sqr != undefined && sqr.available){
-    // 				sqr.highlighted = true;
-    // 				this.highlights.push(sqr);
-    // 				if(!(selectedSqr.piece.rank == "9")){
-    // 					bool = true;
-    // 				}
-    // 			}
-    // 			else {
-    // 				bool = true;
-    // 			}
-    // 		}
-    // 	}
-    // }
+    function setHighlights(selectedSqr){
+    	for (let i = 0; i < 4; i++) {
+    		let bool = false;
+    		let sqr = selectedSqr;
+    		while(!bool){
+    			switch(i){
+    			 	case 0:
+    			 		sqr = sqr.topSqr;
+    			 		break;
+    			 	case 1:
+    			 		sqr = sqr.bottomSqr;
+    			 		break;
+    			 	case 2:
+    			 		sqr = sqr.leftSqr;
+    			 		break;
+    			 	case 3:
+    			 		sqr = sqr.rightSqr;
+    			 		break;
+    			}
+    			if(sqr != undefined && sqr.available){
+    				sqr.highlighted = true;
+    				this.highlights.push(sqr);
+    				if(!(selectedSqr.piece.rank == "9")){
+    					bool = true;
+    				}
+    			}
+    			else {
+    				bool = true;
+    			}
+    		}
+    	}
+    }
     //
     // function unsetHighlights(){
     // 	for (var i = 0; i < this.highlights.length; i++) {

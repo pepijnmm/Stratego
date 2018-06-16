@@ -1,7 +1,8 @@
-var BoardView = function() {
+var BoardView = function(_retornclicks) {
     var board;
     var canvas;
     var ctx;
+    var returnclicks;
     // var cWidth;
     // var cHeight;
     // var dragActive;
@@ -10,7 +11,8 @@ var BoardView = function() {
     // var selectedSquare;
     // var previousSquare;
 
-    function constructor() {
+    function constructor(_retornclicks) {
+        returnclicks = _retornclicks;
         board = document.querySelector(".gameboard");
         canvas = document.createElement("canvas");
         canvas.id = "gameCanvas"
@@ -20,10 +22,10 @@ var BoardView = function() {
         canvas.onmousemove = onMouseDrag;
         canvas.onmouseup = onMouseUp;
         ctx = canvas.getContext("2d");
+        board.appendChild(canvas);
     }
 
     BoardView.prototype.drawBoard = function(squares, pieces) {
-        board.appendChild(canvas);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawSquares(squares);
         drawPieces(pieces);
@@ -70,7 +72,9 @@ var BoardView = function() {
 				pieces.pop();
 			}
 		}
+    var BoardView.prototype.squareSelect()
 		function onMouseDown(e) {
+      returnclicks('down',pageToCanvasX(e.pageX), pageToCanvasY(e.pageY));
 			if(!dragActive){
 				let xCanvas = pageToCanvasX(e.pageX);
 				let yCanvas = pageToCanvasY(e.pageY);
@@ -142,5 +146,5 @@ var BoardView = function() {
     	return y;
     }
 
-    constructor();
+    constructor(_retornclicks);
 };
