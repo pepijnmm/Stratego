@@ -3,14 +3,37 @@ var BoardController = function() {
     var boardModel;
 
     function constructor() {
-        boardView = new BoardView();
+        boardView = new BoardView(mouseclick);
         boardModel = new BoardModel();
     }
     BoardController.prototype.loadGame = function() {
         initiateBoard();
-        boardView.drawBoard(boardModel.getSquares(), boardModel.getPieces());
+        boardView.drawBoard(boardModel.getSquares());
     }
-
+    var mouseclick = function(handle, x, y){
+      x = x - canvas.offsetLeft + 75 / 2;
+      y = y - canvas.offsetTop + 75 / 2;
+      switch(handle){
+        case "down":
+          if(!boardModel.isSelecting){
+              boardModel.setSelectPiece(x,y);
+              boardView.drawBoard(boardModel.getSquares());
+          }
+        break;
+        case "up":
+        if(boardModel.isSelecting){
+            boardModel.setSelectPiece(x,y);
+            boardView.drawBoard(boardModel.getSquares());
+        }
+        break;
+        case "move":
+          x = (x / 75) - 1;
+          x = x.toFixed(4);
+          boardModel.setSelectPiece(x,y);
+          boardView.drawBoard(boardModel.getSquares());
+        break;
+      }
+    }
     function initiateBoard() {
         for (let y = 0; y < 10; y++) {
             for (let x = 0; x < 10; x++) {
@@ -42,38 +65,38 @@ var BoardController = function() {
     // 	}
     // }
 
-    function setHighlights(selectedSqr){
-    	for (let i = 0; i < 4; i++) {
-    		let bool = false;
-    		let sqr = selectedSqr;
-    		while(!bool){
-    			switch(i){
-    			 	case 0:
-    			 		sqr = sqr.topSqr;
-    			 		break;
-    			 	case 1:
-    			 		sqr = sqr.bottomSqr;
-    			 		break;
-    			 	case 2:
-    			 		sqr = sqr.leftSqr;
-    			 		break;
-    			 	case 3:
-    			 		sqr = sqr.rightSqr;
-    			 		break;
-    			}
-    			if(sqr != undefined && sqr.available){
-    				sqr.highlighted = true;
-    				this.highlights.push(sqr);
-    				if(!(selectedSqr.piece.rank == "9")){
-    					bool = true;
-    				}
-    			}
-    			else {
-    				bool = true;
-    			}
-    		}
-    	}
-    }
+    // function setHighlights(selectedPiece){
+    // 	for (let i = 0; i < 4; i++) {
+    // 		let bool = false;
+    // 		let sqr;
+    // 		while(!bool){
+    // 			switch(i){
+    // 			 	case 0:
+    // 			 		sqr = selectedPiece.topSqr;
+    // 			 		break;
+    // 			 	case 1:
+    // 			 		sqr = selectedPiece.bottomSqr;
+    // 			 		break;
+    // 			 	case 2:
+    // 			 		sqr = selectedPiece.leftSqr;
+    // 			 		break;
+    // 			 	case 3:
+    // 			 		sqr = selectedPiece.rightSqr;
+    // 			 		break;
+    // 			}
+    // 			if(sqr != undefined && sqr.available){
+    // 				sqr.highlighted = true;
+    // 				this.highlights.push(sqr);
+    // 				if(!(selectedSqr.piece.rank == "9")){
+    // 					bool = true;
+    // 				}
+    // 			}
+    // 			else {
+    // 				bool = true;
+    // 			}
+    // 		}
+    // 	}
+    // }
     //
     // function unsetHighlights(){
     // 	for (var i = 0; i < this.highlights.length; i++) {

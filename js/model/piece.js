@@ -4,7 +4,8 @@ var PieceModel = function(_rank, _team) {
     var team;
     var img;
     var visable;
-    var square;
+    var xTemp;
+    var yTemp;
 
     function constructor(_rank, _team) {
         rank = _rank;
@@ -20,9 +21,8 @@ var PieceModel = function(_rank, _team) {
             visable = false;
         }
     }
-
-    PieceModel.prototype.setSquare = function(_square) {
-        square = _square;
+    PieceModel.prototype.hasTemp = function() {
+      return (xTemp!= null && yTemp != null)
     }
     PieceModel.prototype.getImg = function() {
         if (visable) {
@@ -31,6 +31,21 @@ var PieceModel = function(_rank, _team) {
             return "blue";
         }
     }
+    SquareModel.prototype.getTemp = function() {
+        return [xTemp, yTemp];
+    }
+    SquareModel.prototype.setTemp = function(_xTemp, _yTemp) {
+        xTemp = _xTemp;
+        yTemp = _yTemp;
+    }
+    SquareModel.prototype.move = function() {
+        xPos = xTemp;
+        yPos = yTemp;
+        xTemp = null;
+        yTemp = null;
+    }
+    var xTemp;
+    var yTemp;
 
     PieceModel.prototype.canMove = function() {
         switch (rank) {

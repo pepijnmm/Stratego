@@ -1,4 +1,4 @@
-var BoardView = function(_retornclicks) {
+var BoardView = function(_returnclicks) {
     var board;
     var canvas;
     var ctx;
@@ -11,8 +11,8 @@ var BoardView = function(_retornclicks) {
     // var selectedSquare;
     // var previousSquare;
 
-    function constructor(_retornclicks) {
-        returnclicks = _retornclicks;
+    function constructor(_returnclicks) {
+        returnclicks = _returnclicks;
         board = document.querySelector(".gameboard");
         canvas = document.createElement("canvas");
         canvas.id = "gameCanvas"
@@ -65,51 +65,52 @@ var BoardView = function(_retornclicks) {
 				width = pieces[i].width;
 				y = pieces[i].yPos * height;
 				x = pieces[i].xPos * width;
-				img = pieces[i].img;
+				img = "../image/"+pieces[i].img+".png";
 				drawPiece(img, x, y, width, height);
 			}
 			if(selectedPiece != undefined){
 				pieces.pop();
 			}
 		}
-    var BoardView.prototype.squareSelect()
 		function onMouseDown(e) {
-      returnclicks('down',pageToCanvasX(e.pageX), pageToCanvasY(e.pageY));
-			if(!dragActive){
-				let xCanvas = pageToCanvasX(e.pageX);
-				let yCanvas = pageToCanvasY(e.pageY);
-				selectedSquare = BoardController.prototype.getSquareByCanvasXY(xCanvas, yCanvas);
-				selectedPiece = selectedSquare.piece;
-				if(selectedPiece != undefined && selectedPiece.available){
-				  	dragActive = true;
-
-					BoardController.prototype.setHighlights(selectedSquare);
-					BoardController.prototype.refreshBoard();
-				}
-			}
+      returnclicks('down',e.pageX, e.pageY);
+			// if(!dragActive){
+			// 	let xCanvas = pageToCanvasX(e.pageX);
+			// 	let yCanvas = pageToCanvasY(e.pageY);
+			// 	selectedSquare = BoardController.prototype.getSquareByCanvasXY(xCanvas, yCanvas);
+			// 	selectedPiece = selectedSquare.piece;
+			// 	if(selectedPiece != undefined && selectedPiece.available){
+			// 	  	dragActive = true;
+      //
+			// 		BoardController.prototype.setHighlights(selectedSquare);
+			// 		BoardController.prototype.refreshBoard();
+			// 	}
+			// }
 		}
 
 		function onMouseDrag(e) {
-			if(dragActive){
-				selectedPiece.xPos = canvasToBoardX(pageToCanvasX(e.pageX));
-				selectedPiece.yPos = canvasToBoardY(pageToCanvasY(e.pageY));
-
-				BoardController.prototype.refreshBoard();
-			}
+      returnclicks('move',e.pageX, e.pageY);
+			// if(dragActive){
+			// 	selectedPiece.xPos = canvasToBoardX(pageToCanvasX(e.pageX));
+			// 	selectedPiece.yPos = canvasToBoardY(pageToCanvasY(e.pageY));
+      //
+			// 	BoardController.prototype.refreshBoard();
+			// }
 		}
 
 		function onMouseUp(e) {
-			if(dragActive){
-				dragActive = false;
-				let xCanvas = pageToCanvasX(e.pageX);
-				let yCanvas = pageToCanvasY(e.pageY);
-				previousSquare = selectedSquare;
-				selectedSquare = BoardController.prototype.getSquareByCanvasXY(xCanvas, yCanvas);
-				previousSquare.tryMovePiece(selectedSquare.acceptPiece(selectedPiece));
-
-				BoardController.prototype.unsetHighlights();
-				BoardController.prototype.refreshBoard();
-			}
+      returnclicks('up',e.pageX, e.pageY);
+			// if(dragActive){
+			// 	dragActive = false;
+			// 	let xCanvas = pageToCanvasX(e.pageX);
+			// 	let yCanvas = pageToCanvasY(e.pageY);
+			// 	previousSquare = selectedSquare;
+			// 	selectedSquare = BoardController.prototype.getSquareByCanvasXY(xCanvas, yCanvas);
+			// 	previousSquare.tryMovePiece(selectedSquare.acceptPiece(selectedPiece));
+      //
+			// 	BoardController.prototype.unsetHighlights();
+			// 	BoardController.prototype.refreshBoard();
+			// }
 		}
     //
 
@@ -124,27 +125,27 @@ var BoardView = function(_retornclicks) {
     //
     //
     //
-    function pageToCanvasX(x){
-    	let x = x - canvas.offsetLeft + 75 / 2;
-    	return x
-    }
+    // function pageToCanvasX(x){
+    //   let x = x - canvas.offsetLeft + 75 / 2;
+    //   return x
+    // }
+    //
+    // function pageToCanvasY(y){
+    //   let y = y - canvas.offsetTop + 75 / 2;
+    //   return y;
+    // }
+    //
+    // function canvasToBoardX(x){
+    //   let x = (x / 75) - 1;
+    //   x = x.toFixed(4);
+    //   return x
+    // }
+    //
+    // function canvasToBoardY(y){
+    //   let y = (y / 75) - 1;
+    //   y = y.toFixed(4);
+    //   return y;
+    // }
 
-    function pageToCanvasY(y){
-    	let y = y - canvas.offsetTop + 75 / 2;
-    	return y;
-    }
-
-    function canvasToBoardX(x){
-    	let x = (x / 75) - 1;
-    	x = x.toFixed(4);
-    	return x
-    }
-
-    function canvasToBoardY(y){
-    	let y = (y / 75) - 1;
-    	y = y.toFixed(4);
-    	return y;
-    }
-
-    constructor(_retornclicks);
+    constructor(_returnclicks);
 };
