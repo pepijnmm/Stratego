@@ -18,6 +18,30 @@ var SquareModel = function(x, y, bool) {
 
 	}
 
+	this.trySwitchPiece = function(piece){
+		if(piece){
+			this.piece = piece;
+			piece.xPos = this.xPos;
+			piece.yPos = this.yPos;
+		}
+		else{
+			this.piece.xPos = this.xPos;
+			this.piece.yPos = this.yPos;
+		}
+		return false;
+	}
+
+	this.acceptSwitch = function(piece){
+		if(this.piece != undefined){
+			var returnPiece = this.piece;
+			this.piece = piece;
+			piece.xPos = this.xPos;
+			piece.yPos = this.yPos;
+			return returnPiece;
+		}
+		return false;
+	}
+
 	this.tryMovePiece = function(accepted){
 		if(accepted){
 			this.available = true;
@@ -30,7 +54,7 @@ var SquareModel = function(x, y, bool) {
 		return accepted;
 	}
 
-	this.acceptPiece = function(piece){
+	this.acceptMove = function(piece){
 		if(this.available && this.highlighted){
 			this.available = false;
 			this.piece = piece;

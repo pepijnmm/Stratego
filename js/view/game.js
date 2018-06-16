@@ -101,7 +101,7 @@ var GameView = function() {
 			if(selectedPiece != undefined && selectedPiece.available){
 			  	dragActive = true;
 
-				BoardController.prototype.setHighlights(selectedSquare);
+				// BoardController.prototype.setHighlights(selectedSquare);
 				BoardController.prototype.refreshBoard();
 			}
 		}
@@ -123,8 +123,12 @@ var GameView = function() {
 			var yCanvas = pageToCanvasY(e.pageY);
 			previousSquare = selectedSquare;
 			selectedSquare = BoardController.prototype.getSquareByCanvasXY(xCanvas, yCanvas);
-			previousSquare.tryMovePiece(selectedSquare.acceptPiece(selectedPiece));
 
+			GameController.prototype.movePiece(previousSquare, selectedSquare);
+
+		
+			previousSquare.trySwitchPiece(selectedSquare.acceptSwitch(selectedPiece));
+			//previousSquare.tryMovePiece(selectedSquare.acceptPiece(selectedPiece));
 			BoardController.prototype.unsetHighlights();
 			BoardController.prototype.refreshBoard();
 		}

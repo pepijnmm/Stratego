@@ -1,17 +1,44 @@
 var GameController = function() {
 	var gameView;
-	var players = [];
 
 	function constructor(){
 		gameView = new GameView();
-		players[0] = new PlayerModel("red");
-		players[1] = new PlayerModel("blue");
 	}
 
 	GameController.prototype.initiateGame = function(){
 		BoardController.prototype.initiateSquares();
+
+		//check state
+
+
+		//waiting_for_pieces
+
+
+		//waiting_for_opponent_pieces
+
+
+		//my_turn
+
+
+		//opponent_turn
+
+
 		PieceController.prototype.initiatePieces();
 		PieceController.prototype.loadImages();
+	}
+
+	function waitingForPieces(){
+
+	}
+
+	GameController.prototype.movePiece = function(prevSqr, nextSqr){
+		//check state
+		//waiting_for_pieces
+
+		
+		//my_turn
+
+
 	}
 
   	constructor();
