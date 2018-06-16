@@ -1,4 +1,4 @@
-var PlayerModel = function(_team) {
+function PlayerModel(_team) {
 
     var team;
 

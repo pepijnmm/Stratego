@@ -1,4 +1,4 @@
-var LobbyController = function() {
+function LobbyController() {
     //variables
     var lobbyView;
     var lobbyModel;

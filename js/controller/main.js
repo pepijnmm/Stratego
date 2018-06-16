@@ -1,4 +1,4 @@
-var Main = function() {
+function Main() {
     //variables
     var lobby;
     var login;

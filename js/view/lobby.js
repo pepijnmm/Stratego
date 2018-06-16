@@ -1,4 +1,4 @@
-var LobbyView = function() {
+function LobbyView() {
     var lobby;
     var gamelist;
     var createNewgame;
@@ -46,16 +46,16 @@ var LobbyView = function() {
             exitpopup.click();
         });
     }
-    LobbyView.prototype.setPlayerName = function(returnname) {
+    this.setPlayerName = function(returnname) {
         playername.innerHTML = returnname;
     };
-    LobbyView.prototype.show = function() {
+    this.show = function() {
         lobby.classList.remove("hide");
     };
-    LobbyView.prototype.hide = function() {
+    this.hide = function() {
         lobby.classList.add("hide");
     }
-    LobbyView.prototype.setReturnButtonClick = function(_returnclickfunction) {
+    this.setReturnButtonClick = function(_returnclickfunction) {
         if (returnclickfunction == null) {
             returnclickfunction = _returnclickfunction;
             startGame.addEventListener("click", function() {
@@ -95,7 +95,7 @@ var LobbyView = function() {
     function runalways() {
         exitpopup.click();
     }
-    LobbyView.prototype.setGameList = function(games) {
+    this.setGameList = function(games) {
         //gamelist.innerHTML = "";
         keys = Object.keys(games);
         for (let i = 0; i < gamelist.rows.length; i++) {
@@ -127,7 +127,7 @@ var LobbyView = function() {
             deleteGame.disabled = true;
         }
     };
-    LobbyView.prototype.selectGame = function(game) {
+    this.selectGame = function(game) {
         runalways();
         removeSelectedFromAllGames();
         if (game !== null) {

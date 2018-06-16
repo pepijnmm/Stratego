@@ -1,4 +1,4 @@
-var LobbyModel = function() {
+function LobbyModel() {
     var selected;
     var gamelist;
     var returnGameList;
@@ -6,7 +6,7 @@ var LobbyModel = function() {
     function constructor() {
         gamelist = {};
     }
-    LobbyModel.prototype.setSelect = function(_selected) {
+    this.setSelect = function(_selected) {
         if (gamelist[_selected]) {
             if (gamelist[_selected].state == "Wachten op tegenstander") {
                 return false;
@@ -18,13 +18,13 @@ var LobbyModel = function() {
         if (_selected == null) selected = null;
         return false;
     }
-    LobbyModel.prototype.getSelect = function() {
+    this.getSelect = function() {
         return selected;
     }
     main.database.on('statechange', function(name, data) {
-        LobbyModel.prototype.reloadGameList();
+        this.reloadGameList();
     });
-    LobbyModel.prototype.reloadGameList = function() {
+    this.reloadGameList = function() {
         gamelist = {};
         main.database.get(true, 'api/games', null, loadGameList);
     }
@@ -42,7 +42,7 @@ var LobbyModel = function() {
         }
         returnGameList(gamelist);
     }
-    LobbyModel.prototype.setReturnGameList = function(_returnGameList) {
+    this.setReturnGameList = function(_returnGameList) {
         if (returnGameList == null) returnGameList = _returnGameList;
     }
 

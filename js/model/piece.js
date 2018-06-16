@@ -1,4 +1,4 @@
-var PieceModel = function(_rank, _team) {
+function PieceModel(_rank, _team) {
 
     var rank;
     var team;
@@ -21,10 +21,10 @@ var PieceModel = function(_rank, _team) {
             visable = false;
         }
     }
-    PieceModel.prototype.hasTemp = function() {
+    this.hasTemp = function() {
       return (xTemp!= null && yTemp != null)
     }
-    PieceModel.prototype.getImg = function() {
+    this.getImg = function() {
         if (visable) {
             return img;
         } else {
@@ -47,7 +47,7 @@ var PieceModel = function(_rank, _team) {
     var xTemp;
     var yTemp;
 
-    PieceModel.prototype.canMove = function() {
+    this.canMove = function() {
         switch (rank) {
             case "B":
             case "F":

@@ -1,4 +1,4 @@
-var SquareModel = function(_x, _y) {
+function SquareModel(_x, _y) {
 
     var xPos;
     var yPos;
@@ -14,30 +14,30 @@ var SquareModel = function(_x, _y) {
         yPos = _y;
         //			highlighted = false;
     }
-    SquareModel.prototype.returntoBoard = function(){
+    this.returntoBoard = function(){
       if(piece==null)return [xPos, yPos];
       if(piece.hasTemp()){return [xPos, yPos, piece.getImg(), piece.getTemp()]}
       else{return [xPos, yPos, piece.getImg()]}
     }
-    SquareModel.prototype.getPosition = function() {
+    this.getPosition = function() {
         return [xPos, yPos];
     }
-    SquareModel.prototype.setTempPiece = function(x, y) {
+    this.setTempPiece = function(x, y) {
         if(!piece == null){
           piece.setTemp(x,y);
         }
     }
-    SquareModel.prototype.getTempPosition = function() {
+    this.getTempPosition = function() {
         if(piece!=null){return piece.getTemp();}
         return [null,null]
     }
-    SquareModel.prototype.isEmpty = function() {
+    this.isEmpty = function() {
         return (piece == null);
     }
-    SquareModel.prototype.setPiece = function(_piece) {
+    this.setPiece = function(_piece) {
         piece = _piece;
     }
-    SquareModel.prototype.removePiece = function() {
+    this.removePiece = function() {
         let oldpiece = piece;
         piece = null;
         return oldpiece;

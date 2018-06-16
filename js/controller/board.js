@@ -1,4 +1,4 @@
-var BoardController = function() {
+function BoardController() {
     var boardView;
     var boardModel;
 
@@ -7,7 +7,7 @@ var BoardController = function() {
         boardModel = new BoardModel();
     }
 
-    BoardController.prototype.loadGame = function() {
+    this.loadGame = function() {
         initiateBoard();
         boardView.drawBoard(boardModel.getSquares());
     }
@@ -54,13 +54,13 @@ var BoardController = function() {
 
     // PieceController.prototype.loadImages = function(){
     // 	var index = 0;
-    // 	var pieces = BoardController.prototype.pieces;
+    // 	var pieces = this.pieces;
     // 	for (var i = 0; i <pieces.length; i++) {
     // 		var newImage = new Image();
     // 		newImage.onload = function(){
     // 			index++;
     // 			if(index == pieces.length) {
-    // 				BoardController.prototype.refreshBoard();
+    // 				this.refreshBoard();
     // 			}
     // 		}
     // 		newImage.src = pieces[i].getImgSrc();

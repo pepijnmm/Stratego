@@ -1,4 +1,4 @@
-var GameModel = function() {
+function GameModel() {
     var gameId;
     var state;
     var connected;
@@ -8,22 +8,22 @@ var GameModel = function() {
     function constructor() {
         connected = false;
     }
-    GameModel.prototype.setGame = function(id, ifdone) {
+    this.setGame = function(id, ifdone) {
         if (gameId == null) {
             gameId = id;
             tempreturnfunction = ifdone;
             getGameInfo();
         }
     }
-    GameModel.prototype.delete = function(ifdone) {
+    this.delete = function(ifdone) {
         if (connected == true) {
             main.database.delete(true, 'api/games/' + gameId, null, ifdone);
         }
     }
-    GameModel.prototype.deleteAll = function(ifdone) {
+    this.deleteAll = function(ifdone) {
         main.database.delete(true, 'api/games', null, ifdone);
     }
-    GameModel.prototype.newGame = function(ai, ifdone) {
+    this.newGame = function(ai, ifdone) {
         main.database.post(true, 'api/games', {
             'ai': ai
         }, ifdone);
@@ -32,7 +32,7 @@ var GameModel = function() {
     function getGameInfo() {
         main.database.get(true, 'api/games/' + gameId, null, getinfo);
     }
-    GameModel.prototype.getConnected = function() {
+    this.getConnected = function() {
         return connected;
     }
     var getinfo = function(data) {

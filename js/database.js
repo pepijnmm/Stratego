@@ -1,4 +1,4 @@
-var Database = function() {
+function Database() {
   var webapi;
   var socket;
   var apiKey;
@@ -9,10 +9,10 @@ var Database = function() {
     connected = false;
     webapi="//strategoavans.herokuapp.com/";
   }
-  Database.prototype.connect = function(_apiKey, returnfunction){
+  this.connect = function(_apiKey, returnfunction){
     apiKey = _apiKey;
 	tempreturnfunction = returnfunction;
-    Database.prototype.get(true, 'api/users/me',null,apiKeyCorrect);
+    this.get(true, 'api/users/me',null,apiKeyCorrect);
   }
   function apiKeyCorrect(data){
 	if(data.hasOwnProperty("id")){
@@ -28,25 +28,25 @@ var Database = function() {
 		tempreturnfunction = null;
 	}
   }
-  Database.prototype.getConnected = function(){
+  this.getConnected = function(){
     return connected;
   }
-  Database.prototype.pawnPosition = function(id, positions, async = true){
-    return post(async, 'api/games/'+id+'/start_board',positions);
-  }
-  Database.prototype.getPawnMoves = function(id){
-    return get(async, 'api/games/'+id+'/moves');
-  }
-  Database.prototype.movesPawns = function(id,positionfrom, positionto, async = true){
-    return post(async, 'api/games/'+id+'/moves',{"square":positionfrom,"sqiare_to":positionto});
-  }
-  Database.prototype.get = function(async, url,data = null, returnfunction = null){
+  // this.pawnPosition = function(id, positions, async = true){
+  //   return post(async, 'api/games/'+id+'/start_board',positions);
+  // }
+  // this.getPawnMoves = function(id){
+  //   return get(async, 'api/games/'+id+'/moves');
+  // }
+  // this.movesPawns = function(id,positionfrom, positionto, async = true){
+  //   return post(async, 'api/games/'+id+'/moves',{"square":positionfrom,"sqiare_to":positionto});
+  // }
+  this.get = function(async, url,data = null, returnfunction = null){
 	  return crud("GET", async, url,data, returnfunction)
   }
-  Database.prototype.post = function(async, url,data = null, returnfunction = null){
+  this.post = function(async, url,data = null, returnfunction = null){
 	  return crud("POST", async, url,data, returnfunction)
   }
-  Database.prototype.delete = function(async, url,data = null, returnfunction = null){
+  this.delete = function(async, url,data = null, returnfunction = null){
 	  return crud("DELETE", async, url,data, returnfunction)
   }
   function crud(protocol, async, url,data, returnfunction) {
@@ -89,7 +89,7 @@ var Database = function() {
       return JSON.stringify({"error":"er ging iets fout"})
     }
   }
-  Database.prototype.on = function(name,functionname){
+  this.on = function(name,functionname){
     socket.on(name, function(data) {
       functionname(name,data);
     });

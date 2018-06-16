@@ -1,4 +1,4 @@
-var GameController = function() {
+function GameController() {
     var gameView;
     var gameModel;
     var players;
@@ -11,14 +11,14 @@ var GameController = function() {
         players = [new PlayerModel("red"), new PlayerModel("blue")];
     }
 
-    GameController.prototype.start = function(id, donefunction) {
+    this.start = function(id, donefunction) {
         gameModel = new GameModel();
         gameModel.setGame(id, donefunction);
         gameView.show();
         board.loadGame();
     }
 
-    GameController.prototype.remove = function(id, donefunction) {
+    this.remove = function(id, donefunction) {
         gameModel.setGame(id, (function() {
             gameModel.delete((function(data = null) {
                 donefunction();
@@ -26,17 +26,17 @@ var GameController = function() {
         }));
     }
 
-    GameController.prototype.newGame = function(ai, donefunction) {
+    this.newGame = function(ai, donefunction) {
         gameModel.newGame(ai, (function(data = null) {
             donefunction();
         }));
     }
 
-    GameController.prototype.removeAll = function(donefunction) {
+    this.removeAll = function(donefunction) {
         gameModel.deleteAll(donefunction);
     }
-    
-    GameController.prototype.setReturnbutton = function(returnfunction) {
+
+    this.setReturnbutton = function(returnfunction) {
         gameView.setReturnButton(returnfunction);
     }
 

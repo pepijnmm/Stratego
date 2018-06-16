@@ -1,4 +1,4 @@
-var LoginView = function(_returnfunction) {
+function LoginView(_returnfunction) {
     var input;
     var click;
     var error;
@@ -25,14 +25,14 @@ var LoginView = function(_returnfunction) {
             returnfunctionclick(input.value);
         });
     }
-    LoginView.prototype.hide = function() {
+    this.hide = function() {
         login.classList.add("hide");
         notconnected.classList.remove("hide");
     }
-    LoginView.prototype.error = function() {
+    this.error = function() {
         error.innerHTML = "Er ging iets fout."
     }
-    LoginView.prototype.connected = function() {
+    this.connected = function() {
         connect.classList.remove("hide");
         notconnect.classList.add("hide");
     }

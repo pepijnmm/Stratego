@@ -1,11 +1,11 @@
-var PieceController = function() {
+function PieceController() {
 	var pieceModel;
 
 	function constructor(){
 		pieceModel = new PieceModel();
 	}
 
-	PieceController.prototype.initiatePieces = function(){
+	this.initiatePieces = function(){
 		var index = 0;
 		for(let team = 0; team<2; )
 		pieces.push(pieceModel(_rank, _team, _visable)
@@ -77,7 +77,7 @@ var PieceController = function() {
 		}
 	}
 
-	PieceController.prototype.loadImages = function(){
+	this.loadImages = function(){
 		var index = 0;
 		var pieces = BoardController.prototype.pieces;
 		for (var i = 0; i <pieces.length; i++) {

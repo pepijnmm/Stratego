@@ -1,11 +1,11 @@
-var AccountModel = function() {
+function AccountModel() {
     var userId;
     var userName;
     var error;
     var returnname;
 
     function constructor() {}
-    AccountModel.prototype.getApiKey = function() {
+    this.getApiKey = function() {
         return apiKey;
     }
     var logindata = function(data) {
@@ -13,7 +13,7 @@ var AccountModel = function() {
             returnname(data.name);
         }
     }
-    AccountModel.prototype.getusername = function(returnfunction) {
+    this.getusername = function(returnfunction) {
         returnname = returnfunction;
         let data = main.database.get(true, 'api/users/me', null, logindata);
     }

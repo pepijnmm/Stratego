@@ -1,4 +1,4 @@
-var BoardModel = function() {
+function BoardModel(){
 
     var squares;
     var pieces;
@@ -9,29 +9,31 @@ var BoardModel = function() {
         pieces = [];
     }
 
-    BoardModel.prototype.getSquares = function() {
+    this.getSquares = function() {
         let returnvalue = [];
         for (let i = 0; i < squares.length; i++) {
+            console.log(squares[i].getPosition());
+        }
+        for (let i = 0; i < squares.length; i++) {
             returnvalue.push(squares[i].returntoBoard());
-
         }
         return returnvalue;
     }
 
-    BoardModel.prototype.addSquare = function(x, y) {
+    this.addSquare = function(x, y) {
         squares.push(new SquareModel(x, y));
     }
-    BoardModel.prototype.addPiece = function(rank, team) {
+    this.addPiece = function(rank, team) {
         pieces.push(new PieceModel(rank, team));
     }
 
-    BoardModel.prototype.isSelecting = function(){
+    this.isSelecting = function(){
       if(selecting != null){
         return true;
       }
       return false;
     }
-    BoardModel.prototype.setSelectPiece = function(x,y){
+    this.setSelectPiece = function(x,y){
       let piece = null;
       for(let i = 0;i< squares.length;i++){
         if(squares[i].getTempPosition == [x,y]){
@@ -53,14 +55,14 @@ var BoardModel = function() {
       selecting = piece;
     }
     //
-    // BoardModel.prototype.setTempPositionPiece = function(x, y, tempX, tempY) {
+    // this.setTempPositionPiece = function(x, y, tempX, tempY) {
     //     for(let i = 0;i< squares.length;i++){
     //       if(squares[i].getPosition == [x,y]){
     //         squares[i].setTempPiece(tempX, tempY);
     //       }
     //     }
     // }
-    // BoardModel.prototype.setMovingPiece = function(x, y) {
+    // this.setMovingPiece = function(x, y) {
     //     for(let i = 0;i< squares.length;i++){
     //       if(squares[i].getPosition == [x,y]){
     //         squares[i].setPieceTemp(tempX, tempY);

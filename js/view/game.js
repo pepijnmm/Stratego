@@ -1,21 +1,21 @@
-var GameView = function() {
+function GameView() {
     var game;
 
     function constructor() {
         game = document.querySelector("#game");
     }
 
-    GameView.prototype.show = function() {
+    this.show = function() {
         game.classList.remove("hide");
     };
 
-    GameView.prototype.hide = function() {
+    this.hide = function() {
         game.classList.add("hide");
     }
 
-    GameView.prototype.setReturnButton = function(returnfunction) {
+    this.setReturnButton = function(returnfunction) {
         document.querySelector("#game #lobbybackbutton").addEventListener("click", function() {
-            GameView.prototype.hide();
+            this.hide();
             returnfunction();
         });
     };

@@ -1,4 +1,4 @@
-var BoardView = function(_returnclicks) {
+function BoardView(_returnclicks) {
     var board;
     var canvas;
     var ctx;
@@ -25,7 +25,7 @@ var BoardView = function(_returnclicks) {
         returnclicks = _returnclicks;
     }
 
-    BoardView.prototype.drawBoard = function(info) {
+    this.drawBoard = function(info) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         for (let i = 0; i < info.length; i++) {
 	        let height = 75;
