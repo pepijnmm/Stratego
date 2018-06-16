@@ -10,9 +10,9 @@ var BoardController = function() {
         initiateBoard();
         boardView.drawBoard(boardModel.getSquares());
     }
-    var mouseclick = function(handle, x, y){
-      x = x - canvas.offsetLeft + 75 / 2;
-      y = y - canvas.offsetTop + 75 / 2;
+    var mouseclick = function(handle, x, y,offsets){
+      x = x - offsets[0] + 75 / 2;
+      y = y - offsets[1] + 75 / 2;
       switch(handle){
         case "down":
           if(!boardModel.isSelecting){

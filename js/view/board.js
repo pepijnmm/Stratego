@@ -12,7 +12,6 @@ var BoardView = function(_returnclicks) {
     // var previousSquare;
 
     function constructor(_returnclicks) {
-        returnclicks = _returnclicks;
         board = document.querySelector(".gameboard");
         canvas = document.createElement("canvas");
         canvas.id = "gameCanvas"
@@ -23,25 +22,39 @@ var BoardView = function(_returnclicks) {
         canvas.onmouseup = onMouseUp;
         ctx = canvas.getContext("2d");
         board.appendChild(canvas);
+        returnclicks = _returnclicks;
     }
 
-    BoardView.prototype.drawBoard = function(squares, pieces) {
+    BoardView.prototype.drawBoard = function(info) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        drawSquares(squares);
-        drawPieces(pieces);
-    }
-
-    function drawSquares(squares) {
-        for (let i = 0; i < squares.length; i++) {
+        for (let i = 0; i < info.length; i++) {
 	        let height = 75;
 	        let width = 75;
-	        y = squares[i].yPos * height;
-	        x = squares[i].xPos * width;
+	        y = info[i][1] * height;
+	        x = info[i][0] * width;
 	        drawSquare(x, y, width, height);
-	        if (squares[i].highlighted) {
-	            drawHighlight(x + (width / 2), y + (height / 2));
-	        }
+	        // if (squares[i].highlighted) {
+	        //     drawHighlight(x + (width / 2), y + (height / 2));
+	        // }
+          if(info[i].length > 2){
+    				height = 75;
+    				width = 75;
+            if(info[i].length == 3){
+      				y = info[i][3][1] * height;
+      				x = info[i][3][1] * width;
+            }
+            else{
+              y = info[i][1] * height;
+      				x = info[i][0] * width;
+            }
+    				img = "../image/"+info[i][2]+".png";
+    				drawPiece(img, x, y, width, height);
+          }
         }
+        // drawSquares(squares);
+        // drawPieces(pieces);
+        // for (let i = 0; i < pieces.length; i++) {
+        //   if(pieces[i].length ==3
     }
 		function drawSquare(x, y, width, height){
 			ctx.beginPath();
@@ -56,24 +69,8 @@ var BoardView = function(_returnclicks) {
 			ctx.fill();
 			ctx.closePath();
 		}
-		function drawPieces(pieces){
-			if(selectedPiece != undefined){
-				pieces.push(selectedPiece);
-			}
-			for (let i = 0; i < pieces.length; i++) {
-				height = pieces[i].height;
-				width = pieces[i].width;
-				y = pieces[i].yPos * height;
-				x = pieces[i].xPos * width;
-				img = "../image/"+pieces[i].img+".png";
-				drawPiece(img, x, y, width, height);
-			}
-			if(selectedPiece != undefined){
-				pieces.pop();
-			}
-		}
 		function onMouseDown(e) {
-      returnclicks('down',e.pageX, e.pageY);
+      returnclicks('down',e.pageX, e.pageY,[canvas.offsetTop, canvas.offsetLeft]);
 			// if(!dragActive){
 			// 	let xCanvas = pageToCanvasX(e.pageX);
 			// 	let yCanvas = pageToCanvasY(e.pageY);
@@ -89,7 +86,7 @@ var BoardView = function(_returnclicks) {
 		}
 
 		function onMouseDrag(e) {
-      returnclicks('move',e.pageX, e.pageY);
+      returnclicks('move',e.pageX, e.pageY,[canvas.offsetTop, canvas.offsetLeft]);
 			// if(dragActive){
 			// 	selectedPiece.xPos = canvasToBoardX(pageToCanvasX(e.pageX));
 			// 	selectedPiece.yPos = canvasToBoardY(pageToCanvasY(e.pageY));
@@ -99,7 +96,7 @@ var BoardView = function(_returnclicks) {
 		}
 
 		function onMouseUp(e) {
-      returnclicks('up',e.pageX, e.pageY);
+      returnclicks('up',e.pageX, e.pageY,[canvas.offsetTop, canvas.offsetLeft]);
 			// if(dragActive){
 			// 	dragActive = false;
 			// 	let xCanvas = pageToCanvasX(e.pageX);
