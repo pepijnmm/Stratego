@@ -18,7 +18,9 @@ function SquareModel(_x, _y, _available) {
         //			highlighted = false;
     }
 
-    this.trySwitchPiece = function(_piece){
+    this.trySwitchPiece = function(_piece, start=false){
+      if(start){
+        if(yPos>5){
         if(_piece){
             piece = _piece;
             piece.xTemp = xPos;
@@ -28,6 +30,19 @@ function SquareModel(_x, _y, _available) {
             piece.setTemp(xPos, yPos);
         }
         return false;
+      }
+      }
+      else{
+        if(_piece){
+            piece = _piece;
+            piece.xTemp = xPos;
+            piece.yTemp = yPos;
+        }
+        else{
+            piece.setTemp(xPos, yPos);
+        }
+        return false;
+      }
     }
 
     this.acceptSwitch = function(_piece){

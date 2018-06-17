@@ -161,8 +161,8 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
     "column": x
   },
   "square_to": {
-    "row": newx,
-    "column": newy
+    "row": newy,
+    "column": newx
   }
 }, doneMove);
     }
@@ -396,7 +396,7 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
     }
 
     this.selectPiece = function(x, y){
-      if((movePiecesStart == true&&yourTurn && x>5)||(movePiecesStart == false&&yourTurn)){
+      if((movePiecesStart == true&&yourTurn && y>5)||(movePiecesStart == false&&yourTurn)){
       var piece = null;
         for(let i = 0; i < squares.length; i++){
           if(squares[i].getPosition()[0] == x && squares[i].getPosition()[1] == y){
@@ -428,22 +428,43 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
         for(let i = 0; i < squares.length; i++){
           if(squares[i].getPosition()[0] == x && squares[i].getPosition()[1] == y){
             var newSquare = squares[i];
-            //Setup stage
-            if(movePiecesStart){
-              previousSquare.trySwitchPiece(newSquare.acceptSwitch(selecting));
-            }
-            //Playing stage
-            else{
-              console.log(newSquare.getPosition(), newSquare.getHighlighted());
-              previousSquare.tryMovePiece(newSquare.acceptMove(selecting));
-            }
-            for(let i; i < highlights.length; i++){
-              highlights[i].setHighlighted(false);
+            if(!(newSquare.getPosition()[0]==previousSquare.getPosition()[0]&&newSquare.getPosition()[1]==previousSquare.getPosition()[1])){
+              //Setup stage
+              if(movePiecesStart){
+                if(newSquare.getPosition()[1]>5){
+                let peiceno = null;
+                if(newSquare.getPiece() != null){
+                  peiceno = newSquare.getPiece();
+                }
+                previousSquare.trySwitchPiece(newSquare.acceptSwitch(selecting),movePiecesStart);
+                if(peiceno !=null){
+                  previousSquare.setPiece(peiceno);
+                }
+                else{
+                  previusSquare.setPiece(null);
+                }
+              }
+              }
+              //Playing stage
+              else{
+                let pos = previousSquare.getPosition();
+                let newpos = newSquare.getPosition();
+                setMoves(pos[0], pos[1], newpos[0], newpos[1]);
+                console.log(newSquare.getPosition(), newSquare.getHighlighted());
+                previousSquare.tryMovePiece(newSquare.acceptMove(selecting));
+              }
+              for(let i; i < highlights.length; i++){
+                highlights[i].setHighlighted(false);
+              }
+              highlights = [];
+              selecting = undefined;
+              return true;
+              this.LoadPositions();
             }
             highlights = [];
             selecting = undefined;
             return true;
-          }
+        }
         }
       }
     }

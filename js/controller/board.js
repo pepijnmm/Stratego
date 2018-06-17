@@ -33,6 +33,7 @@ function BoardController(_gameId) {
     var saveBoard = function(){
         boardModel.saveStartBoard();
         boardView.hideSave();
+        boardModel.setMovePiecesStart(true);
     }
     var newStage = function(state, firsttime = false){
       if(boardModel.getDoneLoading()==true){
@@ -52,6 +53,7 @@ function BoardController(_gameId) {
             boardView.hideSave();
           break;
           case 'my_turn':
+            boardModel.LoadPositions();
             if(boardModel.setMovePiecesStart()==true)boardModel.setMovePiecesStart(false);
             if(boardModel.getYourTurn()==false)boardModel.setYourTurn(true);
             if(firsttime){boardModel.LoadPositions();}
@@ -59,8 +61,9 @@ function BoardController(_gameId) {
             boardView.hideSave();
           break;
           case 'opponent_turn':
+              boardModel.LoadPositions();
             if(boardModel.getMovePiecesStart()==true)boardModel.setMovePiecesStart(false);
-            if(boardModel.getYourTurn()==false)boardModel.setYourTurn(true);
+            if(boardModel.getYourTurn()==true)boardModel.setYourTurn(false);
             if(firsttime){boardModel.LoadPositions();}
           break;
           case 'game_over':
@@ -103,35 +106,37 @@ function BoardController(_gameId) {
     }
 
     var mouseclick = function(handle, x, y, offsets){
-      if(boardModel.getDoneLoading()==true){
-        switch(handle){
-          case "down":
-            if(!boardModel.isSelecting()){
-              x = Math.round(((x - offsets[0] + 75 / 2) / 75)- 1);
-              y = Math.round(((y - offsets[1] + 75 / 2) / 75)- 1);
+      if(boardModel.getYourTurn()==true){
+        if(boardModel.getDoneLoading()==true){
+          switch(handle){
+            case "down":
+              if(!boardModel.isSelecting()){
+                x = Math.round(((x - offsets[0] + 75 / 2) / 75)- 1);
+                y = Math.round(((y - offsets[1] + 75 / 2) / 75)- 1);
 
-              if(boardModel.getYourTurn()==true)boardModel.selectPiece(x, y);
-              refreshboard();
-            }
-          break;
-          case "up":
-            if(boardModel.isSelecting()){
-              x = Math.round(((x - offsets[0] + 75 / 2) / 75)- 1);
-              y = Math.round(((y - offsets[1] + 75 / 2) / 75)- 1);
+                if(boardModel.getYourTurn()==true)boardModel.selectPiece(x, y);
+                refreshboard();
+              }
+            break;
+            case "up":
+              if(boardModel.isSelecting()){
+                x = Math.round(((x - offsets[0] + 75 / 2) / 75)- 1);
+                y = Math.round(((y - offsets[1] + 75 / 2) / 75)- 1);
 
-              if(boardModel.getYourTurn()==true)boardModel.dropPiece(x, y);
-              refreshboard();
-            }
-          break;
-          case "move":
-            if(boardModel.isSelecting()){
-              x = Math.round(x - offsets[0] - 75 / 2);
-              y = Math.round(y - offsets[1] - 75 / 2);
+                if(boardModel.getYourTurn()==true)boardModel.dropPiece(x, y);
+                refreshboard();
+              }
+            break;
+            case "move":
+              if(boardModel.isSelecting()){
+                x = Math.round(x - offsets[0] - 75 / 2);
+                y = Math.round(y - offsets[1] - 75 / 2);
 
-              boardModel.dragPiece(x, y);
-              refreshboard();
-            }
-          break;
+                boardModel.dragPiece(x, y);
+                refreshboard();
+              }
+            break;
+          }
         }
       }
     }
