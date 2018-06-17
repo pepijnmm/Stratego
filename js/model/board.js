@@ -172,10 +172,10 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
                 let move = data[x-1];
                 switch(move.type){
                   case "move":
-                    movePiece(move.square.row, move.square.column, move.square_to.row, move.square_to.column);
+                    movePiece(move.square.column, move.square.row, move.square_to.column, move.square_to.row);
                   break;
                   case "attack":
-                    attack(move.square.row, move.square.column, move.square_to.row, move.square_to.column, move.defender_destroyed, move.attacker, move.defender)
+                    attack(move.square.column, move.square.row, move.square_to.column, move.square_to.row, move.defender_destroyed, move.attacker, move.defender)
                   break;
                 }
             }
@@ -296,7 +296,7 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
     }
     this.setSelectedMovedPiece = function(){
       for(let i = 0;i< squares.length;i++){
-        if(squares[i].getPosition()[0] == x && squares[i].getPosition()[1] == y){
+        if(squares[i].getPosition()[0] == selecting.getTemp()[0] && squares[i].getPosition()[1] == selecting.getTemp()[0]){
           selecting.move();
           squares[i].setPiece(selecting);
           selecting = null;
