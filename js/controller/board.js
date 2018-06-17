@@ -49,12 +49,14 @@ function BoardController(_gameId) {
             if(firsttime)boardModel.LoadPositions();
             if(boardModel.getMovePiecesStart()==true)boardModel.setMovePiecesStart(false);
             if(boardModel.getYourTurn()==true)boardModel.setYourTurn(false);
+            boardView.hideSave();
           break;
           case 'my_turn':
             if(boardModel.setMovePiecesStart()==true)boardModel.setMovePiecesStart(false);
             if(boardModel.getYourTurn()==false)boardModel.setYourTurn(true);
             if(firsttime){boardModel.LoadPositions();}
             boardModel.getMoves();
+            boardView.hideSave();
           break;
           case 'opponent_turn':
             if(boardModel.getMovePiecesStart()==true)boardModel.setMovePiecesStart(false);
@@ -96,7 +98,7 @@ function BoardController(_gameId) {
 
     var refreshboard = function(){
       if(boardModel.getDoneLoading()==true){
-        boardView.drawBoard(boardModel.getSquares(), boardModel.getSelectedPiece());
+        boardView.drawBoard(boardModel.getSquares(), boardModel.getSelectedPiece(), boardModel.getHighlights());
       }
     }
 

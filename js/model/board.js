@@ -16,8 +16,10 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
     var yourTurn;
     var wonfunction;
     var lostfunction;
+    var highlights;
 
     function constructor(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfunction) {
+      highlights = [];
       movePiecesStart = false;
       yourTurn = false;
       returnstatus = _returnstatus;
@@ -52,6 +54,9 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
       if(_bool != undefined){
         movePiecesStart = _bool;
       }
+    }
+    this.getHighlights = function(){
+      return highlights;
     }
     this.getWinner = function(_wonfunction, _lostfunction){
       wonfunction = _wonfunction;
@@ -186,38 +191,35 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
       }
     }
     this.setHighlights = function(){
-      let positionPossible = [];
-      let position = selecting.getTemp();
-      let x = position[0];
-      let y = position[1];
+      let possibleXY = [];
+      let x = previousSquare.getPosition()[0];
+      let y = previousSquare.getPosition()[1];
       let allow = selecting.canMove();
       switch(allow){
         case 0:
         break;
         case 1:
-          if(x>0)positionPossible.push(x-1,y);
-          if(x<9)positionPossible.push(x+1,y);
-          if(y>0)positionPossible.push(x,y-1);
-          if(y<9)positionPossible.push(x,y+1);
+          if(x>0)possibleXY.push([x-1,y]);
+          if(x<9)possibleXY.push([x+1,y]);
+          if(y>0)possibleXY.push([x,y-1]);
+          if(y<9)possibleXY.push([x,y+1]);
         break;
         case 2:
+        //dase 2;
         for(let i = 0;i<10;i++){
-          if(i>1 || i<9 || x==i)positionPossible.push(i,y);
-        }
-        for(let i = 0;i<10;i++){
-          if(i>1 || i<9 || y==i)positionPossible.push(x,y);
+          if(i>1 || i<9 || y==i)possibleXY.push([x,i]);
         }
         break;
       }
       for(let i = 0;i< squares.length;i++){
         let pos = squares[i].getPosition();
-        for(let k = 0;k< positionPossible.length;k++){
           squares[i].setHighlighted(false);
-          if(pos.sort().join(',') === positionPossible[k]){
-            if(!squares[i].isEmpty() || !squares[i].getAvailable()){
-              positionPossible.splice(k, 1);
+        for(let k = 0;k< possibleXY.length;k++){
+          if(pos[0] == possibleXY[k][0] && pos[1] == possibleXY[k][1] ){
+            if(squares[i].isEmpty() && squares[i].getAvailable()){
+              highlights.push(squares[i]);
+              squares[i].setHighlighted(true);
             }
-            else{squares[i].setHighlighted(true);}
           }
         }
       }

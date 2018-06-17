@@ -55,33 +55,40 @@ function BoardView(_returnclicks, _returnSaveButton) {
     this.setgamestatustext = function(text){
       gamestatus.innerHTML = text;
     }
-    this.drawBoard = function(squares, piece) {
+    this.drawBoard = function(squares, piece, highlights) {
       //[Square x, Square y, available, highlight, img]
       if(!(board.innerHTML.replace(/\s/g,"").length > 0)){board.appendChild(canvas);}
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         for (let i = 0; i < squares.length; i++) {
-	        if(squares[i][2]==true){
+            if(squares[i][2]==true){
             let height = 75;
-  	        let width = 75;
-  	        y = squares[i][1] * height;
-  	        x = squares[i][0] * width;
-  	        drawSquare(x, y, width, height);
-  	        // if (squares[i].highlighted) {
-  	        //     drawHighlight(x + (width / 2), y + (height / 2));
-  	        // }
+              let width = 75;
+              y = squares[i][1] * height;
+              x = squares[i][0] * width;
+              drawSquare(x, y, width, height);
+              // if (squares[i].highlighted) {
+              //     drawHighlight(x + (width / 2), y + (height / 2));
+              // }
             if(squares[i].length > 4){
               if(squares[i].length == 6){
-        				y = squares[i][5][1] * height;
-        				x = squares[i][5][1] * width;
+                        y = squares[i][5][1] * height;
+                        x = squares[i][5][1] * width;
               }
               else{
                 y = squares[i][1] * height;
-        				x = squares[i][0] * width;
+                        x = squares[i][0] * width;
               }
-      				img = squares[i][4];
-              if(squares[i][3]){drawHighlight(x, y);}
-      				drawPiece(img, x, y, width, height);
+                      img = squares[i][4];
+                      drawPiece(img, x, y, width, height);
             }
+          }
+        }
+        if(highlights != undefined){
+          for(let i = 0; i < highlights.length; i++){
+            console.log(highlights[i].getPosition());
+            let x = highlights[i].getPosition()[0];
+            let y = highlights[i].getPosition()[1];
+            drawHighlight((x + 1) * 75 - 75 / 2, (y + 1) * 75 - 75 / 2);
           }
         }
         if(piece != undefined){
