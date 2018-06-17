@@ -4,7 +4,7 @@ function SquareModel(_x, _y, _available) {
     var yPos;
     var piece;
     var available;
-    // var highlighted;
+    var highlighted;
     // var topSqr;
     // var bottomSqr;
     // var leftSqr;
@@ -13,12 +13,19 @@ function SquareModel(_x, _y, _available) {
     function constructor(_x, _y, _available) {
         xPos = _x;
         yPos = _y;
+        highlighted = false;
         available = _available;
         //			highlighted = false;
     }
     this.returntoBoard = function(){
-      if(piece==null)return [xPos, yPos, available];
-      else{return [xPos, yPos, available, piece.getImg()]}
+      if(piece==null)return [xPos, yPos, available, highlighted];
+      else{return [xPos, yPos, available, highlighted, piece.getImg()]}
+    }
+    this.getHighlighted = function() {
+        return highlighted;
+    }
+    this.setHighlighted = function(_highlighted) {
+        highlighted = _highlighted;
     }
     this.getPosition = function() {
         return [xPos, yPos];
@@ -35,7 +42,7 @@ function SquareModel(_x, _y, _available) {
         if(piece!=null){return piece.getTemp();}
         return [null,null]
     }
-    this.available = function() {
+    this.getAvailable = function() {
         return available;
     }
     this.isEmpty = function() {

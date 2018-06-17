@@ -37,15 +37,23 @@ function BoardController(_gameId) {
           case 'waiting_for_pieces':
             initiateBoard();
             boardModel.setPiecesForStart();
+            if(boardModel.getMovePiecesStart()==false)boardModel.setMovePiecesStart(true);
+            if(boardModel.getYourTurn()==false)boardModel.setYourTurn(true);
           break;
           case 'waiting_for_opponent_pieces':
             if(firsttime)boardModel.LoadPositions();
+            if(boardModel.getMovePiecesStart()==true)boardModel.setMovePiecesStart(false);
+            if(boardModel.getYourTurn()==true)boardModel.setYourTurn(false);
           break;
           case 'my_turn':
+          if(boardModel.getMovePiecesStart()==true)boardModel.setMovePiecesStart(false);
+          if(boardModel.getYourTurn()==false)boardModel.setYourTurn(true);
             if(firsttime){boardModel.LoadPositions();}
             boardModel.getMoves();
           break;
           case 'opponent_turn':
+          if(boardModel.getMovePiecesStart()==true)boardModel.setMovePiecesStart(false);
+          if(boardModel.getYourTurn()==false)boardModel.setYourTurn(true);
           if(firsttime){boardModel.LoadPositions();}
           break;
         }
@@ -80,6 +88,9 @@ function BoardController(_gameId) {
 
     var refreshboard = function(){
       if(boardModel.getDoneLoading()==true){
+        if(boardModel.isSelecting()){
+          boardModel.setHighlights();
+        }
         boardView.drawBoard(boardModel.getSquares());
       }
     }
@@ -92,21 +103,23 @@ function BoardController(_gameId) {
         y = y - offsets[1] + 75 / 2;
         switch(handle){
           case "down":
-            if(!boardModel.isSelecting){
+            if(!boardModel.isSelecting()){
+              if(boardModel.getMovePiecesStart()){
                 let mypiece = boardModel.setSelectPiece(x,y);
                 if(mypiece){
-                  drawHillights();
-                refreshboard();
+                  boardModel.setHighlights();
+                  refreshboard();
                 }
+              }
             }
           break;
           case "up":
-          if(boardModel.isSelecting){
+          if(boardModel.isSelecting()){
               let mypiece = boardModel.setSelectPiece(x,y);
-              if(mypiece){boardModel.setMovedPiece();
+              if(mypiece){boardModel.setSelectedMovedPiece();}
+              else{boardModel.deSelectedPiece();}
               refreshboard();
             }
-          }
           break;
           case "move":
             // x = (x / 75) - 1;
@@ -116,10 +129,6 @@ function BoardController(_gameId) {
           break;
         }
       }
-    }
-
-    function drawHillights(){
-
     }
 
     function initiateBoard() {

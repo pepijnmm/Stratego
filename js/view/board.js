@@ -42,18 +42,19 @@ function BoardView(_returnclicks) {
   	        // if (squares[i].highlighted) {
   	        //     drawHighlight(x + (width / 2), y + (height / 2));
   	        // }
-            if(info[i].length > 3){
+            if(info[i].length > 4){
       				height = 75;
       				width = 75;
-              if(info[i].length == 5){
-        				y = info[i][4][1] * height;
-        				x = info[i][4][1] * width;
+              if(info[i].length == 6){
+        				y = info[i][5][1] * height;
+        				x = info[i][5][1] * width;
               }
               else{
                 y = info[i][1] * height;
         				x = info[i][0] * width;
               }
-      				img = info[i][3];
+      				img = info[i][4];
+              if(info[i][3]){drawHighlight(x, y);}
       				drawPiece(img, x, y, width, height);
             }
           }

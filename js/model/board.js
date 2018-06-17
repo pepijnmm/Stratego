@@ -12,24 +12,41 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
     var refreshfunction;
     var controllerDoneLoading;
     var moves;
+    var movePiecesStart;
+    var yourTurn;
 
     function constructor(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfunction) {
+      MovePiecesStart = false;
+      yourTurn = false;
       returnstatus = _returnstatus;
-        squares = [];
-        pieces = [];
-        gameId = _gameId;
-        tempreturnfunction = _waitOnReadyFunction;
-        refreshfunction = _refreshfunction;
-        getGameInfo();
-        main.database.on('statechange', function(name, data) {
-          if(data.state)returnstatus(data.state);
-        });
-        main.database.on('move', function(name, data) {
-          console.log('Move:', data);
-          if(data.game_id==gameId){
-            getMovesQuery([data.move],true);
-          }
-        });
+      squares = [];
+      pieces = [];
+      gameId = _gameId;
+      tempreturnfunction = _waitOnReadyFunction;
+      refreshfunction = _refreshfunction;
+      getGameInfo();
+      main.database.on('statechange', function(name, data) {
+        if(data.state)returnstatus(data.state);
+      });
+      main.database.on('move', function(name, data) {
+        console.log('Move:', data);
+        if(data.game_id==gameId){
+          getMovesQuery([data.move],true);
+        }
+      });
+    }
+    this.getYourTurn = function(){
+      return yourTurn;
+    }
+    this.setYourTurn = function(turn){
+      yourTurn = turn;
+    }
+    this.getMovePiecesStart = function(){
+      return movePiecesStart;
+    }
+    this.setMovePiecesStart = function(_movePiecesStart){
+      if(movePiecesStart==false)movePiecesStart=_movePiecesStart;
+      else if(movePiecesStart==true)movePiecesStart=_movePiecesStart;
     }
     this.getDoneLoading = function(){
       return controllerDoneLoading;
@@ -97,8 +114,13 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
     var getMoves = function() {
         main.database.get(true, 'api/games/' + gameId+"/moves", null, getMovesQuery);
     }
+    this.removeHighlights = function(){
+      for(let i = 0;i< squares.length;i++){
+        square[i].setHighlighted(false);
+      }
+    }
     this.setHighlights = function(){
-      let positionsPossble = [];
+      let positionPossible = [];
       let position = selecting.getTemp();
       let x = position[0];
       let y = position[1];
@@ -107,31 +129,32 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
         case 0:
         break;
         case 1:
-          if(x>0)positionsPossble.push(x-1,y);
-          if(x<9)positionsPossble.push(x+1,y);
-          if(y>0)positionsPossble.push(x,y-1);
-          if(y<9)positionsPossble.push(x,y+1);
+          if(x>0)positionPossible.push(x-1,y);
+          if(x<9)positionPossible.push(x+1,y);
+          if(y>0)positionPossible.push(x,y-1);
+          if(y<9)positionPossible.push(x,y+1);
         break;
         case 2:
         for(let i = 0;i<10;i++){
-          if(i>1 || i<9 || x==i)positionsPossble.push(i,y);
+          if(i>1 || i<9 || x==i)positionPossible.push(i,y);
         }
         for(let i = 0;i<10;i++){
-          if(i>1 || i<9 || y==i)positionsPossble.push(x,y);
+          if(i>1 || i<9 || y==i)positionPossible.push(x,y);
         }
         break;
       }
       for(let i = 0;i< squares.length;i++){
         let pos = squares[i].getPosition();
-        for(let k = 0;k< positionsPossble.length;k++){
-          if(pos.sort().join(',')=== positionsPossble[k].sort().join(',')){
-            if(!squares[i].isEmpty){
-              positionsPossble.splice(k, 1);
+        for(let k = 0;k< positionPossible.length;k++){
+          square[i].setHighlighted(false);
+          if(pos.sort().join(',')=== positionPossible[k].sort().join(',')){
+            if(!squares[i].isEmpty() || !squares[i].getAvailable()){
+              positionPossible.splice(k, 1);
             }
+            else{square[i].setHighlighted(true);}
           }
         }
       }
-      return positionsPossble;
     }
     var getMovesQuery = function(data, socketdata = false) {
         if (Object.keys(data).length > 0) {
@@ -145,8 +168,8 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
             }
           }
           else{
-            for (let x = data.length - moves.length; x > 0; x--) {
-                let move = data[data.length - x-1];
+            for (let x = moves.length - (moves.length - data.length); x <= moves.length; x++) {
+                let move = data[x-1];
                 switch(move.type){
                   case "move":
                     movePiece(move.square.row, move.square.column, move.square_to.row, move.square_to.column);
@@ -162,7 +185,8 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
         }
     }
     function movePiece(x,y, newx, newy){
-      if(selecting != null){console.log(previusSquare);squares[previusSquare].setPiece(selecting); selecting = null; previusSquare=null;}
+      console.log(x+" "+y+" "+newx+" "+newy)
+      deSelectedPiece();
         let piece = null;
         for(let i = 0;i< squares.length;i++){
           if(squares[i].getPosition()[0] == x && squares[i].getPosition()[1] == y){
@@ -175,8 +199,18 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
           }
         }
     }
+    var deSelectedPiece = function(){
+      if(selecting != null){
+        squares[previusSquare].setPiece(selecting);
+        selecting = null;
+        previusSquare=null;
+      }
+    }
+    this.deSelectedPiece = function(){
+      deSelectedPiece();
+    }
     function attack(x,y, newx, newy, won, attack, defender){
-      if(selecting != null){squares[previusSquare].setPiece(selecting); selecting = null; previusSquare=null;}
+      deSelectedPiece();
       let piece = null;
       let oldposition;
       for(let i = 0;i< squares.length;i++){
@@ -230,29 +264,33 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
       return false;
     }
     this.setSelectPiece = function(x,y, move=false){
-      if(selecting == null && move ==false){
-        let piece = null;
-          for(let i = 0;i< squares.length;i++){
-            if(squares[i].getPosition()[0] == x && squares[i].getPosition()[1] == y){
-              previusSquare = i;
-              piece = squares[i].removePiece();
-              if(piece.getRank() == 1){
-                previusSquare=null;
-                squares[i].setPiece(piece);
-                piece = null;
+      if((movePiecesStart == true&&yourTurn && x>5)||(movePiecesStart == false&&yourTurn)){
+        if(selecting == null && move ==false){
+          let piece = null;
+            for(let i = 0;i< squares.length;i++){
+              if(squares[i].getPosition()[0] == x && squares[i].getPosition()[1] == y){
+
+                previusSquare = i;
+                piece = squares[i].removePiece();
+                if(piece.getRank() == 1){
+                  previusSquare=null;
+                  squares[i].setPiece(piece);
+                  piece = null;
+                }
               }
             }
-          }
-          if(move==true&&piece !=null){
-            selecting = piece;
-            return true;
-          }
-          else{return false;}
+            if(move==true&&piece !=null){
+              selecting = piece;
+              return true;
+            }
+            else{return false;}
 
-      }
-      else if(selecting !=null){
-        selecting.setTemp(x,y);
-        return true;
+        }
+        else if(selecting !=null){
+          selecting.setTemp(x,y);
+          return true;
+        }
+        else{return false;}
       }
       else{return false;}
     }
@@ -262,6 +300,7 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
           selecting.move();
           squares[i].setPiece(selecting);
           selecting = null;
+          this.removeHighlights();
         }
       }
     }
