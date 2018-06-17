@@ -4,6 +4,8 @@ function BoardView(_returnclicks) {
     var ctx;
     var returnclicks;
     var gamestatus;
+    var gamewon;
+    var gamelost;
     // var cWidth;
     // var cHeight;
     var dragActive;
@@ -17,6 +19,8 @@ function BoardView(_returnclicks) {
         gamestatus = document.querySelector(".gamestatus");
         board.innerHTML = "";
         canvas = document.createElement("canvas");
+        gamewon = document.querySelector("#popupGameWon");
+        gamelost = document.querySelector("#popupGameLost");
         canvas.id = "gameCanvas"
         canvas.width = 750;
         canvas.height = 750;
@@ -25,7 +29,17 @@ function BoardView(_returnclicks) {
         canvas.onmouseup = onMouseUp;
         ctx = canvas.getContext("2d");
         returnclicks = _returnclicks;
+        gamewon.classList.add("hide");
+        gamelost.classList.add("hide");
     }
+
+    this.youwon = function() {
+        gamewon.classList.remove("hide");
+    };
+    this.youlost = function() {
+        gamelost.classList.remove("hide");
+    };
+
     this.setgamestatustext = function(text){
       gamestatus.innerHTML = text;
     }

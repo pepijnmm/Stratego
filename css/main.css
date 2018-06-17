@@ -149,7 +149,8 @@
     padding: 0 0 0 10px;
     border-radius: 40px 0 0 40px;
     background: lightgray;
-	cursor: pointer;
+		cursor: pointer;
+     z-index: 3;
 }
 #game #lobbybackbutton:hover{
 	border: 2px solid #644e4e;

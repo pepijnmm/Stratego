@@ -31,18 +31,16 @@ function LobbyModel() {
     var loadGameList = function(data) {
         if (data.length > 0) {
             for (let i = 0; i < data.length; i++) {
-                if (data[i].state !== "game_over") {
                     gamelist[data[i].id] = {
                         'id': data[i].id,
                         'opponent': nameConvert(data[i].opponent),
                         'state': stateConvert(data[i].state)
                     };
-                }
             }
         }
         returnGameList(gamelist);
     }
-    
+
     main.database.on('statechange', function(name, data) {
         reloadGameList();
     });
