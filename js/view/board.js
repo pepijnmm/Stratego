@@ -6,7 +6,7 @@ function BoardView(_returnclicks) {
     var gamestatus;
     // var cWidth;
     // var cHeight;
-    // var dragActive;
+    var dragActive;
     // var dragEnabled;
     // var selectedPiece;
     // var selectedSquare;
@@ -100,8 +100,8 @@ function BoardView(_returnclicks) {
   //   }
 	// 	}
 		function onMouseDown(e) {
-      returnclicks('down',e.pageX, e.pageY,[canvas.offsetTop, canvas.offsetLeft]);
 			// if(!dragActive){
+        returnclicks('down', e.pageX, e.pageY, [canvas.offsetLeft, canvas.offsetTop]);
 			// 	let xCanvas = pageToCanvasX(e.pageX);
 			// 	let yCanvas = pageToCanvasY(e.pageY);
 			// 	selectedSquare = BoardController.prototype.getSquareByCanvasXY(xCanvas, yCanvas);
@@ -116,8 +116,8 @@ function BoardView(_returnclicks) {
 		}
 
 		function onMouseDrag(e) {
-      returnclicks('move',e.pageX, e.pageY,[canvas.offsetTop, canvas.offsetLeft]);
 			// if(dragActive){
+        returnclicks('move', e.pageX, e.pageY, [canvas.offsetLeft, canvas.offsetTop]);
 			// 	selectedPiece.xPos = canvasToBoardX(pageToCanvasX(e.pageX));
 			// 	selectedPiece.yPos = canvasToBoardY(pageToCanvasY(e.pageY));
       //
@@ -126,9 +126,9 @@ function BoardView(_returnclicks) {
 		}
 
 		function onMouseUp(e) {
-      returnclicks('up',e.pageX, e.pageY,[canvas.offsetTop, canvas.offsetLeft]);
 			// if(dragActive){
 			// 	dragActive = false;
+        returnclicks('up', e.pageX, e.pageY, [canvas.offsetLeft, canvas.offsetTop]);
 			// 	let xCanvas = pageToCanvasX(e.pageX);
 			// 	let yCanvas = pageToCanvasY(e.pageY);
 			// 	previousSquare = selectedSquare;
