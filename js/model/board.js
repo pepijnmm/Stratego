@@ -14,6 +14,8 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
     var moves;
     var movePiecesStart;
     var yourTurn;
+    var wonfunction;
+    var lostfunction;
 
     function constructor(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfunction) {
       movePiecesStart = false;
@@ -50,6 +52,22 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
       if(_bool != undefined){
         movePiecesStart = _bool;
       }
+    }
+    this.getWinner = function(_wonfunction, _lostfunction){
+      wonfunction = _wonfunction;
+      lostfunction = _lostfunction;
+      main.database.get(true, 'api/games/' + gameId, null, loadWinner);
+    }
+    var loadWinner = function(data){
+        if (Object.keys(data).length > 0) {
+            if (data.id) {
+                opponent = data.opponent;
+                if(data.winner==opponent){
+                  lostfunction();
+                }
+                else{wonfunction();}
+            }
+        }
     }
     this.getDoneLoading = function(){
       return controllerDoneLoading;
@@ -213,7 +231,7 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
     this.deSelectedPiece = function(){
       deSelectedPiece();
     }
-    
+
     function attack(x,y, newx, newy, won, attack, defender){
       deSelectedPiece();
       let piece = null;

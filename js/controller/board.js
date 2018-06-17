@@ -56,6 +56,9 @@ function BoardController(_gameId) {
             if(boardModel.getYourTurn()==false)boardModel.setYourTurn(true);
             if(firsttime){boardModel.LoadPositions();}
           break;
+          case 'game_over':
+            boardModel.getWinner(boardView.youwon, boardView.youlost);
+          break;
         }
       }
       boardView.setgamestatustext(stateConvert(state));
@@ -100,7 +103,7 @@ function BoardController(_gameId) {
               x = Math.round(((x - offsets[0] + 75 / 2) / 75)- 1);
               y = Math.round(((y - offsets[1] + 75 / 2) / 75)- 1);
 
-              boardModel.selectPiece(x, y);
+              if(boardModel.getYourTurn()==true)boardModel.selectPiece(x, y);
               refreshboard();
             }
           break;
@@ -109,7 +112,7 @@ function BoardController(_gameId) {
               x = Math.round(((x - offsets[0] + 75 / 2) / 75)- 1);
               y = Math.round(((y - offsets[1] + 75 / 2) / 75)- 1);
 
-              boardModel.dropPiece(x, y);
+              if(boardModel.getYourTurn()==true)boardModel.dropPiece(x, y);
               refreshboard();
             }
           break;
