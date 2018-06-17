@@ -18,50 +18,44 @@ function SquareModel(_x, _y, _available) {
         //			highlighted = false;
     }
 
-    this.trySwitchPiece = function(piece){
-        if(piece){
-            piece = piece;
+    this.trySwitchPiece = function(_piece){
+        if(_piece){
+            piece = _piece;
             piece.xTemp = xPos;
             piece.yTemp = yPos;
         }
         else{
-            piece.xTemp = xPos;
-            piece.yTemp = yPos;
+            piece.setTemp(xPos, yPos);
         }
         return false;
     }
 
-    this.acceptSwitch = function(piece){
-        if(piece != undefined){
-            var returnPiece = piece;
-            piece = piece;
-            piece.xTemp = xPos;
-            piece.yTemp = yPos;
+    this.acceptSwitch = function(_piece){
+        if(_piece != undefined){
+            var returnPiece = _piece;
+            piece = _piece;
+            piece.setTemp(xPos, yPos);
             return returnPiece;
         }
         return false;
     }
 
-    this.tryMovePiece = function(accepted){
-        if(accepted){
-            available = true;
+    this.tryMovePiece = function(_accepted){
+        if(_accepted){
             piece = undefined;
         }
         else{
-            piece.xTemp = xPos;
-            piece.yTemp = yPos;
+            piece.setTemp(xPos, yPos);
         }
-        return accepted;
+        return _accepted;
     }
 
-    this.acceptMove = function(piece){
-        // if(available && highlighted){
-            // available = false;
-            piece = piece;
-            piece.xTemp = xPos;
-            piece.yTemp = yPos;
+    this.acceptMove = function(_piece){
+        if(highlighted){
+            piece = _piece;
+            piece.setTemp(xPos, yPos);
             return true;
-        // }
+        }
         return false;
     }
 

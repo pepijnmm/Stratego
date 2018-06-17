@@ -159,6 +159,7 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
         }
       }
     }
+
     var getMovesQuery = function(data, socketdata = false) {
         if (Object.keys(data).length > 0) {
           if(socketdata==true){data = moves.concat(data);}
@@ -282,9 +283,7 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
     }
 
     this.getSelectedPiece = function(){
-      if(selecting != null){
-        return selecting;
-      }
+      return selecting;
     }
 
     this.setSelectPiece = function(x, y, move=false){
@@ -336,9 +335,11 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
           if(squares[i].getPosition()[0] == x && squares[i].getPosition()[1] == y){
             previousSquare = squares[i];
             piece = squares[i].getPiece();
-            previousSquare.removePiece();
             if(piece != undefined){
               selecting = piece;
+              if(!movePiecesStart){
+                this.setHighlights();
+              }
               return true;
             }
             else{
@@ -360,20 +361,16 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
         for(let i = 0; i < squares.length; i++){
           if(squares[i].getPosition()[0] == x && squares[i].getPosition()[1] == y){
             var newSquare = squares[i];
-            piece = squares[i].getPiece();
-            if(piece != undefined){
-              return false;
-            }
-            else{
               //Setup stage
-              // if(getMovePiecesStart()){
-              //   previousSquare.trySwitchPiece(newSquare.acceptSwitch(selecting));
-              // }
+              if(movePiecesStart){
+                 previousSquare.trySwitchPiece(newSquare.acceptSwitch(selecting));
+              }
               //Playing stage
-              // else{
+              else{
                 previousSquare.tryMovePiece(newSquare.acceptMove(selecting));
-              // }
-            }
+              }
+              selecting = undefined;
+              return true;
           }
         }
       }

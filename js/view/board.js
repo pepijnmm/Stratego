@@ -59,7 +59,11 @@ function BoardView(_returnclicks) {
           }
         }
         if(piece != undefined){
-          drawPiece(piece.getImg(), piece.getTemp()[0][0], piece.getTemp()[0][1], 75, 75);
+          if(piece.getTemp()[0] != undefined){
+            var x = piece.getTemp()[0][0];
+            var y = piece.getTemp()[0][1];
+          }
+          drawPiece(piece.getImg(), x, y, 75, 75);
         }
         // drawSquares(squares);
         // drawPieces(pieces);
