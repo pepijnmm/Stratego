@@ -281,6 +281,12 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
       return false;
     }
 
+    this.getSelectedPiece = function(){
+      if(selecting != null){
+        return selecting;
+      }
+    }
+
     this.setSelectPiece = function(x, y, move=false){
       if((movePiecesStart == true&&yourTurn && x>5)||(movePiecesStart == false&&yourTurn)){
         if(selecting == null && move == false){
@@ -330,6 +336,7 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
           if(squares[i].getPosition()[0] == x && squares[i].getPosition()[1] == y){
             previousSquare = squares[i];
             piece = squares[i].getPiece();
+            previousSquare.removePiece();
             if(piece != undefined){
               selecting = piece;
               return true;

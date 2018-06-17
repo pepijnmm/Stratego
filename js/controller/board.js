@@ -88,7 +88,7 @@ function BoardController(_gameId) {
 
     var refreshboard = function(){
       if(boardModel.getDoneLoading()==true){
-        boardView.drawBoard(boardModel.getSquares());
+        boardView.drawBoard(boardModel.getSquares(), boardModel.getSelectedPiece());
       }
     }
 
@@ -102,7 +102,6 @@ function BoardController(_gameId) {
 
               boardModel.selectPiece(x, y);
               refreshboard();
-
             }
           break;
           case "up":
@@ -116,10 +115,11 @@ function BoardController(_gameId) {
           break;
           case "move":
             if(boardModel.isSelecting()){
-              // x = Math.round(((x - offsets[0] + 75 / 2) / 75)- 1);
-              // y = Math.round(((y - offsets[1] + 75 / 2) / 75)- 1);
-              // let currentPiece = boardModel.selectPiece(x, y);
-              // refreshboard();
+              x = Math.round(x - offsets[0] - 75 / 2);
+              y = Math.round(y - offsets[1] - 75 / 2);
+
+              boardModel.dragPiece(x, y);
+              refreshboard();
             }
           break;
         }

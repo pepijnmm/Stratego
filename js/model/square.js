@@ -56,7 +56,7 @@ function SquareModel(_x, _y, _available) {
 
     this.acceptMove = function(piece){
         // if(available && highlighted){
-            available = false;
+            // available = false;
             piece = piece;
             piece.xTemp = xPos;
             piece.yTemp = yPos;

@@ -29,35 +29,37 @@ function BoardView(_returnclicks) {
     this.setgamestatustext = function(text){
       gamestatus.innerHTML = text;
     }
-    this.drawBoard = function(info) {
+    this.drawBoard = function(squares, piece) {
+      //[Square x, Square y, available, highlight, img]
       if(!(board.innerHTML.replace(/\s/g,"").length > 0)){board.appendChild(canvas);}
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        for (let i = 0; i < info.length; i++) {
-	        if(info[i][2]==true){
+        for (let i = 0; i < squares.length; i++) {
+	        if(squares[i][2]==true){
             let height = 75;
   	        let width = 75;
-  	        y = info[i][1] * height;
-  	        x = info[i][0] * width;
+  	        y = squares[i][1] * height;
+  	        x = squares[i][0] * width;
   	        drawSquare(x, y, width, height);
   	        // if (squares[i].highlighted) {
   	        //     drawHighlight(x + (width / 2), y + (height / 2));
   	        // }
-            if(info[i].length > 4){
-      				height = 75;
-      				width = 75;
-              if(info[i].length == 6){
-        				y = info[i][5][1] * height;
-        				x = info[i][5][1] * width;
+            if(squares[i].length > 4){
+              if(squares[i].length == 6){
+        				y = squares[i][5][1] * height;
+        				x = squares[i][5][1] * width;
               }
               else{
-                y = info[i][1] * height;
-        				x = info[i][0] * width;
+                y = squares[i][1] * height;
+        				x = squares[i][0] * width;
               }
-      				img = info[i][4];
-              if(info[i][3]){drawHighlight(x, y);}
+      				img = squares[i][4];
+              if(squares[i][3]){drawHighlight(x, y);}
       				drawPiece(img, x, y, width, height);
             }
           }
+        }
+        if(piece != undefined){
+          drawPiece(piece.getImg(), piece.getTemp()[0][0], piece.getTemp()[0][1], 75, 75);
         }
         // drawSquares(squares);
         // drawPieces(pieces);
