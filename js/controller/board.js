@@ -33,7 +33,7 @@ function BoardController(_gameId) {
     var saveBoard = function(){
         boardModel.saveStartBoard();
         boardView.hideSave();
-        boardModel.setMovePiecesStart(true);
+        boardModel.setMovePiecesStart(false);
     }
     var newStage = function(state, firsttime = false){
       if(boardModel.getDoneLoading()==true){
@@ -117,6 +117,7 @@ function BoardController(_gameId) {
                 if(boardModel.getYourTurn()==true)boardModel.selectPiece(x, y);
                 refreshboard();
               }
+              else{mouseclick("up", x, y, offsets);}
             break;
             case "up":
               if(boardModel.isSelecting()){
