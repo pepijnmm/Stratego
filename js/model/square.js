@@ -1,23 +1,24 @@
-function SquareModel(_x, _y) {
+function SquareModel(_x, _y, _available) {
 
     var xPos;
     var yPos;
     var piece;
+    var available;
     // var highlighted;
     // var topSqr;
     // var bottomSqr;
     // var leftSqr;
     // var rightSqr;
 
-    function constructor(_x, _y) {
+    function constructor(_x, _y, _available) {
         xPos = _x;
         yPos = _y;
+        available = _available;
         //			highlighted = false;
     }
     this.returntoBoard = function(){
-      if(piece==null)return [xPos, yPos];
-      if(piece.hasTemp()){return [xPos, yPos, piece.getImg(), piece.getTemp()]}
-      else{return [xPos, yPos, piece.getImg()]}
+      if(piece==null)return [xPos, yPos, available];
+      else{return [xPos, yPos, available, piece.getImg()]}
     }
     this.getPosition = function() {
         return [xPos, yPos];
@@ -27,9 +28,15 @@ function SquareModel(_x, _y) {
           piece.setTemp(x,y);
         }
     }
+    this.setRankPiece = function(rank){
+      piece.setRank(rank);
+    }
     this.getTempPosition = function() {
         if(piece!=null){return piece.getTemp();}
         return [null,null]
+    }
+    this.available = function() {
+        return available;
     }
     this.isEmpty = function() {
         return (piece == null);
@@ -43,5 +50,5 @@ function SquareModel(_x, _y) {
         return oldpiece;
     }
 
-    constructor(_x, _y);
+    constructor(_x, _y, _available);
 };

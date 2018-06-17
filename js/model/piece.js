@@ -12,45 +12,52 @@ function PieceModel(_rank, _team) {
         rank = _rank;
         team = _team;
         if (team == 0) {
-            img = "red" + "_" + rank;
+            let imgName = "red" + "_" + rank;
         } else {
-            img = "blue" + "_" + rank;
+            let imgName = "blue" + "_" + rank;
         }
         if (team == 0) {
-            visable = true
+            visable = true;
         } else {
             visable = false;
         }
+        loadimg();
+    }
+    function loadimg(){
+      img = new Image();
+      if (team == 0) {
+          img.src = "../images/"+"red" + "_" + rank+".png";
+      } else if(rank != "O"){
+          img.src = "../images/"+"blue" + "_" + rank+".png";
+      }
+      else{img.src = "../images/blue.png";}
     }
     this.hasTemp = function() {
       return (xTemp!= null && yTemp != null)
     }
-    this.setImg = function(_img, _notVisableimg){
-        img=_img;
-        notVisableimg=_notVisableimg;
+    this.setRank = function(_rank){
+      if(rank == "O"){
+        rank = _rank;
+        loadimg();
+      }
+    }
+    this.getTeam = function(){
+      return team;
     }
     this.getImg = function() {
-        if (visable) {
-            return img;
-        } else {
-            return notVisableimg;
-        }
+      return img;
     }
-    SquareModel.prototype.getTemp = function() {
+    this.getTemp = function() {
         return [xTemp, yTemp];
     }
-    SquareModel.prototype.setTemp = function(_xTemp, _yTemp) {
+    this.setTemp = function(_xTemp, _yTemp) {
         xTemp = _xTemp;
         yTemp = _yTemp;
     }
-    SquareModel.prototype.move = function() {
-        xPos = xTemp;
-        yPos = yTemp;
+    this.move = function() {
         xTemp = null;
         yTemp = null;
     }
-    var xTemp;
-    var yTemp;
 
     this.canMove = function() {
         switch (rank) {

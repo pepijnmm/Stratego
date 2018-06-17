@@ -15,18 +15,20 @@ function Database() {
     this.get(true, 'api/users/me',null,apiKeyCorrect);
   }
   function apiKeyCorrect(data){
-	if(data.hasOwnProperty("id")){
-		socket = io.connect(webapi, {query: 'api_key=' + apiKey});
-		socket.on('connect', function() {
-		  connected = true;
-		});
-		tempreturnfunction(true);
-		tempreturnfunction = null;
-	}
-	else{
-		tempreturnfunction(false);
-		tempreturnfunction = null;
-	}
+    if(tempreturnfunction !=null){
+    	if(data.hasOwnProperty("id")){
+    		socket = io.connect(webapi, {query: 'api_key=' + apiKey});
+    		socket.on('connect', function() {
+    		  connected = true;
+    		});
+    		tempreturnfunction(true);
+    		tempreturnfunction = null;
+    	}
+    	else{
+    		tempreturnfunction(false);
+    		tempreturnfunction = null;
+    	}
+    }
   }
   this.getConnected = function(){
     return connected;

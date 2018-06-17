@@ -18,8 +18,8 @@ function LobbyController() {
     }
     var backToLobby = function() {
         lobbyView.show();
-        lobbyModel.setSelect(null);
         lobbyModel.reloadGameList();
+        game = new GameController();
     }
     var onButtonClick = function(button, data = "") {
         switch (button) {

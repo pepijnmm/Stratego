@@ -17,20 +17,20 @@ function GameModel() {
     }
     this.delete = function(ifdone) {
         if (connected == true) {
-            database.delete(true, 'api/games/' + gameId, null, ifdone);
+            main.database.delete(true, 'api/games/' + gameId, null, ifdone);
         }
     }
     this.deleteAll = function(ifdone) {
-        database.delete(true, 'api/games', null, ifdone);
+        main.database.delete(true, 'api/games', null, ifdone);
     }
     this.newGame = function(ai, ifdone) {
-        database.post(true, 'api/games', {
+        main.database.post(true, 'api/games', {
             'ai': ai
         }, ifdone);
     }
 
     function getGameInfo() {
-        database.get(true, 'api/games/' + gameId, null, getinfo);
+        main.database.get(true, 'api/games/' + gameId, null, getinfo);
     }
     this.getConnected = function() {
         return connected;

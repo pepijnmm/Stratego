@@ -4,43 +4,125 @@ function BoardController(_gameId) {
 
     function constructor(_gameId) {
         boardView = new BoardView(mouseclick);
-        boardModel = new BoardModel(_gameId, functionready);
+        boardModel = new BoardModel(_gameId, functionready, newStage, refreshboard);
     }
 
     var functionready = function(){
-      initiateBoard();
+      let result = ["blue"];
+      for(let i = 0; i<2; i++){
+      let p = ["B", "1", "2", "3", "4", "5","6", "7", "8", "9", "S", "F"];
+        for(let j = 0; j< p.length;){
+          result.push(((i==0)?"red":"blue")+"_"+p.shift());
+        }
+      }
+      loadimages(result);
     }
-    function refreshboard(){
-      boardView.drawBoard(boardModel.getSquares());
+    function loadimages(images){
+      let image = images.shift();
+      let imageLoad = new Image();
+        imageLoad.onload = function () {
+          if(images.length>0){
+          loadimages(images);
+        }
+        else{
+          boardModel.setDoneLoading();
+          newStage(boardModel.getState(),true);
+        }
+        };
+        imageLoad.src = "../images/"+image+".png";
+    }
+    var newStage = function(state, firsttime = false){
+      if(boardModel.getDoneLoading()==true){
+        switch(state){
+          case 'waiting_for_pieces':
+            initiateBoard();
+            boardModel.setPiecesForStart();
+          break;
+          case 'waiting_for_opponent_pieces':
+            if(firsttime)boardModel.LoadPositions();
+          break;
+          case 'my_turn':
+            if(firsttime){boardModel.LoadPositions();}
+            boardModel.getMoves();
+          break;
+          case 'opponent_turn':
+          if(firsttime){boardModel.LoadPositions();}
+          break;
+        }
+      }
+      boardView.setgamestatustext(stateConvert(state));
+    }
+    function stateConvert(state) {
+        switch (state) {
+            case "game_over":
+                return "spel is voorbij";
+                break;
+            case "waiting_for_an_opponent":
+                return "Wachten op tegenstander";
+                break
+            case "waiting_for_pieces":
+                return "Zet je pionen op de gewenste plek";
+                break
+            case "waiting_for_opponent_pieces":
+                return "Tegenstander moet zijn pionen nog zetten.";
+                break
+            case "my_turn":
+                return "Het is jouw beurt";
+                break
+            case "opponent_turn":
+                return "De tegenstander is aan de beurt";
+                break
+            default:
+                return "Er ging iets fout";
+                break;
+        }
+    }
+
+    var refreshboard = function(){
+      if(boardModel.getDoneLoading()==true){
+        boardView.drawBoard(boardModel.getSquares());
+      }
     }
     var mouseclick = function(handle, x, y,offsets){
-      x = x - offsets[0] + 75 / 2;
-      y = y - offsets[1] + 75 / 2;
-      switch(handle){
-        case "down":
-          if(!boardModel.isSelecting){
-              boardModel.setSelectPiece(x,y);
+      if(boardModel.getDoneLoading()==true){
+        console.log(offsets);
+        console.log(x - offsets[0] + 75 / 2);
+        console.log((x / 75) - 1);
+        x = x - offsets[0] + 75 / 2;
+        y = y - offsets[1] + 75 / 2;
+        switch(handle){
+          case "down":
+            if(!boardModel.isSelecting){
+                let mypiece = boardModel.setSelectPiece(x,y);
+                if(mypiece){
+                  drawHillights();
+                refreshboard();
+                }
+            }
+          break;
+          case "up":
+          if(boardModel.isSelecting){
+              let mypiece = boardModel.setSelectPiece(x,y);
+              if(mypiece){boardModel.setMovedPiece();
               refreshboard();
+            }
           }
-        break;
-        case "up":
-        if(boardModel.isSelecting){
-            boardModel.setSelectPiece(x,y);
-            refreshboard();
+          break;
+          case "move":
+            // x = (x / 75) - 1;
+            // x = x.toFixed(4);
+            let mypiece = boardModel.setSelectPiece(x,y, true);
+            if(mypiece)refreshboard();
+          break;
         }
-        break;
-        case "move":
-          x = (x / 75) - 1;
-          x = x.toFixed(4);
-          boardModel.setSelectPiece(x,y);
-          refreshboard();
-        break;
       }
     }
 
+    function drawHillights(){
+
+    }
+
     function initiateBoard() {
-      let nogvisable = new Image();
-      nogvisable.src = "../images/blue.png";
         for (let y = 0; y < 10; y++) {
             for (let x = 0; x < 10; x++) {
                 boardModel.addSquare(x, y);
@@ -52,52 +134,43 @@ function BoardController(_gameId) {
             ];
             for (; i.length > 0;) {
                 boardModel.addPiece(i.shift(), team);
-                let newImage = new Image();
-                if(i.length == 1){
-                  newImage.onload = function(){
-              				refreshboard();
-              		}
-                }
-                newImage.src = "../images/"+boardModel.getImageLastPiece()+".png";
-                boardModel.setImageLastPiece(newImage);
-
             }
         }
-        boardModel.setPiecesForStart();
     }
 
-    // function setHighlights(selectedPiece){
-    // 	for (let i = 0; i < 4; i++) {
-    // 		let bool = false;
-    // 		let sqr;
-    // 		while(!bool){
-    // 			switch(i){
-    // 			 	case 0:
-    // 			 		sqr = selectedPiece.topSqr;
-    // 			 		break;
-    // 			 	case 1:
-    // 			 		sqr = selectedPiece.bottomSqr;
-    // 			 		break;
-    // 			 	case 2:
-    // 			 		sqr = selectedPiece.leftSqr;
-    // 			 		break;
-    // 			 	case 3:
-    // 			 		sqr = selectedPiece.rightSqr;
-    // 			 		break;
-    // 			}
-    // 			if(sqr != undefined && sqr.available){
-    // 				sqr.highlighted = true;
-    // 				this.highlights.push(sqr);
-    // 				if(!(selectedSqr.piece.rank == "9")){
-    // 					bool = true;
-    // 				}
-    // 			}
-    // 			else {
-    // 				bool = true;
-    // 			}
-    // 		}
-    // 	}
-    // }
+    function setHighlights(){
+      let result = BoardModel.setHighlights();
+    	// for (let i = 0; i < 4; i++) {
+    	// 	let bool = false;
+    	// 	let sqr;
+    	// 	while(!bool){
+    	// 		switch(i){
+    	// 		 	case 0:
+    	// 		 		sqr = selectedPiece.topSqr;
+    	// 		 		break;
+    	// 		 	case 1:
+    	// 		 		sqr = selectedPiece.bottomSqr;
+    	// 		 		break;
+    	// 		 	case 2:
+    	// 		 		sqr = selectedPiece.leftSqr;
+    	// 		 		break;
+    	// 		 	case 3:
+    	// 		 		sqr = selectedPiece.rightSqr;
+    	// 		 		break;
+    	// 		}
+    	// 		if(sqr != undefined && sqr.available){
+    	// 			sqr.highlighted = true;
+    	// 			this.highlights.push(sqr);
+    	// 			if(!(selectedSqr.piece.rank == "9")){
+    	// 				bool = true;
+    	// 			}
+    	// 		}
+    	// 		else {
+    	// 			bool = true;
+    	// 		}
+    	// 	}
+    	// }
+    }
     //
     // function unsetHighlights(){
     // 	for (var i = 0; i < this.highlights.length; i++) {

@@ -3,6 +3,7 @@ function BoardView(_returnclicks) {
     var canvas;
     var ctx;
     var returnclicks;
+    var gamestatus;
     // var cWidth;
     // var cHeight;
     // var dragActive;
@@ -13,6 +14,8 @@ function BoardView(_returnclicks) {
 
     function constructor(_returnclicks) {
         board = document.querySelector(".gameboard");
+        gamestatus = document.querySelector(".gamestatus");
+        board.innerHTML = "";
         canvas = document.createElement("canvas");
         canvas.id = "gameCanvas"
         canvas.width = 750;
@@ -23,32 +26,36 @@ function BoardView(_returnclicks) {
         ctx = canvas.getContext("2d");
         returnclicks = _returnclicks;
     }
-
+    this.setgamestatustext = function(text){
+      gamestatus.innerHTML = text;
+    }
     this.drawBoard = function(info) {
       if(!(board.innerHTML.replace(/\s/g,"").length > 0)){board.appendChild(canvas);}
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         for (let i = 0; i < info.length; i++) {
-	        let height = 75;
-	        let width = 75;
-	        y = info[i][1] * height;
-	        x = info[i][0] * width;
-	        drawSquare(x, y, width, height);
-	        // if (squares[i].highlighted) {
-	        //     drawHighlight(x + (width / 2), y + (height / 2));
-	        // }
-          if(info[i].length > 2){
-    				height = 75;
-    				width = 75;
-            if(info[i].length == 4){
-      				y = info[i][3][1] * height;
-      				x = info[i][3][1] * width;
+	        if(info[i][2]==true){
+            let height = 75;
+  	        let width = 75;
+  	        y = info[i][1] * height;
+  	        x = info[i][0] * width;
+  	        drawSquare(x, y, width, height);
+  	        // if (squares[i].highlighted) {
+  	        //     drawHighlight(x + (width / 2), y + (height / 2));
+  	        // }
+            if(info[i].length > 3){
+      				height = 75;
+      				width = 75;
+              if(info[i].length == 5){
+        				y = info[i][4][1] * height;
+        				x = info[i][4][1] * width;
+              }
+              else{
+                y = info[i][1] * height;
+        				x = info[i][0] * width;
+              }
+      				img = info[i][3];
+      				drawPiece(img, x, y, width, height);
             }
-            else{
-              y = info[i][1] * height;
-      				x = info[i][0] * width;
-            }
-    				img = info[i][2];
-    				drawPiece(img, x, y, width, height);
           }
         }
         // drawSquares(squares);
@@ -132,21 +139,6 @@ function BoardView(_returnclicks) {
 			// }
 		}
     //
-
-	function onMouseUp(e) {
-    returnclicks('up', e.pageX, e.pageY);
-		// if(dragActive){
-		// 	dragActive = false;
-		// 	let xCanvas = pageToCanvasX(e.pageX);
-		// 	let yCanvas = pageToCanvasY(e.pageY);
-		// 	previousSquare = selectedSquare;
-		// 	selectedSquare = BoardController.prototype.getSquareByCanvasXY(xCanvas, yCanvas);
-		// 	previousSquare.tryMovePiece(selectedSquare.acceptPiece(selectedPiece));
-        //
-		// 	BoardController.prototype.unsetHighlights();
-		// 	BoardController.prototype.refreshBoard();
-		// }
-	}
 
     // function pageToCanvasX(x){
     //   let x = x - canvas.offsetLeft + 75 / 2;

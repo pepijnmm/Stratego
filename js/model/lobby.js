@@ -21,12 +21,12 @@ function LobbyModel() {
     this.getSelect = function() {
         return selected;
     }
-    database.on('statechange', function(name, data) {
-        this.reloadGameList();
-    });
     this.reloadGameList = function() {
-        gamelist = {};
-        database.get(true, 'api/games', null, loadGameList);
+        reloadGameList();
+    }
+    function reloadGameList(){
+      gamelist = {};
+      main.database.get(true, 'api/games', null, loadGameList);
     }
     var loadGameList = function(data) {
         if (data.length > 0) {
@@ -42,6 +42,10 @@ function LobbyModel() {
         }
         returnGameList(gamelist);
     }
+    
+    main.database.on('statechange', function(name, data) {
+        reloadGameList();
+    });
     this.setReturnGameList = function(_returnGameList) {
         if (returnGameList == null) returnGameList = _returnGameList;
     }

@@ -15,7 +15,7 @@ function AccountModel() {
     }
     this.getusername = function(returnfunction) {
         returnname = returnfunction;
-        let data = database.get(true, 'api/users/me', null, logindata);
+        let data = main.database.get(true, 'api/users/me', null, logindata);
     }
 
     constructor();

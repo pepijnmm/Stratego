@@ -2,21 +2,21 @@ function Main() {
     //variables
     var lobby;
     var login;
-    this.database;
+    Main.prototype.database;
 
 
     function constructor() {
         login = new LoginView(logindone);
-        this.database = new Database();
+        Main.prototype.database = new Database();
     }
 
     var logindone = function(_apiKey) {
-        this.database.connect(_apiKey, start);
+        Main.prototype.database.connect(_apiKey, start);
     }
 
     var start = function(correct) {
         if (correct && lobby == null) {
-            this.database.on("connect", function(name, data) {
+            Main.prototype.database.on("connect", function(name, data) {
                 login.connected();
             });
             login.hide();
