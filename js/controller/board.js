@@ -46,15 +46,15 @@ function BoardController(_gameId) {
             if(boardModel.getYourTurn()==true)boardModel.setYourTurn(false);
           break;
           case 'my_turn':
-          if(boardModel.getMovePiecesStart()==true)boardModel.setMovePiecesStart(false);
-          if(boardModel.getYourTurn()==false)boardModel.setYourTurn(true);
+            if(boardModel.setMovePiecesStart()==true)boardModel.setMovePiecesStart(false);
+            if(boardModel.getYourTurn()==false)boardModel.setYourTurn(true);
             if(firsttime){boardModel.LoadPositions();}
             boardModel.getMoves();
           break;
           case 'opponent_turn':
-          if(boardModel.getMovePiecesStart()==true)boardModel.setMovePiecesStart(false);
-          if(boardModel.getYourTurn()==false)boardModel.setYourTurn(true);
-          if(firsttime){boardModel.LoadPositions();}
+            if(boardModel.getMovePiecesStart()==true)boardModel.setMovePiecesStart(false);
+            if(boardModel.getYourTurn()==false)boardModel.setYourTurn(true);
+            if(firsttime){boardModel.LoadPositions();}
           break;
         }
       }
@@ -88,44 +88,39 @@ function BoardController(_gameId) {
 
     var refreshboard = function(){
       if(boardModel.getDoneLoading()==true){
-        if(boardModel.isSelecting()){
-          boardModel.setHighlights();
-        }
         boardView.drawBoard(boardModel.getSquares());
       }
     }
-    var mouseclick = function(handle, x, y,offsets){
+
+    var mouseclick = function(handle, x, y, offsets){
       if(boardModel.getDoneLoading()==true){
-        console.log(offsets);
-        console.log(x - offsets[0] + 75 / 2);
-        console.log((x / 75) - 1);
-        x = x - offsets[0] + 75 / 2;
-        y = y - offsets[1] + 75 / 2;
         switch(handle){
           case "down":
             if(!boardModel.isSelecting()){
-              if(boardModel.getMovePiecesStart()){
-                let mypiece = boardModel.setSelectPiece(x,y);
-                if(mypiece){
-                  boardModel.setHighlights();
-                  refreshboard();
-                }
-              }
+              x = Math.round(((x - offsets[0] + 75 / 2) / 75)- 1);
+              y = Math.round(((y - offsets[1] + 75 / 2) / 75)- 1);
+
+              boardModel.selectPiece(x, y);
+              refreshboard();
+
             }
           break;
           case "up":
-          if(boardModel.isSelecting()){
-              let mypiece = boardModel.setSelectPiece(x,y);
-              if(mypiece){boardModel.setSelectedMovedPiece();}
-              else{boardModel.deSelectedPiece();}
+            if(boardModel.isSelecting()){
+              x = Math.round(((x - offsets[0] + 75 / 2) / 75)- 1);
+              y = Math.round(((y - offsets[1] + 75 / 2) / 75)- 1);
+
+              boardModel.dropPiece(x, y);
               refreshboard();
             }
           break;
           case "move":
-            // x = (x / 75) - 1;
-            // x = x.toFixed(4);
-            let mypiece = boardModel.setSelectPiece(x,y, true);
-            if(mypiece)refreshboard();
+            if(boardModel.isSelecting()){
+              // x = Math.round(((x - offsets[0] + 75 / 2) / 75)- 1);
+              // y = Math.round(((y - offsets[1] + 75 / 2) / 75)- 1);
+              // let currentPiece = boardModel.selectPiece(x, y);
+              // refreshboard();
+            }
           break;
         }
       }

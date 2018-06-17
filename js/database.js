@@ -34,14 +34,32 @@ function Database() {
     return connected;
   }
   this.get = function(async, url,data = null, returnfunction = null){
-	  return crud("GET", async, url,data, returnfunction)
+	  return crud("GET", async, url, data, returnfunction)
   }
   this.post = function(async, url,data = null, returnfunction = null){
-	  return crud("POST", async, url,data, returnfunction)
+	  return crud("POST", async, url, data, returnfunction)
   }
   this.delete = function(async, url,data = null, returnfunction = null){
-	  return crud("DELETE", async, url,data, returnfunction)
+	  return crud("DELETE", async, url, data, returnfunction)
   }
+
+  Database.prototype.deleteGame = function(id) {
+    return this.delete(async, '/api/games/'+id);
+  }
+  Database.prototype.getGame = function(id) {
+    return this.get(async, '/api/games/'+id);
+  }
+  Database.prototype.postGameBoard = function(id, board) {
+    return this.post(async, '/api/games/'+id+'start_board', board);
+  }
+
+  Database.prototype.getMove = function(id) {
+    return this.get(async, '/api/games/'+id+'moves');
+  }
+  Database.prototype.postMove = function(id, move) {
+    return this.post(async, '/api/games/'+id+'moves', move);
+  }
+
   function crud(protocol, async, url,data, returnfunction) {
     let xhttp = new XMLHttpRequest();
     url=webapi+url+'?api_key='+apiKey;

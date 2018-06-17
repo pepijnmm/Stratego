@@ -35,6 +35,9 @@ function PieceModel(_rank, _team) {
     this.hasTemp = function() {
       return (xTemp!= null && yTemp != null)
     }
+    this.getRank = function() {
+        return rank;
+    }
     this.setRank = function(_rank){
       if(rank == "O"){
         rank = _rank;
@@ -61,8 +64,7 @@ function PieceModel(_rank, _team) {
 
     this.canMove = function() {
         switch (rank) {
-            case "B":
-            case "F":
+            case "B": case "F":
                 return 0;
                 break;
             case "9":

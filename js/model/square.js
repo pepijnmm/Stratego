@@ -17,6 +17,54 @@ function SquareModel(_x, _y, _available) {
         available = _available;
         //			highlighted = false;
     }
+
+    this.trySwitchPiece = function(piece){
+        if(piece){
+            piece = piece;
+            piece.xTemp = xPos;
+            piece.yTemp = yPos;
+        }
+        else{
+            piece.xTemp = xPos;
+            piece.yTemp = yPos;
+        }
+        return false;
+    }
+
+    this.acceptSwitch = function(piece){
+        if(piece != undefined){
+            var returnPiece = piece;
+            piece = piece;
+            piece.xTemp = xPos;
+            piece.yTemp = yPos;
+            return returnPiece;
+        }
+        return false;
+    }
+
+    this.tryMovePiece = function(accepted){
+        if(accepted){
+            available = true;
+            piece = undefined;
+        }
+        else{
+            piece.xTemp = xPos;
+            piece.yTemp = yPos;
+        }
+        return accepted;
+    }
+
+    this.acceptMove = function(piece){
+        // if(available && highlighted){
+            available = false;
+            piece = piece;
+            piece.xTemp = xPos;
+            piece.yTemp = yPos;
+            return true;
+        // }
+        return false;
+    }
+
     this.returntoBoard = function(){
       if(piece==null)return [xPos, yPos, available, highlighted];
       else{return [xPos, yPos, available, highlighted, piece.getImg()]}
@@ -47,6 +95,9 @@ function SquareModel(_x, _y, _available) {
     }
     this.isEmpty = function() {
         return (piece == null);
+    }
+    this.getPiece = function(){
+        return piece;
     }
     this.setPiece = function(_piece) {
         piece = _piece;
