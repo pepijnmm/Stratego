@@ -82,7 +82,7 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
       main.database.get(true, 'api/games/' + gameId, null, loadPositionsDone);
     }
     this.checkMoves = function(){
-      return (moves.length>0);
+      return (moves==null||moves.length>0);
     }
     this.addSquare = function(x,y){
       addSquare(x,y);
@@ -140,6 +140,13 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
     }
     this.getMoves = function(){getMoves();};
     var getMoves = function() {
+        setTimeout(function(){ if(moves==null|| moves.length==0){
+          if (tempreturnfunction !== null) {
+              tempreturnfunction();
+              tempreturnfunction = null;
+              returnstatus(state);
+          }
+        } }, 3000);
         main.database.get(true, 'api/games/' + gameId+"/moves", null, getMovesQuery);
     }
     var setMoves = function(x,y,newx,newy) {
