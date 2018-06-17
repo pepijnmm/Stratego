@@ -402,6 +402,7 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
                  previousSquare.trySwitchPiece(newSquare.acceptSwitch(selecting));
               }
               //Playing stage
+              else{
                 oldxy = squares[previousSquare],getPosition();
                 setMoves(oldxy[0],oldxy[1],x,y);
                 previousSquare.tryMovePiece(newSquare.acceptMove(selecting));
