@@ -3,7 +3,7 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
     var squares;
     var pieces;
     var selecting;
-    var previusSquare;
+    var previousSquare;
     var gameId;
     var state;
     var opponent;
@@ -16,7 +16,7 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
     var yourTurn;
 
     function constructor(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfunction) {
-      MovePiecesStart = false;
+      movePiecesStart = false;
       yourTurn = false;
       returnstatus = _returnstatus;
       squares = [];
@@ -38,15 +38,18 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
     this.getYourTurn = function(){
       return yourTurn;
     }
-    this.setYourTurn = function(turn){
-      yourTurn = turn;
+    this.setYourTurn = function(_bool){
+      if(_bool != undefined){
+        yourTurn = _bool;
+      }
     }
     this.getMovePiecesStart = function(){
       return movePiecesStart;
     }
-    this.setMovePiecesStart = function(_movePiecesStart){
-      if(movePiecesStart==false)movePiecesStart=_movePiecesStart;
-      else if(movePiecesStart==true)movePiecesStart=_movePiecesStart;
+    this.setMovePiecesStart = function(_bool){
+      if(_bool != undefined){
+        movePiecesStart = _bool;
+      }
     }
     this.getDoneLoading = function(){
       return controllerDoneLoading;
@@ -146,12 +149,12 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
       for(let i = 0;i< squares.length;i++){
         let pos = squares[i].getPosition();
         for(let k = 0;k< positionPossible.length;k++){
-          square[i].setHighlighted(false);
-          if(pos.sort().join(',')=== positionPossible[k].sort().join(',')){
+          squares[i].setHighlighted(false);
+          if(pos.sort().join(',') === positionPossible[k]){
             if(!squares[i].isEmpty() || !squares[i].getAvailable()){
               positionPossible.splice(k, 1);
             }
-            else{square[i].setHighlighted(true);}
+            else{squares[i].setHighlighted(true);}
           }
         }
       }
@@ -185,7 +188,6 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
         }
     }
     function movePiece(x,y, newx, newy){
-      console.log(x+" "+y+" "+newx+" "+newy)
       deSelectedPiece();
         let piece = null;
         for(let i = 0;i< squares.length;i++){
@@ -199,16 +201,19 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
           }
         }
     }
+
     var deSelectedPiece = function(){
       if(selecting != null){
-        squares[previusSquare].setPiece(selecting);
+        squares[previousSquare].setPiece(selecting);
         selecting = null;
-        previusSquare=null;
+        previousSquare=null;
       }
     }
+
     this.deSelectedPiece = function(){
       deSelectedPiece();
     }
+    
     function attack(x,y, newx, newy, won, attack, defender){
       deSelectedPiece();
       let piece = null;
@@ -231,6 +236,16 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
         }
       }
     }
+
+    this.setPieceOnSquare = function(x, y, piece) {
+        for(let i = 0;i< squares.length;i++){
+          if(squares[i].getPosition()[0] == x && squares[i].getPosition()[1] == y){
+            squares[i].setPiece(piece);
+          }
+        }
+        selecting = null;
+    }
+
     this.setPiecesForStart  = function(){
       for (let y = 9; y != 0; y--) {
         if(y<4){
@@ -246,7 +261,7 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
       }
     }
 
-    this.getSquares = function() {
+    this.getSquares = function(){
         let returnvalue = [];
         for (let i = 0; i < squares.length; i++) {
             returnvalue.push(squares[i].returntoBoard());
@@ -254,32 +269,35 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
         if(selecting != null){returnvalue.push(selecting.getTemp());}
         return returnvalue;
     }
+
     this.addPiece = function(rank, team) {
         pieces.push(new PieceModel(rank, team));
     }
+
     this.isSelecting = function(){
       if(selecting != null){
         return true;
       }
       return false;
     }
-    this.setSelectPiece = function(x,y, move=false){
+
+    this.setSelectPiece = function(x, y, move=false){
       if((movePiecesStart == true&&yourTurn && x>5)||(movePiecesStart == false&&yourTurn)){
-        if(selecting == null && move ==false){
+        if(selecting == null && move == false){
           let piece = null;
             for(let i = 0;i< squares.length;i++){
               if(squares[i].getPosition()[0] == x && squares[i].getPosition()[1] == y){
-
-                previusSquare = i;
+                previousSquare = i;
                 piece = squares[i].removePiece();
+                move = true;
                 if(piece.getRank() == 1){
-                  previusSquare=null;
+                  previousSquare=null;
                   squares[i].setPiece(piece);
                   piece = null;
                 }
               }
             }
-            if(move==true&&piece !=null){
+            if(move == true && piece != null){
               selecting = piece;
               return true;
             }
@@ -304,6 +322,56 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
         }
       }
     }
+
+    this.selectPiece = function(x, y){
+      if((movePiecesStart == true&&yourTurn && x>5)||(movePiecesStart == false&&yourTurn)){
+      var piece = null;
+        for(let i = 0; i < squares.length; i++){
+          if(squares[i].getPosition()[0] == x && squares[i].getPosition()[1] == y){
+            previousSquare = squares[i];
+            piece = squares[i].getPiece();
+            if(piece != undefined){
+              selecting = piece;
+              return true;
+            }
+            else{
+              return false;
+            }
+          }
+        }
+      }
+    }
+
+    this.dragPiece = function(x, y){ //Piece x & y
+      if(selecting != undefined){
+        selecting.setTemp([x, y]);
+      }
+    }
+
+    this.dropPiece = function(x, y){ //Square x & y
+      if(selecting != undefined){
+        for(let i = 0; i < squares.length; i++){
+          if(squares[i].getPosition()[0] == x && squares[i].getPosition()[1] == y){
+            var newSquare = squares[i];
+            piece = squares[i].getPiece();
+            if(piece != undefined){
+              return false;
+            }
+            else{
+              //Setup stage
+              // if(getMovePiecesStart()){
+              //   previousSquare.trySwitchPiece(newSquare.acceptSwitch(selecting));
+              // }
+              //Playing stage
+              // else{
+                previousSquare.tryMovePiece(newSquare.acceptMove(selecting));
+              // }
+            }
+          }
+        }
+      }
+    }
+
     //
     // this.setTempPositionPiece = function(x, y, tempX, tempY) {
     //     for(let i = 0;i< squares.length;i++){
@@ -312,14 +380,6 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
     //       }
     //     }
     // }
-    this.setPieceOnSquare = function(x, y,piece) {
-        for(let i = 0;i< squares.length;i++){
-          if(squares[i].getPosition()[0] == x && squares[i].getPosition()[1] == y){
-            squares[i].setPiece(piece);
-          }
-        }
-        selecting = null;
-    }
 
     constructor(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfunction);
 };
