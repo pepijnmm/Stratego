@@ -428,19 +428,21 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
         for(let i = 0; i < squares.length; i++){
           if(squares[i].getPosition()[0] == x && squares[i].getPosition()[1] == y){
             var newSquare = squares[i];
-
-              //Setup stage
-              if(movePiecesStart){
-                 previousSquare.trySwitchPiece(newSquare.acceptSwitch(selecting));
-              }
-              //Playing stage
-              else{
-                oldxy = previousSquare.getPosition();
-                setMoves(oldxy[0],oldxy[1],x,y);
-                previousSquare.tryMovePiece(newSquare.acceptMove(selecting));
-              }
-              selecting = undefined;
-              return true;
+            //Setup stage
+            if(movePiecesStart){
+              previousSquare.trySwitchPiece(newSquare.acceptSwitch(selecting));
+            }
+            //Playing stage
+            else{
+              console.log(newSquare.getPosition(), newSquare.getHighlighted());
+              previousSquare.tryMovePiece(newSquare.acceptMove(selecting));
+            }
+            for(let i; i < highlights.length; i++){
+              highlights[i].setHighlighted(false);
+            }
+            highlights = [];
+            selecting = undefined;
+            return true;
           }
         }
       }
