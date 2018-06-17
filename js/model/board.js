@@ -31,7 +31,6 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
         if(data.state)returnstatus(data.state);
       });
       main.database.on('move', function(name, data) {
-        console.log('Move:', data);
         if(data.game_id==gameId){
           getMovesQuery([data.move],true);
         }
@@ -135,6 +134,23 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
     var getMoves = function() {
         main.database.get(true, 'api/games/' + gameId+"/moves", null, getMovesQuery);
     }
+    var setMoves = function(x,y,newx,newy) {
+      main.database.post(true, 'api/games/'+ gameId+"/moves", {
+  "square": {
+    "row": y,
+    "column": x
+  },
+  "square_to": {
+    "row": newx,
+    "column": newy
+  }
+}, doneMove);
+    }
+    var doneMove = function(data){
+      if(data.game_id==gameId){
+        getMovesQuery([data.moves],true);
+      }
+    }
     this.removeHighlights = function(){
       for(let i = 0;i< squares.length;i++){
         square[i].setHighlighted(false);
@@ -190,8 +206,8 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
             }
           }
           else{
-            for (let x = moves.length - (moves.length - data.length); x <= moves.length; x++) {
-                let move = data[x-1];
+            for (let x = (data.length - moves.length); x >0; x--) {
+                let move = data[data.length -x];
                 switch(move.type){
                   case "move":
                     movePiece(move.square.column, move.square.row, move.square_to.column, move.square_to.row);
@@ -242,6 +258,7 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
           piece = squares[i].removePiece();
         }
       }
+      if(piece != null){
       for(let i = 0;i< squares.length;i++){
         if(squares[i].getPosition()[0] == newx && squares[i].getPosition()[1] == newy){
           if(won){
@@ -254,6 +271,7 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
           }
         }
       }
+    }
     }
 
     this.setPieceOnSquare = function(x, y, piece) {
@@ -384,7 +402,8 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
                  previousSquare.trySwitchPiece(newSquare.acceptSwitch(selecting));
               }
               //Playing stage
-              else{
+                oldxy = squares[previousSquare],getPosition();
+                setMoves(oldxy[0],oldxy[1],x,y);
                 previousSquare.tryMovePiece(newSquare.acceptMove(selecting));
               }
               selecting = undefined;
