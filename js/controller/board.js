@@ -3,10 +3,9 @@ function BoardController(_gameId) {
     var boardModel;
 
     function constructor(_gameId) {
-        boardView = new BoardView(mouseclick);
+        boardView = new BoardView(mouseclick, saveBoard);
         boardModel = new BoardModel(_gameId, functionready, newStage, refreshboard);
     }
-
     var functionready = function(){
       let result = ["blue"];
       for(let i = 0; i<2; i++){
@@ -31,6 +30,10 @@ function BoardController(_gameId) {
         };
         imageLoad.src = "../images/"+image+".png";
     }
+    var saveBoard = function(){
+        boardModel.saveStartBoard();
+        boardView.hideSave();
+    }
     var newStage = function(state, firsttime = false){
       if(boardModel.getDoneLoading()==true){
         switch(state){
@@ -39,6 +42,8 @@ function BoardController(_gameId) {
             boardModel.setPiecesForStart();
             if(boardModel.getMovePiecesStart()==false)boardModel.setMovePiecesStart(true);
             if(boardModel.getYourTurn()==false)boardModel.setYourTurn(true);
+            boardView.showSave();
+            refreshboard();
           break;
           case 'waiting_for_opponent_pieces':
             if(firsttime)boardModel.LoadPositions();

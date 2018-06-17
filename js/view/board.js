@@ -1,4 +1,4 @@
-function BoardView(_returnclicks) {
+function BoardView(_returnclicks, _returnSaveButton) {
     var board;
     var canvas;
     var ctx;
@@ -9,12 +9,16 @@ function BoardView(_returnclicks) {
     // var cWidth;
     // var cHeight;
     var dragActive;
+    var saveBoard;
+    var saveBoardButton;
     // var dragEnabled;
     // var selectedPiece;
     // var selectedSquare;
     // var previousSquare;
 
-    function constructor(_returnclicks) {
+    function constructor(_returnclicks ,_returnSaveButton) {
+        saveBoard = document.querySelector("#saveBoard");
+        saveBoardButton = document.querySelector("#saveBoardButton");
         board = document.querySelector(".gameboard");
         gamestatus = document.querySelector(".gamestatus");
         board.innerHTML = "";
@@ -31,8 +35,16 @@ function BoardView(_returnclicks) {
         returnclicks = _returnclicks;
         gamewon.classList.add("hide");
         gamelost.classList.add("hide");
+        saveBoardButton.addEventListener("click", function() {
+            _returnSaveButton();
+        });
     }
-
+    this.showSave = function(){
+      saveBoard.classList.remove("hide");
+    }
+    this.hideSave = function(){
+      saveBoard.classList.add("hide");
+    }
     this.youwon = function() {
         gamewon.classList.remove("hide");
     };
@@ -183,5 +195,5 @@ function BoardView(_returnclicks) {
     //   return y;
     // }
 
-    constructor(_returnclicks);
+    constructor(_returnclicks, _returnSaveButton);
 };

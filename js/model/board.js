@@ -36,6 +36,7 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
         }
       });
     }
+
     this.getYourTurn = function(){
       return yourTurn;
     }
@@ -126,7 +127,14 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
                 gameId = data.id
                 state = data.state;
                 opponent = data.opponent;
-                getMoves();
+                if(state=="waiting_for_pieces"||state=="waiting_for_opponent_pieces"){
+                  if (tempreturnfunction !== null) {
+                      tempreturnfunction();
+                      tempreturnfunction = null;
+                      returnstatus(state);
+                  }
+                }
+                else{getMoves();}
             }
         }
     }
@@ -151,9 +159,23 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
         getMovesQuery([data.moves],true);
       }
     }
+    this.saveStartBoard = function(){
+      rank = [[],[],[],[]];
+      for(let i = 0; i<squares.length;i++){
+        if(squares[i].getPosition()[1]>5){
+          rank[squares[i].getPosition()[1]-6].push(squares[i].getRankPiece());
+        }
+
+
+      }
+      main.database.post(true, 'api/games/'+ gameId+"/start_board", rank, doneMove);
+    }
+    var boardloading = function(){
+
+    }
     this.removeHighlights = function(){
       for(let i = 0;i< squares.length;i++){
-        square[i].setHighlighted(false);
+        squares[i].setHighlighted(false);
       }
     }
     this.setHighlights = function(){
@@ -397,13 +419,14 @@ function BoardModel(_gameId, _waitOnReadyFunction, _returnstatus, _refreshfuncti
         for(let i = 0; i < squares.length; i++){
           if(squares[i].getPosition()[0] == x && squares[i].getPosition()[1] == y){
             var newSquare = squares[i];
+
               //Setup stage
               if(movePiecesStart){
                  previousSquare.trySwitchPiece(newSquare.acceptSwitch(selecting));
               }
               //Playing stage
               else{
-                oldxy = squares[previousSquare],getPosition();
+                oldxy = previousSquare.getPosition();
                 setMoves(oldxy[0],oldxy[1],x,y);
                 previousSquare.tryMovePiece(newSquare.acceptMove(selecting));
               }

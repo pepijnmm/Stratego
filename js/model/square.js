@@ -93,6 +93,9 @@ function SquareModel(_x, _y, _available) {
     this.getPiece = function(){
         return piece;
     }
+    this.getRankPiece = function(){
+        return piece.getRank();
+    }
     this.setPiece = function(_piece) {
         piece = _piece;
     }
